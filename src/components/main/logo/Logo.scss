@@ -1,4 +1,12 @@
-#logo-svg-box :hover{
-    opacity: 0.9;
-    cursor: pointer;
+#logo-box {
+  display: inline-block;
+  width: 100%;
+  overflow: hidden;
+  padding: 0 40px;
+  box-sizing: border-box;
+}
+
+#logo-box:hover {
+  opacity: 0.9;
+  cursor: pointer;
 }

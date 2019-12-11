@@ -1,0 +1,23 @@
+@import "../../../assets/styles/global";
+
+.gradient-header {
+  display: inline-block;
+  width: 300px;
+  height: 70px;
+
+  & > div {
+    @extend .middle;
+    @extend .full;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, #f94922, #bc209b);
+    border-radius: 50px 50px 50px 50px;
+
+    & > span {
+      color: white;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 10px;
+    }
+  }
+}
