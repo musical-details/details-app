@@ -1,10 +1,11 @@
 import React from "react";
 import "./Menu.scss";
+import Logo from "../logo/Logo";
 
 const Menu: React.FC = () => {
   return (
     <div className="menu">
-      <div>Logo</div>
+      <Logo />
       <div>Menu</div>
       <div>
         <ul>
