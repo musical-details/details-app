@@ -1,0 +1,111 @@
+.track-info {
+  width: 100%;
+  height: 200px;
+  border-bottom: 3px solid #333333;
+
+  & > div {
+    width: 100%;
+    height: 100%;
+  }
+
+  & > div > div {
+    float: left;
+  }
+
+  .track-cover-box {
+    width: 200px;
+    height: 100%;
+    padding: 25px;
+    box-sizing: border-box;
+
+    & > div {
+      width: 100%;
+      height: 100%;
+    }
+
+    .track-cover {
+      width: 100%;
+      height: 100%;
+      background-position: center;
+      background-size: cover;
+      box-shadow: -5px 5px 5px 1px #222;
+      border-radius: 2px;
+    }
+  }
+
+  .track-content-box {
+    width: calc(100% - 200px);
+    height: 100%;
+    padding: 25px;
+    box-sizing: border-box;
+
+    .track-description {
+      width: 100%;
+      height: 50%;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      box-sizing: border-box;
+
+      span {
+        color: #848484;
+        letter-spacing: 0.137em;
+        font-family: "KeepCalm-Medium", "Keep Calm";
+      }
+
+      .track-author span {
+        font-size: 10px;
+      }
+
+      .track-title span {
+        font-size: 16px;
+      }
+    }
+
+    .track-player {
+      width: 100%;
+      height: 50%;
+      display: flex;
+      align-items: center;
+      box-sizing: border-box;
+
+      & > div {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+}
+
+.button {
+  width: 50px;
+  height: 50px;
+  float: left;
+  margin-right: 10px;
+
+  & > div {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(#bc205a, #f94922);
+    border-radius: 50%;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  i {
+    font-size: 16px;
+  }
+}
+
+.waver {
+  float: left;
+  width: calc(100% - 120px);
+  height: 50px;
+  overflow: hidden;
+  position: relative;
+}
