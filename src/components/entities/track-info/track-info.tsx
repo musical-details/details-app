@@ -49,11 +49,6 @@ class TrackInfo extends React.Component<TrackInfoProps> {
                     <i className="icon-volume-up"></i>
                   </div>
                 </div>
-                <div className="waver">
-                  <div>
-                    <TrackWaver />
-                  </div>
-                </div>
               </div>
             </div>
           </div>

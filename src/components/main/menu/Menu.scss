@@ -45,7 +45,7 @@
     &:hover span,
     &.selected span {
       background: linear-gradient(to right, #f94922, #bc209b);
-      -webkit-background-clip: text;
+      background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
@@ -56,7 +56,7 @@
       font-size: 11px;
       letter-spacing: 1.5px;
       background: linear-gradient(to right, white, white);
-      -webkit-background-clip: text;
+      background-clip: text;
       -webkit-text-fill-color: transparent;
     }
   }
