@@ -89,11 +89,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background: radial-gradient(#bc205a, #f94922);
+    // background: radial-gradient(#bc205a, #f94922);
+    background: #414141;
     border-radius: 50%;
 
     &:hover {
       cursor: pointer;
+      background: linear-gradient(#bc205a, #f94922);
     }
   }
 
