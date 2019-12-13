@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactEventHandler } from "react";
 
 import "./track-waver.scss";
 
@@ -13,25 +13,36 @@ type TrackWaverStickProps = {
   index: number;
   value: number;
   isActive: boolean;
+  onChangeTime: Function;
 };
 
 const svgHeight: number = 150;
 
-const TrackWaverStick: React.FunctionComponent<TrackWaverStickProps> = ({
-  index,
-  value,
-  isActive
-}) => {
-  let fill = isActive ? "url(#active)" : "#5e5e5e";
-  return (
-    <path
-      data-name="stick"
-      transform={`translate(${index * 4}, ${(svgHeight - value) / 2})`}
-      fill={`${fill}`}
-      d={`M0 0h2.5v${value}H0z`}
-    ></path>
-  );
-};
+class TrackWaverStick extends React.Component<TrackWaverStickProps> {
+  constructor(props: TrackWaverStickProps) {
+    super(props);
+  }
+
+  handleClick = (event: React.MouseEvent<SVGPathElement>) => {
+    this.props.onChangeTime(this.props.index);
+  };
+
+  render() {
+    let fill = this.props.isActive ? "url(#active)" : "#5e5e5e";
+    let x = this.props.index * 4;
+    let y = (svgHeight - this.props.value) / 2;
+
+    return (
+      <path
+        data-name="stick"
+        transform={`translate(${x}, ${y})`}
+        fill={`${fill}`}
+        d={`M0 0h2.5v${this.props.value}H0z`}
+        onClick={this.handleClick}
+      ></path>
+    );
+  }
+}
 
 class TrackWaver extends React.Component<TrackWaverProps> {
   myInput: React.RefObject<any>;
@@ -51,6 +62,11 @@ class TrackWaver extends React.Component<TrackWaverProps> {
     return Math.floor(Math.random() * (max - min)) + min;
   }
 
+  handleTimeChange(event: any) {
+    alert(event);
+    console.log(event);
+  }
+
   createSticks = () => {
     let sticks = [];
 
@@ -61,6 +77,7 @@ class TrackWaver extends React.Component<TrackWaverProps> {
           index={i}
           value={this.getRandomHeight()}
           isActive={isActive}
+          onChangeTime={this.handleTimeChange}
         />
       );
     }
