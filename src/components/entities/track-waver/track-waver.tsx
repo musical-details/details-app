@@ -1,10 +1,9 @@
 import React from "react";
 
 import "./track-waver.scss";
-import { number } from "prop-types";
 
 type TrackWaverProps = {
-  wave: [];
+  wave: Array<number>;
   isPlaying: boolean;
   currentTime: number;
   duration: number;
@@ -14,7 +13,7 @@ type TrackWaverStickProps = {
   index: number;
   value: number;
   isActive: boolean;
-  onChangeTime: Function; // (index: number) => void;
+  onChangeTime: (index: number) => void;
 };
 
 const svgHeight: number = 150;
@@ -24,23 +23,24 @@ class TrackWaverStick extends React.Component<TrackWaverStickProps> {
     super(props);
   }
 
-  handleClick() {
+  handleClick = (event: React.MouseEvent<SVGPathElement>) => {
     this.props.onChangeTime(this.props.index);
-  }
+  };
 
   render() {
     let fill = this.props.isActive ? "url(#active)" : "#5e5e5e";
-    let x = this.props.index * 4;
+    let x = this.props.index * 5.5;
     let y = (svgHeight - this.props.value) / 2;
-  return (
-    <path
-      data-name={`stick-${this.props.index}`}
-      transform={`translate(${x}, ${y})`}
-      fill={`${fill}`}
-      d={`M0 0h2.5v${this.props.value}H0z`}
-      onClick={() => this.handleClick()}
-    ></path>
-  );
+    return (
+      <g transform={`translate(${x}, 0)`}>
+        <path
+          data-name={`stick-${this.props.index}`}
+          fill={`${fill}`}
+          d={`M0 0h4v${this.props.value}H0z`}
+          onClick={this.handleClick}
+        ></path>
+      </g>
+    );
   }
 }
 
@@ -49,45 +49,54 @@ class TrackWaver extends React.Component<TrackWaverProps> {
     wave: this.props.wave,
     isPlaying: this.props.isPlaying,
     currentTime: this.props.currentTime,
-    duration: this.props.duration,
-  };  
+    duration: this.props.duration
+  };
+  sticksCount: number;
   activeArea: number;
 
   constructor(props: TrackWaverProps) {
     super(props);
     this.activeArea = 0;
+    this.sticksCount = 140;
   }
 
-  componentDidMount() {
-   
+  componentDidUpdate(oldProps: TrackWaverProps) {
+    const newProps: TrackWaverProps = this.props;
+    if (newProps.wave !== oldProps.wave) {
+      this.setState({
+        wave: this.props.wave
+      });
+    }
   }
-  
+
   handleChangeTime = (index: number) => {
     this.setState({
-      currentTime: (this.state.duration / 200) * index
+      currentTime: (this.state.duration / this.sticksCount) * index
     });
-
-  }
-
-  getRandomHeight() {
-    let min = Math.ceil(30);
-    let max = Math.floor(90);
-    return Math.floor(Math.random() * (max - min)) + min;
-  }
-
- 
+  };
 
   createSticks = () => {
     let sticks = [];
-    this.activeArea = (this.state.currentTime / this.state.duration) * 200;
+    this.activeArea = Math.ceil(
+      (this.state.currentTime / this.state.duration) * this.sticksCount
+    );
 
-    for (let i = 0; i < 200; ++i) {
-      let isActive = i < this.activeArea ? true : false;
+    for (let i = 0; i < this.activeArea; ++i) {
       sticks.push(
         <TrackWaverStick
           index={i}
-          value={this.getRandomHeight()}
-          isActive={isActive}
+          value={this.state.wave[i]}
+          isActive={true}
+          onChangeTime={this.handleChangeTime}
+        />
+      );
+    }
+    for (let i = this.activeArea; i < this.sticksCount; ++i) {
+      sticks.push(
+        <TrackWaverStick
+          index={i}
+          value={this.state.wave[i]}
+          isActive={false}
           onChangeTime={this.handleChangeTime}
         />
       );
@@ -98,8 +107,6 @@ class TrackWaver extends React.Component<TrackWaverProps> {
   render() {
     return (
       <div className="track-waver">
-        {this.state.currentTime} / {this.state.duration} ->
-        {this.activeArea}
         <svg
           data-name="track-waver-svg"
           width="100%"
@@ -108,8 +115,9 @@ class TrackWaver extends React.Component<TrackWaverProps> {
         >
           <defs>
             <linearGradient id="active" x2="1" y2="1">
-              <stop offset="0%" stop-color="#ff7b2b" />
-              <stop offset="85%" stop-color="#ba3a65" />
+              <stop offset="0%" stop-color="#fd7a2c" />
+              <stop offset="50%" stop-color="#fd7a2c" />
+              <stop offset="70%" stop-color="#ba3a65" />
               <stop offset="100%" stop-color="#ba3a65" />
             </linearGradient>
           </defs>

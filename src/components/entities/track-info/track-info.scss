@@ -1,11 +1,12 @@
+@import "../../../assets/styles/global";
+
 .track-info {
   width: 100%;
-  height: 200px;
-  border-bottom: 3px solid #333333;
+  height: 230px;
+  margin-bottom: 15px;
 
   & > div {
-    width: 100%;
-    height: 100%;
+    @extend .full;
   }
 
   & > div > div {
@@ -13,36 +14,35 @@
   }
 
   .track-cover-box {
-    width: 200px;
+    width: 230px;
     height: 100%;
     padding: 25px;
     box-sizing: border-box;
 
     & > div {
-      width: 100%;
-      height: 100%;
+      @extend .full;
     }
 
     .track-cover {
-      width: 100%;
-      height: 100%;
+      @extend .full;
       background-position: center;
       background-size: cover;
-      box-shadow: -5px 5px 5px 1px #222;
+      box-shadow: -5px 5px 15px 5px #222;
       border-radius: 2px;
     }
   }
 
   .track-content-box {
-    width: calc(100% - 200px);
+    width: calc(100% - 230px);
     height: 100%;
-    padding: 25px;
+    padding: 35px;
     box-sizing: border-box;
 
     .track-description {
       width: 100%;
       height: 50%;
       display: flex;
+      padding: 0 15px;
       justify-content: flex-start;
       align-items: center;
       box-sizing: border-box;
@@ -51,14 +51,22 @@
         color: #848484;
         letter-spacing: 0.137em;
         font-family: "KeepCalm-Medium", "Keep Calm";
+
+        &::selection {
+          background: transparent;
+        }
+
+        &:hover {
+          cursor: context-menu;
+        }
       }
 
       .track-author span {
-        font-size: 10px;
+        font-size: 12.5px;
       }
 
       .track-title span {
-        font-size: 16px;
+        font-size: 19px;
       }
     }
 
@@ -71,35 +79,95 @@
 
       & > div {
         width: 100%;
-        height: 100%;
       }
     }
   }
 }
 
-.button {
+.button,
+.wide-button {
   width: 50px;
   height: 50px;
   float: left;
   margin-right: 10px;
 
   & > div {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    // background: radial-gradient(#bc205a, #f94922);
-    background: #414141;
+    @extend .full;
+    @extend .middle;
+    background: linear-gradient(#414141, #414141);
     border-radius: 50%;
+    transition: 0.4s ease-out;
 
     &:hover {
       cursor: pointer;
       background: linear-gradient(#bc205a, #f94922);
+      color: white;
     }
   }
 
   i {
-    font-size: 16px;
+    font-size: 22px;
+  }
+}
+
+.wide-button {
+  width: 220px;
+
+  & > div {
+    border-radius: 25px;
+  }
+
+  .left,
+  .right {
+    @extend .middle;
+    height: 100%;
+  }
+
+  .left {
+    width: 50px;
+  }
+
+  .right {
+    width: calc(100% - 50px);
+    padding-right: 15px;
+    box-sizing: border-box;
+  }
+}
+
+.volume-slider-box {
+  @extend .full;
+  @extend .middle;
+  box-sizing: border-box;
+
+  & > div {
+    @extend .middle;
+    width: 100%;
+    height: 12px;
+    position: relative;
+  }
+
+  .knob {
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    z-index: 10;
+  }
+
+  .bar {
+    width: 100%;
+    height: 3px;
+    border-radius: 5px;
+    background: linear-gradient(to right, #f94922, #bc205a);
+    position: relative;
+
+    .not-fill {
+      position: absolute;
+      right: 0;
+      width: 50%;
+      height: 100%;
+      background: #707070;
+    }
   }
 }

@@ -18,7 +18,7 @@ type TrackInfoState = {
 
 type TrackPlayerState = {
   audio: any;
-  wave: [];
+  wave: Array<number>;
   isPlaying: boolean;
   currentTime: number;
   duration: number;
@@ -47,10 +47,9 @@ type SelectedRatingState = {
 class TrackComponent extends React.Component<any, TrackState | any> {
   state: TrackState = {
     info: {
-      cover:
-        "https://images.genius.com/78a0742338c4324d69ee0c47f62dae2e.1000x1000x1.jpg",
-      author: "The Dumplings",
-      title: "Możliwość Wyspy"
+      cover: "https://i1.sndcdn.com/artworks-000233611512-5kytd7-t200x200.jpg",
+      author: "Confessions Mix",
+      title: "Dateless - Confession Mix #11"
     },
 
     player: {
@@ -74,6 +73,25 @@ class TrackComponent extends React.Component<any, TrackState | any> {
 
   constructor(props: any) {
     super(props);
+  }
+
+  componentDidMount() {
+    this.randomWave();
+  }
+
+  randomWave() {
+    let wave: Array<number> = [];
+    let min = Math.ceil(30);
+    let max = Math.floor(90);
+
+    for (let i = 0; i < 200; ++i) {
+      wave.push(Math.floor(Math.random() * (max - min)) + min);
+    }
+
+    this.setState((prevState: TrackState) => ({
+      ...prevState,
+      player: { ...prevState.player, wave: wave }
+    }));
   }
 
   render() {

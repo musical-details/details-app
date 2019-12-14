@@ -46,7 +46,29 @@ class TrackInfo extends React.Component<TrackInfoProps> {
                 </div>
                 <div className="button">
                   <div>
-                    <i className="icon-volume-up"></i>
+                    <i className="icon-star-filled"></i>
+                  </div>
+                </div>
+                <div className="button">
+                  <div>
+                    <i className="icon-note"></i>
+                  </div>
+                </div>
+                <div className="wide-button">
+                  <div>
+                    <div className="left">
+                      <i className="icon-volume"></i>
+                    </div>
+                    <div className="right">
+                      <div className="volume-slider-box">
+                        <div>
+                          <div className="knob" draggable="true"></div>
+                          <div className="bar">
+                            <div className="not-fill"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
