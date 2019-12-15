@@ -1,0 +1,67 @@
+@import "../../../assets/styles/global";
+
+.user-bar {
+  @extend .middle;
+  width: 100%;
+  height: 70px;
+  background: #202020;
+  padding: 0 10%;
+  box-sizing: border-box;
+  box-shadow: 0 0 10px 5px #1c1c1c;
+
+  & > div {
+    width: 100%;
+    height: 40px;
+  }
+
+  .user-box,
+  .user-logout {
+    @extend .middle;
+    float: left;
+    height: 100%;
+  }
+
+  .user-box {
+    width: 205px;
+    background: #2e2e2e;
+    border-radius: 20px;
+
+    .user-nickname {
+      @extend .middle;
+      width: calc(100% - 40px);
+      height: 100%;
+    }
+
+    .user-photo {
+      width: 40px;
+      height: 100%;
+      padding: 5px;
+      box-sizing: border-box;
+
+      & > div {
+        @extend .full;
+        @extend .image;
+        border-radius: 50%;
+        background-image: url(https://mpng.pngfly.com/20190716/uvj/kisspng-computer-icons-ninja-portable-network-graphics-ico-5d2db041e8b4d6.8568296315632753299532.jpg);
+      }
+    }
+
+    span {
+      font-size: 13px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+  }
+
+  .user-logout {
+    @extend .middle;
+    width: calc(100% - 205px);
+    height: 100%;
+
+    & > span {
+      color: #c789ff;
+      font-size: 11px;
+      text-transform: uppercase;
+    }
+  }
+}
