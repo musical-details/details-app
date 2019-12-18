@@ -1,6 +1,7 @@
 import React from "react";
 import TrackInfo from "../../entities/track-info/track-info";
 import TrackWaver from "../../entities/track-waver/track-waver";
+import Timeline from "../../entities/timeline/Timeline";
 
 import "./track.scss";
 
@@ -112,7 +113,7 @@ class TrackComponent extends React.Component<any, TrackState | any> {
             duration={this.state.player.duration}
           ></TrackWaver>
         </div>
-        <div>"Track Timeline" section</div>
+        <div><Timeline /></div>
         <div>"Track Description" section</div>
       </div>
     );
