@@ -116,8 +116,7 @@ class TrackWaver extends React.Component<TrackWaverProps> {
           <defs>
             <linearGradient id="active" x2="1" y2="1">
               <stop offset="0%" stop-color="#fd7a2c" />
-              <stop offset="50%" stop-color="#fd7a2c" />
-              <stop offset="70%" stop-color="#ba3a65" />
+              <stop offset="80%" stop-color="#ba3a65" />
               <stop offset="100%" stop-color="#ba3a65" />
             </linearGradient>
           </defs>
