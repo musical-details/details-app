@@ -7,3 +7,15 @@
   justify-content: center;
   align-items: center;
 }
+
+.timeline-wrapper {
+  width: 840px;
+  height: 350px;
+  padding: 0px 25px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 36px;
+}

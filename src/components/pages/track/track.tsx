@@ -57,8 +57,8 @@ class TrackComponent extends React.Component<any, TrackState | any> {
       audio: "",
       wave: [],
       isPlaying: false,
-      currentTime: 0,
-      duration: 360
+      currentTime: 14900,
+      duration: 360000
     },
 
     selectedRating: {
@@ -113,7 +113,13 @@ class TrackComponent extends React.Component<any, TrackState | any> {
             duration={this.state.player.duration}
           ></TrackWaver>
         </div>
-        <div><Timeline /></div>
+        <div className="timeline-wrapper">
+          <Timeline 
+            duration={this.state.player.duration} 
+            moment={[]} 
+            currentTime={this.state.player.currentTime}
+          ></Timeline>
+          </div>
         <div>"Track Description" section</div>
       </div>
     );
