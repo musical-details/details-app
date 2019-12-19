@@ -29,7 +29,7 @@ class GlobalPlayer extends React.Component<any, GlobalPlayerState> {
     cover: ""
   };
 
-  trackId: number = 645130116;
+  trackId: number = 723672529;
 
   constructor(props: any) {
     super(props);
@@ -76,7 +76,6 @@ class GlobalPlayer extends React.Component<any, GlobalPlayerState> {
 
   playAudio = (): void => {
     this.setState({ playerIcon: "icon-pause" });
-    this.state.audio.load();
     this.state.audio.play();
   };
 
@@ -128,10 +127,10 @@ class GlobalPlayer extends React.Component<any, GlobalPlayerState> {
             <div className="right">
               <div>
                 <div>
-                  <span>{this.state.author}</span>
+                  <span className="author">{this.state.author}</span>
                 </div>
                 <div>
-                  <span>{this.state.title}</span>
+                  <span className="title">{this.state.title}</span>
                 </div>
               </div>
             </div>

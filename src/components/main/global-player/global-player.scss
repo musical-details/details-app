@@ -9,6 +9,7 @@
   box-shadow: 0 0 10px 5px #2a2a2a;
   padding: 10px;
   box-sizing: border-box;
+  overflow: hidden;
 
   & > div {
     @extend .full;
@@ -33,7 +34,7 @@
 .bar-box {
   @extend .middle;
   float: left;
-  width: 60%;
+  width: calc(100% - 50px - 50px - 300px);
   height: 50px;
   padding: 10px;
   box-sizing: border-box;
@@ -69,7 +70,7 @@
 .track-box {
   @extend .middle;
   float: left;
-  width: calc(100% - 60% - 50px - 50px);
+  width: 300px;
   height: 50px;
   box-sizing: border-box;
   position: relative;
@@ -88,6 +89,7 @@
 
   .right {
     @extend .middle;
+    justify-content: flex-start;
     width: calc(100% - 50px);
     height: 50px;
     overflow: hidden;
@@ -96,16 +98,21 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     line-height: 13px;
-  }
 
-  .right span {
-    font-size: 11px;
+    span {
+      font-size: 11px;
+    }
+
+    span.author {
+    }
+
+    span.title {
+    }
   }
 
   .track-cover {
     @extend .full;
     @extend .image;
     border-radius: 3px;
-    box-shadow: 0 0 10px 5px #2a2a2a;
   }
 }

@@ -1,5 +1,8 @@
 export const API_KEY = "wpfE1K2Teq4ZQ0QxdOuzIPTQUrcPO9P6";
 
+/**
+ * @link https://developers.soundcloud.com/docs/api/reference#tracks
+ */
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export declare namespace SoundCloud {
   type TrackData = {
