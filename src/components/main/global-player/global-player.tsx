@@ -1,5 +1,6 @@
 import React from "react";
-import { SC_API_KEY, SC_Track_Stream } from "../../../core/soundcloud";
+import { SoundCloud, API_KEY } from "../../../core/soundcloud";
+import CSS from "csstype";
 
 import "./global-player.scss";
 
@@ -8,70 +9,132 @@ type GlobalPlayerState = {
   audio: HTMLAudioElement;
   isPlayed: boolean;
   playerIcon: string;
+  currentTime: number;
+  duration: number;
+  author: string;
+  title: string;
+  cover: string;
 };
 
-class GlobalPlayer extends React.Component {
+class GlobalPlayer extends React.Component<any, GlobalPlayerState> {
   state: GlobalPlayerState = {
     audio_url: "",
     audio: new Audio(),
     isPlayed: false,
-    playerIcon: "icon-play"
+    playerIcon: "icon-play",
+    currentTime: 0,
+    duration: 0,
+    author: "",
+    title: "",
+    cover: ""
   };
 
-  audio: HTMLAudioElement = new Audio(
-    `https://api.soundcloud.com/tracks/205439549/stream?client_id=${SC_API_KEY}`
-  );
+  trackId: number = 645130116;
 
   constructor(props: any) {
     super(props);
+    this.fetchTrack();
   }
 
-  toogle = () => {
+  async fetchTrack(): Promise<any> {
+    try {
+      let url: string = `https://api.soundcloud.com/tracks/${this.trackId}?client_id=${API_KEY}`;
+      const response: Response = await fetch(url);
+      const data: SoundCloud.TrackData = await response.json();
+      this.setState({
+        cover: data.artwork_url,
+        title: data.title,
+        author: data.user.username
+      });
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  componentDidMount() {
+    let url: string = `https://api.soundcloud.com/tracks/${this.trackId}/stream?client_id=${API_KEY}`;
     this.setState(
       {
-        isPlayed: !this.state.isPlayed
+        audio_url: url,
+        audio: new Audio(url)
       },
       () => {
-        this.state.isPlayed ? this.play() : this.pause();
+        this.state.audio.oncanplaythrough = this.setDuration;
+        this.state.audio.ontimeupdate = this.setCurrentTime;
+        this.state.audio.onended = this.stopAudio;
       }
     );
+  }
+
+  handlePlayButtonClick = (): void => {
+    this.setState({ isPlayed: !this.state.isPlayed }, this.toogleAudio);
   };
 
-  play = () => {
-    this.setState({
-      playerIcon: "icon-pause"
-    });
+  toogleAudio = (): void => {
+    this.state.isPlayed ? this.playAudio() : this.pauseAudio();
+  };
+
+  playAudio = (): void => {
+    this.setState({ playerIcon: "icon-pause" });
+    this.state.audio.load();
     this.state.audio.play();
   };
 
-  pause = () => {
-    this.setState({
-      playerIcon: "icon-play"
-    });
+  pauseAudio = (): void => {
+    this.setState({ playerIcon: "icon-play" });
     this.state.audio.pause();
   };
 
-  componentDidMount() {
-    this.setState({
-      audio_url: `https://api.soundcloud.com/tracks/205439549/stream?client_id=${SC_API_KEY}`,
-      audio: new Audio(
-        `https://api.soundcloud.com/tracks/205439549/stream?client_id=${SC_API_KEY}`
-      )
-    });
-  }
+  stopAudio = (): void => {
+    this.setState({ playerIcon: "icon-play" });
+    this.state.audio.load();
+  };
+
+  setDuration = (): void => {
+    this.setState({ duration: this.state.audio.duration });
+  };
+
+  setCurrentTime = (): void => {
+    this.setState({ currentTime: this.state.audio.currentTime });
+  };
 
   render() {
+    const { currentTime, duration } = this.state;
+    let BarNotFillStyles: CSS.Properties = {
+      width: 100 - (currentTime / duration) * 100 + "%"
+    };
+
     return (
       <div className="global-player">
         <div>
-          <div className="button" onClick={this.toogle}>
+          <div className="button" onClick={this.handlePlayButtonClick}>
             <i className={this.state.playerIcon}></i>
           </div>
           <div className="bar-box">
-            <div className="bar"></div>
+            <div className="bar">
+              <div className="not-fill" style={BarNotFillStyles}></div>
+            </div>
           </div>
           <div className="volume-box">
             <i className="icon-volume"></i>
+          </div>
+          <div className="track-box">
+            <div className="left">
+              <div
+                className="track-cover"
+                style={{ backgroundImage: `url(${this.state.cover})` }}
+              ></div>
+            </div>
+            <div className="right">
+              <div>
+                <div>
+                  <span>{this.state.author}</span>
+                </div>
+                <div>
+                  <span>{this.state.title}</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import React from "react";
 import "./user-bar.scss";
-import { SC_API_KEY } from "../../../core/soundcloud";
+import { SoundCloud, API_KEY } from "../../../core/soundcloud";
 
 type UserBarState = {
   id: number;
@@ -23,11 +23,10 @@ class UserBar extends React.Component {
 
   componentDidMount() {
     fetch(
-      `https://api.soundcloud.com/users/${this.state.id}?client_id=${SC_API_KEY}`
+      `https://api.soundcloud.com/users/${this.state.id}?client_id=${API_KEY}`
     )
       .then(response => response.json())
       .then(data => {
-        console.log(data);
         this.setState({ nickname: data.username, avatar: data.avatar_url });
       });
   }
