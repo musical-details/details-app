@@ -33,12 +33,12 @@ class GlobalPlayer extends React.Component<any, GlobalPlayerState> {
 
   constructor(props: any) {
     super(props);
-    this.fetchTrack();
+    this.fetchTrack(this.trackId);
   }
 
-  async fetchTrack(): Promise<any> {
+  async fetchTrack(trackId: number): Promise<any> {
     try {
-      let url: string = `https://api.soundcloud.com/tracks/${this.trackId}?client_id=${API_KEY}`;
+      let url: string = `https://api.soundcloud.com/tracks/${trackId}?client_id=${API_KEY}`;
       const response: Response = await fetch(url);
       const data: SoundCloud.TrackData = await response.json();
       this.setState({
@@ -60,6 +60,7 @@ class GlobalPlayer extends React.Component<any, GlobalPlayerState> {
       },
       () => {
         this.state.audio.oncanplaythrough = this.setDuration;
+        // this.state.audio.play =
         this.state.audio.ontimeupdate = this.setCurrentTime;
         this.state.audio.onended = this.stopAudio;
       }

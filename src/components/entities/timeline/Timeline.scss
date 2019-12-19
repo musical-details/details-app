@@ -1,24 +1,25 @@
 .timeline-container {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  box-sizing: border-box;
+  border-radius: 36px;
+  background: #222;
 }
 
 .timeline-full {
-    height: 100%;
-    background: #222;
-    position: absolute;
+  height: 100%;
+  position: absolute;
 }
 
 .timeline-sections-wrapper {
-    box-sizing: border-box;
-    width: 100%;
-    height: 100%;
-    padding: 20px 0px 20px 0px;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 20px 0px 20px 0px;
 }
 
 .timeline-section {
-    height: 20%;
-    width: 100%;
+  height: 20%;
+  width: 100%;
 }

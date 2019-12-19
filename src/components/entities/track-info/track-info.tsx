@@ -7,6 +7,8 @@ type TrackInfoProps = {
   cover: string;
   author: string;
   title: string;
+  isPlaying: boolean;
+  onPlayButtonClick: (isPlaying: boolean) => void;
 };
 
 class TrackInfo extends React.Component<TrackInfoProps> {
@@ -14,7 +16,12 @@ class TrackInfo extends React.Component<TrackInfoProps> {
     super(props);
   }
 
+  handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    this.props.onPlayButtonClick(this.props.isPlaying);
+  };
+
   render() {
+    let playButtonIcon = this.props.isPlaying ? "icon-pause" : "icon-play";
     return (
       <div className="track-info">
         <div>
@@ -40,8 +47,8 @@ class TrackInfo extends React.Component<TrackInfoProps> {
             <div className="track-player">
               <div>
                 <div className="button">
-                  <div>
-                    <i className="icon-play"></i>
+                  <div onClick={this.handleClick}>
+                    <i className={playButtonIcon}></i>
                   </div>
                 </div>
                 <div className="button">

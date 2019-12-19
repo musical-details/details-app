@@ -3,6 +3,9 @@ import TrackInfo from "../../entities/track-info/track-info";
 import TrackWaver from "../../entities/track-waver/track-waver";
 import Timeline from "../../entities/timeline/Timeline";
 
+import { SoundCloud, API_KEY } from "../../../core/soundcloud";
+import CSS from "csstype";
+
 import "./track.scss";
 
 type TrackState = {
@@ -18,7 +21,7 @@ type TrackInfoState = {
 };
 
 type TrackPlayerState = {
-  audio: any;
+  audio: HTMLAudioElement;
   wave: Array<number>;
   isPlaying: boolean;
   currentTime: number;
@@ -45,20 +48,21 @@ type SelectedRatingState = {
   moments: Array<MomentState>;
 };
 
-class TrackComponent extends React.Component<any, TrackState | any> {
+class TrackComponent extends React.Component<any, TrackState> {
+  trackId: number = 164514045;
   state: TrackState = {
     info: {
-      cover: "https://i1.sndcdn.com/artworks-000233611512-5kytd7-t200x200.jpg",
-      author: "Confessions Mix",
-      title: "Dateless - Confession Mix #11"
+      cover: "",
+      author: "",
+      title: ""
     },
 
     player: {
-      audio: "",
+      audio: new Audio(),
       wave: [],
       isPlaying: false,
-      currentTime: 14900,
-      duration: 360000
+      currentTime: 0,
+      duration: 0
     },
 
     selectedRating: {
@@ -76,7 +80,111 @@ class TrackComponent extends React.Component<any, TrackState | any> {
     super(props);
   }
 
+  async fetchTrack(trackId: number): Promise<any> {
+    try {
+      const url: string = `https://api.soundcloud.com/tracks/${trackId}?client_id=${API_KEY}`;
+      const response: Response = await fetch(url);
+      const data: SoundCloud.TrackData = await response.json();
+      this.setState((prevState: TrackState) => ({
+        ...prevState,
+        info: {
+          cover: data.artwork_url,
+          title: data.title,
+          author: data.user.username
+        }
+      }));
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  handleCanPlay = () => {
+    this.setState((prevState: TrackState) => ({
+      ...prevState,
+      player: {
+        ...prevState.player,
+        duration: this.state.player.audio.duration
+      }
+    }));
+  };
+
+  handlePlay = () => {
+    this.setState((prevState: TrackState) => ({
+      ...prevState,
+      player: {
+        ...prevState.player,
+        isPlaying: true
+      }
+    }));
+  };
+
+  handlePause = () => {
+    this.setState((prevState: TrackState) => ({
+      ...prevState,
+      player: {
+        ...prevState.player,
+        isPlaying: false
+      }
+    }));
+  };
+
+  handleTimeUpdate = () => {
+    this.setState((prevState: TrackState) => ({
+      ...prevState,
+      player: {
+        ...prevState.player,
+        currentTime: this.state.player.audio.currentTime
+      }
+    }));
+  };
+
+  handleEnded = () => {};
+
+  handlePlayButtonClick = (isPlaying: boolean): void => {
+    this.setState(
+      (prevState: TrackState) => ({
+        ...prevState,
+        player: {
+          ...prevState.player,
+          isPlaying: !isPlaying
+        }
+      }),
+      () => {
+        const { isPlaying, audio } = this.state.player;
+        isPlaying ? audio.play() : audio.pause();
+      }
+    );
+  };
+
+  fetchAudio(trackId: number): void {
+    try {
+      const url: string = `https://api.soundcloud.com/tracks/${trackId}/stream?client_id=${API_KEY}`;
+      const audio: HTMLAudioElement = new Audio(url);
+      this.setState(
+        (prevState: TrackState) => ({
+          ...prevState,
+          player: {
+            ...prevState.player,
+            audio: new Audio(url)
+          }
+        }),
+        () => {
+          let { audio } = this.state.player;
+          audio.oncanplaythrough = this.handleCanPlay;
+          audio.onplay = this.handlePlay;
+          audio.ontimeupdate = this.handleTimeUpdate;
+          audio.onpause = this.handlePause;
+          audio.onended = this.handleEnded;
+        }
+      );
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
   componentDidMount() {
+    this.fetchTrack(this.trackId);
+    this.fetchAudio(this.trackId);
     this.randomWave();
   }
 
@@ -99,27 +207,29 @@ class TrackComponent extends React.Component<any, TrackState | any> {
     return (
       <div>
         <div className="track-info-wrapper">
+          {this.state.player.currentTime} / {this.state.player.duration}
           <TrackInfo
             cover={this.state.info.cover}
             author={this.state.info.author}
             title={this.state.info.title}
+            isPlaying={this.state.player.isPlaying}
+            onPlayButtonClick={this.handlePlayButtonClick}
           ></TrackInfo>
         </div>
         <div className="track-waver-wrapper">
           <TrackWaver
             wave={this.state.player.wave}
-            isPlaying={this.state.player.isPlaying}
             currentTime={this.state.player.currentTime}
             duration={this.state.player.duration}
           ></TrackWaver>
         </div>
         <div className="timeline-wrapper">
-          <Timeline 
-            duration={this.state.player.duration} 
-            moment={[]} 
+          <Timeline
+            duration={this.state.player.duration}
+            moment={this.state.selectedRating.moments}
             currentTime={this.state.player.currentTime}
           ></Timeline>
-          </div>
+        </div>
         <div>"Track Description" section</div>
       </div>
     );

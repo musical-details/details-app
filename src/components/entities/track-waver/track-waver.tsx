@@ -4,7 +4,6 @@ import "./track-waver.scss";
 
 type TrackWaverProps = {
   wave: Array<number>;
-  isPlaying: boolean;
   currentTime: number;
   duration: number;
 };
@@ -47,7 +46,6 @@ class TrackWaverStick extends React.Component<TrackWaverStickProps> {
 class TrackWaver extends React.Component<TrackWaverProps> {
   state = {
     wave: this.props.wave,
-    isPlaying: this.props.isPlaying,
     currentTime: this.props.currentTime,
     duration: this.props.duration
   };
@@ -67,6 +65,16 @@ class TrackWaver extends React.Component<TrackWaverProps> {
         wave: this.props.wave
       });
     }
+    if (newProps.duration !== oldProps.duration) {
+      this.setState({
+        duration: this.props.duration
+      });
+    }
+    if (newProps.currentTime !== oldProps.currentTime) {
+      this.setState({
+        currentTime: this.props.currentTime
+      });
+    }
   }
 
   handleChangeTime = (index: number) => {
@@ -76,6 +84,7 @@ class TrackWaver extends React.Component<TrackWaverProps> {
   };
 
   createSticks = () => {
+    if (!this.state.duration) return;
     let sticks = [];
     this.activeArea = Math.ceil(
       (this.state.currentTime / this.state.duration) * this.sticksCount
