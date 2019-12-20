@@ -1,4 +1,5 @@
 import React from "react";
+import Draggable, { DraggableEvent, DraggableData } from "react-draggable";
 
 import "./track-info.scss";
 import TrackWaver from "../track-waver/track-waver";
@@ -8,7 +9,10 @@ type TrackInfoProps = {
   author: string;
   title: string;
   isPlaying: boolean;
+  volume: number;
   onPlayButtonClick: (isPlaying: boolean) => void;
+  onVolumeSliderDrag: (volume: number) => void;
+  onVolumeSliderDragStop: (volume: number) => void;
 };
 
 class TrackInfo extends React.Component<TrackInfoProps> {
@@ -20,8 +24,22 @@ class TrackInfo extends React.Component<TrackInfoProps> {
     this.props.onPlayButtonClick(this.props.isPlaying);
   };
 
+  handleDrag = (event: DraggableEvent, data: DraggableData) => {
+    this.props.onVolumeSliderDrag(data.x / 143);
+  };
+
+  handleDragStop = (event: DraggableEvent, data: DraggableData) => {
+    this.props.onVolumeSliderDragStop(data.x / 143);
+  };
+
   render() {
-    let playButtonIcon = this.props.isPlaying ? "icon-pause" : "icon-play";
+    let playButtonClassName: string = this.props.isPlaying
+      ? "button active"
+      : "button";
+    let playButtonIcon: string = this.props.isPlaying
+      ? "icon-pause"
+      : "icon-play";
+    let volume: number = this.props.volume * 143;
     return (
       <div className="track-info">
         <div>
@@ -46,33 +64,45 @@ class TrackInfo extends React.Component<TrackInfoProps> {
             </div>
             <div className="track-player">
               <div>
-                <div className="button">
-                  <div onClick={this.handleClick}>
+                <div className="button-box">
+                  <div
+                    className={playButtonClassName}
+                    onClick={this.handleClick}
+                  >
                     <i className={playButtonIcon}></i>
                   </div>
                 </div>
-                <div className="button">
-                  <div>
+                <div className="button-box">
+                  <div className="button">
                     <i className="icon-star-filled"></i>
                   </div>
                 </div>
-                <div className="button">
-                  <div>
+                <div className="button-box">
+                  <div className="button">
                     <i className="icon-note"></i>
                   </div>
                 </div>
-                <div className="wide-button">
-                  <div>
+                <div className="wide-button-box">
+                  <div className="button">
                     <div className="left">
                       <i className="icon-volume"></i>
                     </div>
                     <div className="right">
                       <div className="volume-slider-box">
-                        <div>
-                          <div className="knob" draggable="true"></div>
-                          <div className="bar">
-                            <div className="not-fill"></div>
-                          </div>
+                        <div className="volume-area">
+                          <Draggable
+                            axis="x"
+                            bounds=".volume-area"
+                            onDrag={this.handleDrag}
+                            onStop={this.handleDragStop}
+                            position={{ x: volume, y: 0 }}
+                          >
+                            <div className="volume-knob-area">
+                              <div className="volume-gray-bar"></div>
+                              <div className="knob"></div>
+                            </div>
+                          </Draggable>
+                          <div className="bar"></div>
                         </div>
                       </div>
                     </div>

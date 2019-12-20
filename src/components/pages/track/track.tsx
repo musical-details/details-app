@@ -26,6 +26,7 @@ type TrackPlayerState = {
   isPlaying: boolean;
   currentTime: number;
   duration: number;
+  volume: number;
 };
 
 type UserState = {
@@ -49,7 +50,7 @@ type SelectedRatingState = {
 };
 
 class TrackComponent extends React.Component<any, TrackState> {
-  trackId: number = 164514045;
+  trackId: number = 731566417;
   state: TrackState = {
     info: {
       cover: "",
@@ -62,7 +63,8 @@ class TrackComponent extends React.Component<any, TrackState> {
       wave: [],
       isPlaying: false,
       currentTime: 0,
-      duration: 0
+      duration: 0,
+      volume: 1
     },
 
     selectedRating: {
@@ -138,7 +140,15 @@ class TrackComponent extends React.Component<any, TrackState> {
     }));
   };
 
-  handleEnded = () => {};
+  handleEnded = () => {
+    this.setState((prevState: TrackState) => ({
+      ...prevState,
+      player: {
+        ...prevState.player,
+        isPlaying: false
+      }
+    }));
+  };
 
   handlePlayButtonClick = (isPlaying: boolean): void => {
     this.setState(
@@ -154,6 +164,25 @@ class TrackComponent extends React.Component<any, TrackState> {
         isPlaying ? audio.play() : audio.pause();
       }
     );
+  };
+
+  handleVolumeSliderDrag = (volume: number): void => {
+    try {
+      const { audio } = this.state.player;
+      audio.volume = volume;
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  handleVolumeSliderDragStop = (volume: number): void => {
+    this.setState((prevState: TrackState) => ({
+      ...prevState,
+      player: {
+        ...prevState.player,
+        volume: volume
+      }
+    }));
   };
 
   fetchAudio(trackId: number): void {
@@ -212,8 +241,11 @@ class TrackComponent extends React.Component<any, TrackState> {
             cover={this.state.info.cover}
             author={this.state.info.author}
             title={this.state.info.title}
+            volume={this.state.player.volume}
             isPlaying={this.state.player.isPlaying}
             onPlayButtonClick={this.handlePlayButtonClick}
+            onVolumeSliderDrag={this.handleVolumeSliderDrag}
+            onVolumeSliderDragStop={this.handleVolumeSliderDragStop}
           ></TrackInfo>
         </div>
         <div className="track-waver-wrapper">

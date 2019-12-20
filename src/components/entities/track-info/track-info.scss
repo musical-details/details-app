@@ -84,21 +84,22 @@
   }
 }
 
-.button,
-.wide-button {
+.button-box,
+.wide-button-box {
   width: 50px;
   height: 50px;
   float: left;
   margin-right: 10px;
 
-  & > div {
+  .button {
     @extend .full;
     @extend .middle;
     background: linear-gradient(#414141, #414141);
     border-radius: 50%;
     transition: 0.4s ease-out;
 
-    &:hover {
+    &:hover,
+    &.active {
       cursor: pointer;
       background: linear-gradient(#bc205a, #f94922);
       color: white;
@@ -110,11 +111,16 @@
   }
 }
 
-.wide-button {
+.wide-button-box {
   width: 220px;
 
-  & > div {
+  .button {
+    background: #414141;
     border-radius: 25px;
+
+    &:hover {
+      background: #4e4e4e;
+    }
   }
 
   .left,
@@ -138,21 +144,45 @@
   @extend .full;
   @extend .middle;
   box-sizing: border-box;
+  overflow: hidden;
+  position: relative;
 
-  & > div {
+  & > .volume-area {
     @extend .middle;
-    width: 100%;
-    height: 12px;
-    position: relative;
-  }
-
-  .knob {
-    width: 12px;
+    justify-content: flex-start;
+    width: 200%;
     height: 12px;
     position: absolute;
-    background: white;
-    border-radius: 50%;
+    left: 0;
+  }
+
+  .volume-knob-area {
+    width: calc(50% + 12px);
+    height: 12px;
+    position: absolute;
     z-index: 10;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    .volume-gray-bar {
+      width: 100%;
+      height: 3px;
+      left: 0;
+      position: absolute;
+      z-index: 10;
+      background: #707070;
+    }
+
+    .knob {
+      width: 12px;
+      height: 12px;
+      position: relative;
+      right: 0;
+      background: white;
+      border-radius: 50%;
+      z-index: 10;
+    }
   }
 
   .bar {
@@ -161,13 +191,5 @@
     border-radius: 5px;
     background: linear-gradient(to right, #f94922, #bc205a);
     position: relative;
-
-    .not-fill {
-      position: absolute;
-      right: 0;
-      width: 50%;
-      height: 100%;
-      background: #707070;
-    }
   }
 }
