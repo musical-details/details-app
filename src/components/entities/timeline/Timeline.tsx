@@ -35,7 +35,8 @@ class Timeline extends React.Component<TimelineProps> {
         <div
           className="timeline-full"
           style={{
-            width: 28 * this.props.duration
+            width: 28 * this.props.duration,
+            transform: `translate(${(this.state.trackDuration - this.props.start)/1000}px)`,
           }}
         >
           <div className="timeline-sections-wrapper">

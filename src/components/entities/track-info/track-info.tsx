@@ -2,6 +2,7 @@ import React from "react";
 
 import "./track-info.scss";
 import TrackWaver from "../track-waver/track-waver";
+//import VolumeIcon from "../../../assets/svg/volume-icon";
 
 type TrackInfoProps = {
   cover: string;
@@ -64,7 +65,7 @@ class TrackInfo extends React.Component<TrackInfoProps> {
                 <div className="wide-button">
                   <div>
                     <div className="left">
-                      <i className="icon-volume"></i>
+                      <i className="icon-volume"></i> 
                     </div>
                     <div className="right">
                       <div className="volume-slider-box">
