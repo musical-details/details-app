@@ -140,6 +140,21 @@ class TrackComponent extends React.Component<any, TrackState> {
     }));
   };
 
+  handleChangeTime = (newTime: number): void => {
+    this.setState(
+      (prevState: TrackState) => ({
+        ...prevState,
+        player: {
+          ...prevState.player,
+          currentTime: newTime
+        }
+      }),
+      () => {
+        this.state.player.audio.currentTime = newTime;
+      }
+    );
+  };
+
   handleEnded = () => {
     this.setState((prevState: TrackState) => ({
       ...prevState,
@@ -253,6 +268,7 @@ class TrackComponent extends React.Component<any, TrackState> {
             wave={this.state.player.wave}
             currentTime={this.state.player.currentTime}
             duration={this.state.player.duration}
+            onChangeTime={this.handleChangeTime}
           ></TrackWaver>
         </div>
         <div className="timeline-wrapper">
