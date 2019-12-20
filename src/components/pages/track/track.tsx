@@ -88,7 +88,7 @@ class TrackComponent extends React.Component<any, TrackState> {
       this.setState((prevState: TrackState) => ({
         ...prevState,
         info: {
-          cover: data.artwork_url,
+          cover: data.artwork_url.toString().replace("large", "t500x500"),
           title: data.title,
           author: data.user.username
         }
