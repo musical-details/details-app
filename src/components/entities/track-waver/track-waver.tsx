@@ -6,6 +6,7 @@ type TrackWaverProps = {
   wave: Array<number>;
   currentTime: number;
   duration: number;
+  onChangeTime: (newTime: number) => void;
 };
 
 type TrackWaverStickProps = {
@@ -44,11 +45,6 @@ class TrackWaverStick extends React.Component<TrackWaverStickProps> {
 }
 
 class TrackWaver extends React.Component<TrackWaverProps> {
-  state = {
-    wave: this.props.wave,
-    currentTime: this.props.currentTime,
-    duration: this.props.duration
-  };
   sticksCount: number;
   activeArea: number;
 
@@ -58,43 +54,22 @@ class TrackWaver extends React.Component<TrackWaverProps> {
     this.sticksCount = 140;
   }
 
-  componentDidUpdate(oldProps: TrackWaverProps) {
-    const newProps: TrackWaverProps = this.props;
-    if (newProps.wave !== oldProps.wave) {
-      this.setState({
-        wave: this.props.wave
-      });
-    }
-    if (newProps.duration !== oldProps.duration) {
-      this.setState({
-        duration: this.props.duration
-      });
-    }
-    if (newProps.currentTime !== oldProps.currentTime) {
-      this.setState({
-        currentTime: this.props.currentTime
-      });
-    }
-  }
-
   handleChangeTime = (index: number) => {
-    this.setState({
-      currentTime: (this.state.duration / this.sticksCount) * index
-    });
+    this.props.onChangeTime((this.props.duration / this.sticksCount) * index);
   };
 
   createSticks = () => {
-    if (!this.state.duration) return;
+    if (!this.props.duration) return;
     let sticks = [];
     this.activeArea = Math.ceil(
-      (this.state.currentTime / this.state.duration) * this.sticksCount
+      (this.props.currentTime / this.props.duration) * this.sticksCount
     );
 
     for (let i = 0; i < this.activeArea; ++i) {
       sticks.push(
         <TrackWaverStick
           index={i}
-          value={this.state.wave[i]}
+          value={this.props.wave[i]}
           isActive={true}
           onChangeTime={this.handleChangeTime}
         />
@@ -104,7 +79,7 @@ class TrackWaver extends React.Component<TrackWaverProps> {
       sticks.push(
         <TrackWaverStick
           index={i}
-          value={this.state.wave[i]}
+          value={this.props.wave[i]}
           isActive={false}
           onChangeTime={this.handleChangeTime}
         />
