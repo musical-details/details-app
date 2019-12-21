@@ -24,7 +24,7 @@ type TimelineMomentState = {
 class TimelineMoment extends React.Component<TimelineMomentProps, TimelineMomentState> {
 
     state = {
-        width: 40,
+        width: 230,
         trackDuration: 360000
     }
 
@@ -37,7 +37,7 @@ class TimelineMoment extends React.Component<TimelineMomentProps, TimelineMoment
     }
 
     countWidth = (start: number, end: number) => {
-        return end - start;
+        return (end - start)/1000*28;
     }
 
     componentDidUpdate(prevProps: TimelineMomentProps){
@@ -57,7 +57,7 @@ class TimelineMoment extends React.Component<TimelineMomentProps, TimelineMoment
         let momentContainerStyle: CSS.Properties = {
             backgroundColor: this.props.color,
             width: `${this.state.width}px`, 
-            transform: `translate(${(this.state.trackDuration - this.props.start)/1000}px)`,
+            transform: `translate(${(this.props.start)*28/1000}px)`,
             display: 'inline-block'
         }
          

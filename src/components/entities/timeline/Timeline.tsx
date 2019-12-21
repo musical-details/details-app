@@ -26,9 +26,6 @@ class Timeline extends React.Component<TimelineProps> {
     console.log(this.props.duration);
   }
 
-  //,
-  // left: -this.props.currentTime / 1000 * 28,
-
   render() {
     return (
       <div className="timeline-container">
@@ -36,20 +33,21 @@ class Timeline extends React.Component<TimelineProps> {
           className="timeline-full"
           style={{
             width: 28 * this.props.duration,
-            transform: `translate(${(this.state.trackDuration - this.props.start)/1000}px)`,
+            transform: `translate(${-(this.props.currentTime)*28}px)`,
+            transition: '.2s linear'
           }}
         >
           <div className="timeline-sections-wrapper">
             <div
               className="timeline-section"
               id="timeline-section-1"
-              style={{ backgroundColor: "violet" }}
+              style={{}}
             >
               <TimelineMoment
                 name={"Bass"}
                 color={"#456"}
-                start={28000}
-                end={30000}
+                start={15000}
+                end={20000}
                 trackDuration={this.props.duration}
               ></TimelineMoment>
             </div>
@@ -65,7 +63,7 @@ class Timeline extends React.Component<TimelineProps> {
             <div
               className="timeline-section"
               id="timeline-section-3"
-              style={{ backgroundColor: "gray" }}
+              style={{}}
             ></div>
             <div className="timeline-section" id="timeline-section-4"></div>
             <div className="timeline-section" id="timeline-section-5"></div>
