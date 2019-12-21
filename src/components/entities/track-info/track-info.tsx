@@ -3,6 +3,7 @@ import Draggable, { DraggableEvent, DraggableData } from "react-draggable";
 
 import "./track-info.scss";
 import TrackWaver from "../track-waver/track-waver";
+//import VolumeIcon from "../../../assets/svg/volume-icon";
 
 type TrackInfoProps = {
   cover: string;
@@ -85,7 +86,7 @@ class TrackInfo extends React.Component<TrackInfoProps> {
                 <div className="wide-button-box">
                   <div className="button">
                     <div className="left">
-                      <i className="icon-volume"></i>
+                      <i className="icon-volume"></i> 
                     </div>
                     <div className="right">
                       <div className="volume-slider-box">
