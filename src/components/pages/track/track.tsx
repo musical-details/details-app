@@ -82,6 +82,12 @@ class TrackComponent extends React.Component<any, TrackState> {
     super(props);
   }
 
+  componentDidMount() {
+    this.fetchTrack(this.trackId);
+    this.fetchAudio(this.trackId);
+    this.randomWave();
+  }
+
   async fetchTrack(trackId: number): Promise<any> {
     try {
       const url: string = `https://api.soundcloud.com/tracks/${trackId}?client_id=${API_KEY}`;
@@ -200,6 +206,18 @@ class TrackComponent extends React.Component<any, TrackState> {
     }));
   };
 
+  handleError = (event: any): void => {
+    console.log(event); // TODO
+    /*
+    MEDIA_ERR_ABORTED=1
+    MEDIA_ERR_NETWORK=2
+    MEDIA_ERR_DECODE=3
+    MEDIA_ERR_SRC_NOT_SUPPORTED=4
+    */
+  };
+
+  handleWaiting = (event: any): any => {};
+
   fetchAudio(trackId: number): void {
     try {
       const url: string = `https://api.soundcloud.com/tracks/${trackId}/stream?client_id=${API_KEY}`;
@@ -219,17 +237,13 @@ class TrackComponent extends React.Component<any, TrackState> {
           audio.ontimeupdate = this.handleTimeUpdate;
           audio.onpause = this.handlePause;
           audio.onended = this.handleEnded;
+          audio.onwaiting = this.handleWaiting;
+          audio.onerror = this.handleError;
         }
       );
     } catch (e) {
       console.error(e);
     }
-  }
-
-  componentDidMount() {
-    this.fetchTrack(this.trackId);
-    this.fetchAudio(this.trackId);
-    this.randomWave();
   }
 
   randomWave() {
@@ -251,7 +265,6 @@ class TrackComponent extends React.Component<any, TrackState> {
     return (
       <div>
         <div className="track-info-wrapper">
-          {this.state.player.currentTime} / {this.state.player.duration}
           <TrackInfo
             cover={this.state.info.cover}
             author={this.state.info.author}

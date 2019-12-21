@@ -1,7 +1,7 @@
                       <svg
     id="prefix__Warstwa_1"
-    x={0}
-    y={0}
+    x="0"
+    y="0"
     viewBox="0 0 1024 1024"
     xmlSpace="preserve"
     width="1.5em"

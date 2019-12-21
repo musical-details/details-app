@@ -109,6 +109,11 @@
   i {
     font-size: 22px;
   }
+
+  img {
+    max-width: 100%;
+    max-height: 100%;
+  }
 }
 
 .wide-button-box {
@@ -151,14 +156,14 @@
     @extend .middle;
     justify-content: flex-start;
     width: 200%;
-    height: 12px;
+    height: 100%;
     position: absolute;
     left: 0;
   }
 
   .volume-knob-area {
     width: calc(50% + 12px);
-    height: 12px;
+    height: 100%;
     position: absolute;
     z-index: 10;
     display: flex;

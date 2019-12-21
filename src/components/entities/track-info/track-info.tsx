@@ -2,8 +2,7 @@ import React from "react";
 import Draggable, { DraggableEvent, DraggableData } from "react-draggable";
 
 import "./track-info.scss";
-import TrackWaver from "../track-waver/track-waver";
-//import VolumeIcon from "../../../assets/svg/volume-icon";
+import VolumeIcon from "../../../assets/svg/volume-icon.svg";
 
 type TrackInfoProps = {
   cover: string;
@@ -23,6 +22,11 @@ class TrackInfo extends React.Component<TrackInfoProps> {
 
   handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
     this.props.onPlayButtonClick(this.props.isPlaying);
+  };
+
+  handleVolumeClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    this.props.onVolumeSliderDrag(event.nativeEvent.offsetX / 143);
+    this.props.onVolumeSliderDragStop(event.nativeEvent.offsetX / 143);
   };
 
   handleDrag = (event: DraggableEvent, data: DraggableData) => {
@@ -86,11 +90,14 @@ class TrackInfo extends React.Component<TrackInfoProps> {
                 <div className="wide-button-box">
                   <div className="button">
                     <div className="left">
-                      <i className="icon-volume"></i> 
+                      <i className="icon-volume"></i>
                     </div>
                     <div className="right">
                       <div className="volume-slider-box">
-                        <div className="volume-area">
+                        <div
+                          className="volume-area"
+                          onMouseDown={this.handleVolumeClick}
+                        >
                           <Draggable
                             axis="x"
                             bounds=".volume-area"
