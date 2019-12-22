@@ -1,16 +1,27 @@
 .moment-container {
-    &.highlight {
-        background-color: green;
-    }
     height: 100%;
     box-sizing: border-box;
+    position: relative;
 }
 
 
 .moment-name {
+    position: absolute;
+    z-index: 10;
     justify-content: center;
     text-align: center;
     font-size: 20px;
     width: 100%;
     height: 100%;
+}
+
+.moment-background {
+    position: absolute;
+    opacity: 0.4;
+    width: 100%;
+    height: 100%;
+
+    &.highlight {
+        opacity: 0.6;
+    }
 }

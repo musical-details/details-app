@@ -79,7 +79,7 @@ class Timeline extends React.Component<TimelineProps> {
               <TimelineMoment
                 name={"Bass"}
                 color={"#9C27BD"}
-                start={17200}
+                start={17000}
                 end={18000}
                 currentTime={this.props.currentTime}
               ></TimelineMoment>
