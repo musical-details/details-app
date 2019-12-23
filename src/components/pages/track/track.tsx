@@ -2,6 +2,7 @@ import React from "react";
 import TrackInfo from "../../entities/track-info/track-info";
 import TrackWaver from "../../entities/track-waver/track-waver";
 import Timeline from "../../entities/timeline/Timeline";
+import TimelineTimer from "../../entities/timeline/timeline-timer"
 
 import { SoundCloud, API_KEY } from "../../../core/soundcloud";
 import CSS from "csstype";
@@ -50,7 +51,7 @@ type SelectedRatingState = {
 };
 
 class TrackComponent extends React.Component<any, TrackState> {
-  trackId: number = 731566417;
+  trackId: number = 701499328;
   state: TrackState = {
     info: {
       cover: "",
@@ -277,6 +278,12 @@ class TrackComponent extends React.Component<any, TrackState> {
             moment={this.state.selectedRating.moments}
             currentTime={this.state.player.currentTime}
           ></Timeline>
+        </div>
+        <div className="track-timeline-timer-wrapper">
+          <TimelineTimer
+            currentTime={this.state.player.currentTime}
+            duration={this.state.player.duration}
+          ></TimelineTimer>
         </div>
         <div>"Track Description" section</div>
       </div>

@@ -86,8 +86,8 @@ class Timeline extends React.Component<TimelineProps> {
             <div className="timeline-section" id="timeline-section-5"></div>
           </div>
         </div>
-        <div className="timeline-pointer"></div>
-      </div>
+      <div className="timeline-pointer"></div>
+    </div>
     );
   }
 }
