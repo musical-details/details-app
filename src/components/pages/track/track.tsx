@@ -271,7 +271,7 @@ class TrackComponent extends React.Component<any, TrackState> {
             onChangeTime={this.handleChangeTime}
           ></TrackWaver>
         </div>
-        <div className="timeline-wrapper">
+        <div className="track-timeline-wrapper">
           <Timeline
             duration={this.state.player.duration}
             moment={this.state.selectedRating.moments}

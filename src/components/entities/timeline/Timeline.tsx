@@ -1,6 +1,6 @@
 import React from "react";
 import TimelineMoment from "../timeline-moment/TimelineMoment";
-
+import CSS from 'csstype';
 import "./Timeline.scss";
 
 type Moment = {
@@ -27,19 +27,18 @@ class Timeline extends React.Component<TimelineProps> {
   }
 
   render() {
+
+    let timelineFullStyles: CSS.Properties = {
+      width: 28 * this.props.duration + 'px',
+      transform: `translate(${-(this.props.currentTime)*28 + 420}px)`,
+      transition: '.25s linear'
+    }
+
     return (
       <div className="timeline-container">
-        <div className="timeline-full"
-          style={{
-            width: 28 * this.props.duration,
-            transform: `translate(${-(this.props.currentTime)*28 + 420}px)`,
-            transition: '.25s linear'
-          }}
-        >
+        <div className="timeline-full" style={timelineFullStyles}>
           <div className="timeline-sections-wrapper">
-            <div className="timeline-section" id="timeline-section-1"
-              style={{}}
-            >
+            <div className="timeline-section" id="timeline-section-1">
               <TimelineMoment
                 name={"Bass"}
                 color={"#9C27BD"}
@@ -51,7 +50,7 @@ class Timeline extends React.Component<TimelineProps> {
             <div className="timeline-section" id="timeline-section-2">
               <TimelineMoment
                 name={"Drums"}
-                color={"#b58000"}
+                color={"#00bcd4"}
                 start={10000}
                 end={24000}
                 currentTime={this.props.currentTime}
@@ -72,7 +71,7 @@ class Timeline extends React.Component<TimelineProps> {
             <TimelineMoment
                 name={"Bass"}
                 color={"#9C27BD"}
-                start={8000}
+                start={7000}
                 end={17000}
                 currentTime={this.props.currentTime}
               ></TimelineMoment>

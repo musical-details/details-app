@@ -41,8 +41,8 @@ class TimelineMoment extends React.Component<TimelineMomentProps> {
         
         return (
             <div className="moment-container" style={momentContainerStyleNormal}>
-                <div className="moment-name" style={{color: this.props.color}}>
-                    {this.props.name}
+                <div className="moment-name-container" style={{color: this.props.color}}>
+                    <div className="moment-name">{this.props.name}</div>
                 </div>
                 <div className={getMomentBackgroundClass()} style={{backgroundColor: this.props.color}}></div>
                 
