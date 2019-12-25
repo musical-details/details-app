@@ -46,6 +46,20 @@ class Timeline extends React.Component<TimelineProps> {
                 end={17000}
                 currentTime={this.props.currentTime}
               ></TimelineMoment>
+              <TimelineMoment
+                name={"Bass2"}
+                color={"#9C27BD"}
+                start={18000}
+                end={20000}
+                currentTime={this.props.currentTime}
+              ></TimelineMoment>
+              <TimelineMoment
+                name={"Drums2"}
+                color={"#00bcd4"}
+                start={20000}
+                end={24000}
+                currentTime={this.props.currentTime}
+              ></TimelineMoment>
             </div>
             <div className="timeline-section" id="timeline-section-2">
               <TimelineMoment
@@ -56,9 +70,7 @@ class Timeline extends React.Component<TimelineProps> {
                 currentTime={this.props.currentTime}
               ></TimelineMoment>
             </div>
-            <div className="timeline-section" id="timeline-section-3"
-              style={{}}
-            >
+            <div className="timeline-section" id="timeline-section-3">
             <TimelineMoment
                 name={"Vocals"}
                 color={"#e91e63"}
@@ -87,6 +99,16 @@ class Timeline extends React.Component<TimelineProps> {
           </div>
         </div>
       <div className="timeline-pointer"></div>
+      <div className="timeline-arrow left">
+        <div className="timeline-arrow-box">
+          <i className="icon-left-open"></i>
+        </div>
+      </div>
+      <div className="timeline-arrow right">
+        <div className="timeline-arrow-box">
+           <i className="icon-right-open"></i>
+        </div>
+      </div>
     </div>
     );
   }

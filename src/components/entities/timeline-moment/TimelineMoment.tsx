@@ -28,7 +28,7 @@ class TimelineMoment extends React.Component<TimelineMomentProps> {
         let momentContainerStyleNormal: CSS.Properties = {
             width: `${this.countWidth()}px`, 
             transform: `translate(${(this.props.start)*28/1000}px)`,
-            display: 'inline-block',
+            display: 'flex',
             borderBottom: `6px solid ${this.props.color}`,
         }
         
@@ -41,11 +41,10 @@ class TimelineMoment extends React.Component<TimelineMomentProps> {
         
         return (
             <div className="moment-container" style={momentContainerStyleNormal}>
-                <div className="moment-name-container" style={{color: this.props.color}}>
-                    <div className="moment-name">{this.props.name}</div>
-                </div>
+                    <div className="moment-name-container" style={{color: this.props.color}}>
+                        <div className="moment-name">{this.props.name}</div>
+                    </div>
                 <div className={getMomentBackgroundClass()} style={{backgroundColor: this.props.color}}></div>
-                
             </div>
         );
     }
