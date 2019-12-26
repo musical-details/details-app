@@ -42,7 +42,7 @@ type MomentState = {
   color: string;
   start: number;
   end: number;
-  timeline_section: number;
+  timelineSection: number;
 };
 
 type SelectedRatingState = {
@@ -76,7 +76,12 @@ class TrackComponent extends React.Component<any, TrackState> {
         nickname: "daddyaddy",
         avatar: ""
       },
-      moments: []
+      moments: [
+        {name: "Bass", description: "Descc", color: "#9C27BD", start: 8000, end: 17000, timelineSection: 1},
+        {name: "Bass2", description: "Descc", color: "#9C27BD", start: 18000, end: 20000, timelineSection: 1},
+        {name: "Drums", description: "Descc", color: "#00bcd4", start: 20000, end: 24000, timelineSection: 2},
+        {name: "Vocals", description: "Descc", color: "#e91e63", start: 20000, end: 24000, timelineSection: 3},
+      ]
     }
   };
 
