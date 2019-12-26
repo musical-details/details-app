@@ -9,6 +9,7 @@
 }
 
 .timeline-full {
+  min-width: 50%;
   height: 100%;
   position: absolute;
   background-image: url(../../../assets/svg/timeline-white-grid.svg);
@@ -30,7 +31,7 @@
   position: relative;
 }
 
-.timeline-section :hover{
+.timeline-section :hover {
   opacity: 0.85;
   cursor: pointer;
 }
@@ -56,7 +57,7 @@
     right: 0;
   }
 
-  &:hover{
+  &:hover {
     cursor: pointer;
     background-color: #65197252;
   }
@@ -68,13 +69,13 @@
   transition: width 2s;
 }
 
-.timeline-arrow-box{
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 50%;
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    color:white;
+.timeline-arrow-box {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 50%;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  color: white;
 }
