@@ -1,6 +1,6 @@
 import React from "react";
 import TimelineMoment from "../timeline-moment/TimelineMoment";
-
+import CSS from 'csstype';
 import "./Timeline.scss";
 
 type Moment = {
@@ -8,6 +8,7 @@ type Moment = {
   color: string;
   start: number;
   end: number;
+  timelineSection: number;
 };
 
 type Track = {
@@ -27,49 +28,42 @@ class Timeline extends React.Component<TimelineProps> {
   }
 
   render() {
+
+    let timelineFullStyles: CSS.Properties = {
+      width: 28 * this.props.duration + 'px',
+      transform: `translate(${-(this.props.currentTime)*28 + 420}px)`,
+      transition: '.25s linear'
+    }
+
     return (
       <div className="timeline-container">
-        <div
-          className="timeline-full"
-          style={{
-            width: 28 * this.props.duration,
-            transform: `translate(${-(this.props.currentTime)*28}px)`,
-            transition: '.2s linear'
-          }}
-        >
+        <div className="timeline-full" style={timelineFullStyles}>
           <div className="timeline-sections-wrapper">
-            <div
-              className="timeline-section"
-              id="timeline-section-1"
-              style={{}}
-            >
-              <TimelineMoment
-                name={"Bass"}
-                color={"#456"}
-                start={15000}
-                end={20000}
-                trackDuration={this.props.duration}
-              ></TimelineMoment>
+            <div className="timeline-section" id="timeline-section-1">
+
             </div>
             <div className="timeline-section" id="timeline-section-2">
-              <TimelineMoment
-                name={"Bass"}
-                color={"#459"}
-                start={40000}
-                end={50000}
-                trackDuration={this.props.duration}
-              ></TimelineMoment>
+
             </div>
-            <div
-              className="timeline-section"
-              id="timeline-section-3"
-              style={{}}
-            ></div>
+            <div className="timeline-section" id="timeline-section-3">
+
+            </div>
             <div className="timeline-section" id="timeline-section-4"></div>
             <div className="timeline-section" id="timeline-section-5"></div>
           </div>
         </div>
+      <div className="timeline-pointer"></div>
+      <div className="timeline-arrow left">
+        <div className="timeline-arrow-box">
+          <i className="icon-left-open"></i>
+        </div>
       </div>
+      <div className="timeline-arrow right">
+        <div className="timeline-arrow-box">
+           <i className="icon-right-open"></i>
+        </div>
+      </div>
+    </div>
     );
   }
 }

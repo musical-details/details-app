@@ -5,6 +5,7 @@ import { withRouter } from "react-router-dom";
 import TrackInfo from "../../entities/track-info/track-info";
 import TrackWaver from "../../entities/track-waver/track-waver";
 import Timeline from "../../entities/timeline/Timeline";
+import TimelineTimer from "../../entities/timeline/timeline-timer";
 
 import { SoundCloud, API_KEY } from "../../../core/soundcloud";
 import CSS from "csstype";
@@ -69,6 +70,7 @@ type MomentState = {
   color: string;
   start: number;
   end: number;
+  timelineSection: number;
 };
 
 class TrackComponent extends React.Component<TrackProps, TrackState> {
@@ -85,7 +87,40 @@ class TrackComponent extends React.Component<TrackProps, TrackState> {
         nickname: "daddyaddy",
         avatar: ""
       },
-      moments: []
+      moments: [
+        {
+          name: "Bass",
+          description: "Descc",
+          color: "#9C27BD",
+          start: 8000,
+          end: 17000,
+          timelineSection: 1
+        },
+        {
+          name: "Bass2",
+          description: "Descc",
+          color: "#9C27BD",
+          start: 18000,
+          end: 20000,
+          timelineSection: 1
+        },
+        {
+          name: "Drums",
+          description: "Descc",
+          color: "#00bcd4",
+          start: 20000,
+          end: 24000,
+          timelineSection: 2
+        },
+        {
+          name: "Vocals",
+          description: "Descc",
+          color: "#e91e63",
+          start: 20000,
+          end: 24000,
+          timelineSection: 3
+        }
+      ]
     }
   };
 
@@ -170,12 +205,18 @@ class TrackComponent extends React.Component<TrackProps, TrackState> {
             onChangeTime={this.handleChangeTime}
           ></TrackWaver>
         </div>
-        <div className="timeline-wrapper">
+        <div className="track-timeline-wrapper">
           <Timeline
             currentTime={this.props.isSetInPlayer ? this.props.currentTime : 0}
             duration={this.props.isSetInPlayer ? this.props.duration : 1}
             moment={this.state.selectedRating.moments}
           ></Timeline>
+        </div>
+        <div className="track-timeline-timer-wrapper">
+          <TimelineTimer
+            currentTime={this.state.player.currentTime}
+            duration={this.state.player.duration}
+          ></TimelineTimer>
         </div>
         <div>"Track Description" section</div>
       </div>

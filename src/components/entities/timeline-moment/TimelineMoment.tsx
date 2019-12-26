@@ -1,9 +1,7 @@
 import React from "react";
-
-//import MomentProps from '../../../core/moment-props/MomentProps';
 import { ReactComponent } from "*.svg";
-import Timeline from "../timeline/Timeline";
 
+import Timeline from "../timeline/Timeline";
 import './TimeLineMoment.scss'
 import CSS from 'csstype';
 import { start } from "repl";
@@ -13,59 +11,40 @@ type TimelineMomentProps = {
     color: string;
     start: number;
     end: number;
-    trackDuration: number;
+    currentTime: number;
 }
 
-type TimelineMomentState = {
-    width: number;
-    trackDuration: number;
-}
-
-class TimelineMoment extends React.Component<TimelineMomentProps, TimelineMomentState> {
-
-    state = {
-        width: 230,
-        trackDuration: 360000
-    }
+class TimelineMoment extends React.Component<TimelineMomentProps> {
 
     constructor(props: TimelineMomentProps) {
         super(props);
-        this.setState({
-            width: this.countWidth(this.props.start, this.props.end),
-            trackDuration: this.props.trackDuration
-        });
     }
 
-    countWidth = (start: number, end: number) => {
-        return (end - start)/1000*28;
-    }
-
-    componentDidUpdate(prevProps: TimelineMomentProps){
-        if(prevProps.start != this.props.start || prevProps.end != this.props.end)
-        this.setState({
-            width: this.countWidth(this.props.start, this.props.end)
-        });
-        if(prevProps.trackDuration != this.props.trackDuration)
-        this.setState({
-            trackDuration: this.props.trackDuration
-        });
+    countWidth = () => {
+        return (this.props.end - this.props.start)/1000*28;
     }
     
-
-
     render () {
-        let momentContainerStyle: CSS.Properties = {
-            backgroundColor: this.props.color,
-            width: `${this.state.width}px`, 
+        let momentContainerStyleNormal: CSS.Properties = {
+            width: `${this.countWidth()}px`, 
             transform: `translate(${(this.props.start)*28/1000}px)`,
-            display: 'inline-block'
+            display: 'flex',
+            borderBottom: `6px solid ${this.props.color}`,
         }
-         
+        
+
+        let getMomentBackgroundClass = (): string => {
+            return (this.props.currentTime >= this.props.start/1000 && this.props.currentTime <= this.props.end/1000)
+           ? "moment-background highlight"
+           : "moment-background";
+        }
+        
         return (
-            <div className="moment-container" style={momentContainerStyle}>
-                <div className="moment-name">
-                    {this.props.name}
-                </div>
+            <div className="moment-container" style={momentContainerStyleNormal}>
+                    <div className="moment-name-container" style={{color: this.props.color}}>
+                        <div className="moment-name">{this.props.name}</div>
+                    </div>
+                <div className={getMomentBackgroundClass()} style={{backgroundColor: this.props.color}}></div>
             </div>
         );
     }

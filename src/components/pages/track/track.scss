@@ -8,7 +8,7 @@
   align-items: center;
 }
 
-.timeline-wrapper {
+.track-timeline-wrapper {
   width: 840px;
   height: 350px;
   padding: 0px 25px;
@@ -18,4 +18,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.track-timeline-timer-wrapper {
+  width: 840px;
+  height: 50px;
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
 }
