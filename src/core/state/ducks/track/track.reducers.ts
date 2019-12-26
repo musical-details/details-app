@@ -1,40 +1,66 @@
-import { combineReducers } from "redux";
-import types from "./track.types";
-import { number } from "prop-types";
+import { AppTrackState, initialState } from "./track.state";
+import ActionTypes from "./track.types";
 
-interface TrackState {
-  trackId: number;
-  cover: string;
-  author: string;
-  title: string;
-  audio: HTMLAudioElement;
-  wave: Array<number>;
-  isPlaying: boolean;
-  currentTime: number;
-  duration: number;
-  volume: number;
-}
-
-const initialState: TrackState = {
-  trackId: 0,
-  cover: "",
-  author: "",
-  title: "",
-  audio: new Audio(),
-  wave: [],
-  isPlaying: false,
-  currentTime: 0,
-  duration: 0,
-  volume: 0
-};
-
-const trackReducer = (state: TrackState = initialState, action: any) => {
+const trackReducer = (
+  state: AppTrackState = initialState,
+  action: any
+): AppTrackState => {
   switch (action.type) {
-    case types.FETCH_AUDIO:
+    case ActionTypes.SET_TRACK_ID:
       return {
         ...state,
-        audio: new Audio(),
-        wave: []
+        trackId: action.payload.trackId
+      };
+    case ActionTypes.FETCH_META_PENDING:
+      return {
+        ...state
+      };
+    case ActionTypes.FETCH_META_SUCCESS:
+      return {
+        ...state,
+        cover: action.payload.cover,
+        title: action.payload.title,
+        author: action.payload.author
+      };
+    case ActionTypes.FETCH_META_ERROR:
+      return {
+        ...state
+      };
+    case ActionTypes.SET_AUDIO_SOURCE:
+      return {
+        ...state,
+        audioSource: action.payload.audioSource,
+        isPlaying: false,
+        currentTime: 0,
+        volume: 1,
+        duration: 0
+      };
+    case ActionTypes.SET_AUDIO_DURATION:
+      return {
+        ...state,
+        duration: action.payload.duration
+      };
+    case ActionTypes.SET_AUDIO_STATUS:
+      return {
+        ...state,
+        isPlaying: action.payload.status
+      };
+    case ActionTypes.TOOGLE_AUDIO_STATUS:
+      return {
+        ...state,
+        isPlaying: !state.isPlaying
+      };
+    case ActionTypes.SET_AUDIO_CURRENT_TIME:
+      return {
+        ...state,
+        currentTime: action.payload.currentTime
+      };
+    case ActionTypes.TRANSFER_META_SUCCESS:
+      return {
+        ...state,
+        cover: action.payload.cover,
+        title: action.payload.title,
+        author: action.payload.author
       };
     default:
       return state;

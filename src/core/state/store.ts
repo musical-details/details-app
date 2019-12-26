@@ -1,3 +1,4 @@
+import { AppViewedTrackState } from "./ducks/viewed-track/viewed-track.state";
 import {
   createStore,
   applyMiddleware,
@@ -5,15 +6,21 @@ import {
   Reducer,
   Store
 } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
 import thunkMiddleware from "redux-thunk";
 
 import * as reducers from "./ducks";
+import { AppTrackState } from "./ducks/track/track.state";
 
-type State = any;
+export type AppState = {
+  track: AppTrackState;
+  viewedTrack: AppViewedTrackState;
+};
 
-export default function configureStore(initialState: State): Store {
+export default function getStore(): Store {
   const rootReducer: Reducer = combineReducers(reducers);
-  // const middlewares = applyMiddleware(y);
+  const middlewares = applyMiddleware(thunkMiddleware);
+  const composeEnhancers = composeWithDevTools({});
 
-  return createStore(rootReducer, initialState);
+  return createStore(rootReducer, undefined, composeEnhancers(middlewares));
 }

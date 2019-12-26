@@ -1,4 +1,7 @@
-import React from "react";
+import React, { Dispatch, ComponentClass } from "react";
+import { connect, ConnectedComponent } from "react-redux";
+import { withRouter } from "react-router-dom";
+
 import TrackInfo from "../../entities/track-info/track-info";
 import TrackWaver from "../../entities/track-waver/track-waver";
 import Timeline from "../../entities/timeline/Timeline";
@@ -8,16 +11,35 @@ import CSS from "csstype";
 
 import "./track.scss";
 
-type TrackState = {
-  info: TrackInfoState;
-  player: TrackPlayerState;
-  selectedRating: SelectedRatingState;
-};
+import { AppState } from "../../../core/state/store";
+import actions from "../../../core/state/ducks/track/track.actions";
+import trackOperations from "../../../core/state/ducks/track/track.operations";
+import viewedTrackOperations from "../../../core/state/ducks/viewed-track/viewed-track.operations";
 
-type TrackInfoState = {
+type TrackProps = {
+  trackId: number;
   cover: string;
   author: string;
   title: string;
+  audio: string;
+  wave: Array<number>;
+  isPlaying: boolean;
+  currentTime: number;
+  duration: number;
+  volume: number;
+  match?: any;
+  fetchTrack: (trackId: number) => void;
+  transferTrackToPlayer: (data: {
+    trackId: number;
+    cover: string;
+    author: string;
+    title: string;
+  }) => void;
+};
+
+type TrackState = {
+  player: TrackPlayerState;
+  selectedRating: SelectedRatingState;
 };
 
 type TrackPlayerState = {
@@ -49,15 +71,10 @@ type SelectedRatingState = {
   moments: Array<MomentState>;
 };
 
-class TrackComponent extends React.Component<any, TrackState> {
+class TrackComponent extends React.Component<TrackProps, TrackState> {
   trackId: number = 272630093;
+  audio: HTMLAudioElement;
   state: TrackState = {
-    info: {
-      cover: "",
-      author: "",
-      title: ""
-    },
-
     player: {
       audio: new Audio(),
       wave: [],
@@ -78,11 +95,22 @@ class TrackComponent extends React.Component<any, TrackState> {
     }
   };
 
-  constructor(props: any) {
+  constructor(props: TrackProps) {
     super(props);
+    this.audio = new Audio();
+    /*
+      this.props.transferTrackToPlayer({
+        trackId: this.props.trackId,
+        cover: this.props.cover,
+        title: this.props.title,
+        author: this.props.author
+      });
+      */
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    const { trackId } = this.props.match.params;
+    await this.props.fetchTrack(trackId);
     this.fetchTrack(this.trackId);
     this.fetchAudio(this.trackId);
     this.randomWave();
@@ -266,9 +294,9 @@ class TrackComponent extends React.Component<any, TrackState> {
       <div>
         <div className="track-info-wrapper">
           <TrackInfo
-            cover={this.state.info.cover}
-            author={this.state.info.author}
-            title={this.state.info.title}
+            cover={this.props.cover}
+            author={this.props.author}
+            title={this.props.title}
             volume={this.state.player.volume}
             isPlaying={this.state.player.isPlaying}
             onPlayButtonClick={this.handlePlayButtonClick}
@@ -297,4 +325,45 @@ class TrackComponent extends React.Component<any, TrackState> {
   }
 }
 
-export default TrackComponent;
+const mapStateToProps = (state: AppState): TrackProps | any => ({
+  trackId: state.viewedTrack.trackId,
+  cover: state.viewedTrack.cover,
+  author: state.viewedTrack.author,
+  title: state.viewedTrack.title,
+  audio: state.track.audioSource,
+  wave: state.track.wave,
+  isPlaying: state.track.isPlaying,
+  currentTime: state.track.currentTime,
+  duration: state.track.duration,
+  volume: state.track.volume
+});
+
+const mapDispatchToProps = (dispatch: Dispatch<any>): TrackProps | any => ({
+  fetchTrack: async (trackId: number) => {
+    await dispatch(viewedTrackOperations.fetchViewedTrack(trackId));
+  },
+  transferTrackToPlayer: (data: {
+    trackId: number;
+    cover: string;
+    author: string;
+    title: string;
+  }) => {
+    dispatch(
+      trackOperations.transferTrackToPlayer({
+        trackId: data.trackId,
+        cover: data.cover,
+        author: data.author,
+        title: data.title
+      })
+    );
+  }
+});
+
+const TrackContainer: ComponentClass = withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(TrackComponent) as ConnectedComponent<typeof TrackComponent, any>
+);
+
+export default TrackContainer;

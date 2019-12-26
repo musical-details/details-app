@@ -1,114 +1,115 @@
 import React from "react";
-import { SoundCloud, API_KEY } from "../../../core/soundcloud";
+import { connect, ConnectedComponent } from "react-redux";
+import { Dispatch } from "redux";
 import CSS from "csstype";
 
 import "./global-player.scss";
+import { AppState } from "../../../core/state/store";
+import trackOperations from "../../../core/state/ducks/track/track.operations";
+import actions from "../../../core/state/ducks/track/track.actions";
 
-type GlobalPlayerState = {
-  audio_url: string;
-  audio: HTMLAudioElement;
-  isPlayed: boolean;
-  playerIcon: string;
-  currentTime: number;
-  duration: number;
+type GlobalPlayerProps = {
+  cover: string;
   author: string;
   title: string;
-  cover: string;
+  audioSource: string;
+  isPlaying: boolean;
+  currentTime: number;
+  duration: number;
+  volume: number;
+  fetchTrack: () => void;
+  onAudioCanPlay: (duration: number) => void;
+  onAudioPlay: () => void;
+  onAudioPause: () => void;
+  onAudioVolumeChange: (volume: number) => void;
+  onAudioTimeUpdate: (currentTime: number) => void;
 };
 
-class GlobalPlayer extends React.Component<any, GlobalPlayerState> {
-  state: GlobalPlayerState = {
-    audio_url: "",
-    audio: new Audio(),
-    isPlayed: false,
-    playerIcon: "icon-play",
-    currentTime: 0,
-    duration: 0,
-    author: "",
-    title: "",
-    cover: ""
-  };
+type GlobalPlayerState = any;
 
-  trackId: number = 723672529;
+class GlobalPlayerComponent extends React.Component<
+  GlobalPlayerProps,
+  GlobalPlayerState
+> {
+  audio: HTMLAudioElement;
 
-  constructor(props: any) {
+  constructor(props: GlobalPlayerProps) {
     super(props);
-    this.fetchTrack(this.trackId);
-  }
-
-  async fetchTrack(trackId: number): Promise<any> {
-    try {
-      let url: string = `https://api.soundcloud.com/tracks/${trackId}?client_id=${API_KEY}`;
-      const response: Response = await fetch(url);
-      const data: SoundCloud.TrackData = await response.json();
-      this.setState({
-        cover: data.artwork_url,
-        title: data.title,
-        author: data.user.username
-      });
-    } catch (e) {
-      console.error(e);
-    }
+    this.audio = new Audio();
   }
 
   componentDidMount() {
-    let url: string = `https://api.soundcloud.com/tracks/${this.trackId}/stream?client_id=${API_KEY}`;
-    this.setState(
-      {
-        audio_url: url,
-        audio: new Audio(url)
-      },
-      () => {
-        this.state.audio.oncanplaythrough = this.setDuration;
-        // this.state.audio.play =
-        this.state.audio.ontimeupdate = this.setCurrentTime;
-        this.state.audio.onended = this.stopAudio;
-      }
-    );
+    this.loadAudio();
   }
 
-  handlePlayButtonClick = (): void => {
-    this.setState({ isPlayed: !this.state.isPlayed }, this.toogleAudio);
+  componentWillReceiveProps(nextProps: GlobalPlayerProps) {
+    if (this.props.isPlaying !== nextProps.isPlaying) {
+      nextProps.isPlaying ? this.audio.play() : this.audio.pause();
+    }
+    if (this.props.audioSource !== nextProps.audioSource) {
+      this.loadAudio();
+    }
+  }
+
+  componentWillUnmount() {
+    this.audio.pause();
+    delete this.audio;
+  }
+
+  handleAudioCanPlay = () => {
+    this.props.onAudioCanPlay(this.audio.duration);
   };
 
-  toogleAudio = (): void => {
-    this.state.isPlayed ? this.playAudio() : this.pauseAudio();
+  handleAudioPlay = () => {
+    this.props.onAudioPlay();
   };
 
-  playAudio = (): void => {
-    this.setState({ playerIcon: "icon-pause" });
-    this.state.audio.play();
+  handleAudioPause = () => {
+    this.props.onAudioPause();
   };
 
-  pauseAudio = (): void => {
-    this.setState({ playerIcon: "icon-play" });
-    this.state.audio.pause();
+  handleAudioTimeUpdate = () => {
+    this.props.onAudioTimeUpdate(this.audio.currentTime);
   };
 
-  stopAudio = (): void => {
-    this.setState({ playerIcon: "icon-play" });
-    this.state.audio.load();
-  };
+  handleAudioEnded = () => {};
+  handleAudioWaiting = () => {};
+  handleAudioError = () => {};
 
-  setDuration = (): void => {
-    this.setState({ duration: this.state.audio.duration });
-  };
+  async loadAudio() {
+    await this.props.fetchTrack();
+    this.audio = new Audio(this.props.audioSource);
+    this.audio.oncanplaythrough = this.handleAudioCanPlay;
+    this.audio.onplay = this.handleAudioPlay;
+    this.audio.ontimeupdate = this.handleAudioTimeUpdate;
+    this.audio.onpause = this.handleAudioPause;
+    this.audio.onended = this.handleAudioEnded;
+    this.audio.onwaiting = this.handleAudioWaiting;
+    this.audio.onerror = this.handleAudioError;
+  }
 
-  setCurrentTime = (): void => {
-    this.setState({ currentTime: this.state.audio.currentTime });
+  handlePlayButtonClick = (event: React.MouseEvent) => {
+    this.props.isPlaying ? this.props.onAudioPause() : this.props.onAudioPlay();
   };
 
   render() {
-    const { currentTime, duration } = this.state;
+    const { currentTime, duration, isPlaying } = this.props;
+
     let BarNotFillStyles: CSS.Properties = {
       width: 100 - (currentTime / duration) * 100 + "%"
     };
+
+    let TrackCoverStyles: CSS.Properties = {
+      backgroundImage: `url(${this.props.cover})`
+    };
+
+    let playButtonIcon: string = isPlaying ? "icon-pause" : "icon-play";
 
     return (
       <div className="global-player">
         <div>
           <div className="button" onClick={this.handlePlayButtonClick}>
-            <i className={this.state.playerIcon}></i>
+            <i className={playButtonIcon}></i>
           </div>
           <div className="bar-box">
             <div className="bar">
@@ -120,18 +121,15 @@ class GlobalPlayer extends React.Component<any, GlobalPlayerState> {
           </div>
           <div className="track-box">
             <div className="left">
-              <div
-                className="track-cover"
-                style={{ backgroundImage: `url(${this.state.cover})` }}
-              ></div>
+              <div className="track-cover" style={TrackCoverStyles}></div>
             </div>
             <div className="right">
               <div>
                 <div>
-                  <span className="author">{this.state.author}</span>
+                  <span className="author">{this.props.author}</span>
                 </div>
                 <div>
-                  <span className="title">{this.state.title}</span>
+                  <span className="title">{this.props.title}</span>
                 </div>
               </div>
             </div>
@@ -142,4 +140,43 @@ class GlobalPlayer extends React.Component<any, GlobalPlayerState> {
   }
 }
 
-export default GlobalPlayer;
+const mapStateToProps = (state: AppState): GlobalPlayerProps | any => ({
+  cover: state.track.cover,
+  author: state.track.author,
+  title: state.track.title,
+  audioSource: state.track.audioSource,
+  isPlaying: state.track.isPlaying,
+  currentTime: state.track.currentTime,
+  duration: state.track.duration,
+  volume: state.track.volume
+});
+
+const mapDispatchToProps = (
+  dispatch: Dispatch<any>
+): GlobalPlayerProps | any => ({
+  fetchTrack: async () => {
+    await dispatch(trackOperations.fetchTrack(577456752));
+  },
+  onAudioCanPlay: (duration: number) => {
+    dispatch(actions.setAudioDuration(duration));
+  },
+  onAudioPlay: () => {
+    dispatch(actions.setAudioStatus(true));
+  },
+  onAudioPause: () => {
+    dispatch(actions.setAudioStatus(false));
+  },
+  onAudioVolumeChange: (volume: number) => {
+    dispatch(() => {});
+  },
+  onAudioTimeUpdate: (currentTime: number) => {
+    dispatch(actions.setAudioCurrentTime(currentTime));
+  }
+});
+
+const GlobalPlayerContainer: ConnectedComponent<
+  typeof GlobalPlayerComponent,
+  any
+> = connect(mapStateToProps, mapDispatchToProps)(GlobalPlayerComponent);
+
+export default GlobalPlayerContainer;
