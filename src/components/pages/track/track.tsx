@@ -214,8 +214,8 @@ class TrackComponent extends React.Component<TrackProps, TrackState> {
         </div>
         <div className="track-timeline-timer-wrapper">
           <TimelineTimer
-            currentTime={this.state.player.currentTime}
-            duration={this.state.player.duration}
+            currentTime={this.props.currentTime}
+            duration={this.props.duration}
           ></TimelineTimer>
         </div>
         <div>"Track Description" section</div>
