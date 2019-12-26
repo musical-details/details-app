@@ -55,11 +55,13 @@ class TrackWaver extends React.Component<TrackWaverProps> {
   };
 
   createSticks = (): Array<JSX.Element> | void => {
-    if (!this.props.duration) return;
     let sticks: Array<JSX.Element> = [];
-    let activeArea = Math.ceil(
-      (this.props.currentTime / this.props.duration) * this.sticksCount
-    );
+    let activeArea: number;
+    if (this.props.duration)
+      activeArea = Math.ceil(
+        (this.props.currentTime / this.props.duration) * this.sticksCount
+      );
+    else activeArea = 0;
 
     for (let i = 0; i < activeArea; ++i) {
       sticks.push(

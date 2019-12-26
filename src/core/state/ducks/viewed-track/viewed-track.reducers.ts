@@ -26,6 +26,16 @@ const viewedTrackReducer = (
       return {
         ...state
       };
+    case ActionTypes.SET_IN_PLAYER:
+      return {
+        ...state,
+        isSetInPlayer: true
+      };
+    case ActionTypes.UNSET_IN_PLAYER:
+      return {
+        ...state,
+        isSetInPlayer: false
+      };
     default:
       return state;
   }

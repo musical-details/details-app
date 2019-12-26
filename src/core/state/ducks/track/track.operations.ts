@@ -23,6 +23,7 @@ function fetchTrack(trackId: number) {
 
 function transferTrackToPlayer(data: {
   trackId: number;
+  autoplay: boolean;
   cover: string;
   author: string;
   title: string;
@@ -38,6 +39,7 @@ function transferTrackToPlayer(data: {
       })
     );
     dispatch(actions.setAudioSource(audioUrl));
+    dispatch(actions.setAudioAutoplay(data.autoplay));
   };
 }
 

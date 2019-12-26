@@ -12,6 +12,7 @@ type Rating = {
 
 export interface AppViewedTrackState {
   readonly trackId: number;
+  readonly isSetInPlayer: boolean;
   readonly cover: string;
   readonly author: string;
   readonly title: string;
@@ -22,6 +23,7 @@ export interface AppViewedTrackState {
 
 export const initialState: AppViewedTrackState = {
   trackId: 0,
+  isSetInPlayer: false,
   cover: "",
   author: "",
   title: "",

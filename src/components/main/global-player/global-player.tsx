@@ -9,12 +9,14 @@ import trackOperations from "../../../core/state/ducks/track/track.operations";
 import actions from "../../../core/state/ducks/track/track.actions";
 
 type GlobalPlayerProps = {
+  autoplay: boolean;
   cover: string;
   author: string;
   title: string;
   audioSource: string;
   isPlaying: boolean;
   currentTime: number;
+  newTime: number;
   duration: number;
   volume: number;
   fetchTrack: () => void;
@@ -23,6 +25,7 @@ type GlobalPlayerProps = {
   onAudioPause: () => void;
   onAudioVolumeChange: (volume: number) => void;
   onAudioTimeUpdate: (currentTime: number) => void;
+  onAudioTimeChange: (newTime: number) => void;
 };
 
 type GlobalPlayerState = any;
@@ -38,25 +41,33 @@ class GlobalPlayerComponent extends React.Component<
     this.audio = new Audio();
   }
 
-  componentDidMount() {
-    this.loadAudio();
+  async componentDidMount() {
+    await this.props.fetchTrack();
+    await this.loadAudio();
   }
 
-  componentWillReceiveProps(nextProps: GlobalPlayerProps) {
-    if (this.props.isPlaying !== nextProps.isPlaying) {
-      nextProps.isPlaying ? this.audio.play() : this.audio.pause();
+  componentDidUpdate(prevProps: GlobalPlayerProps) {
+    if (prevProps.isPlaying !== this.props.isPlaying) {
+      this.props.isPlaying ? this.audio.play() : this.audio.pause();
     }
-    if (this.props.audioSource !== nextProps.audioSource) {
+    if (prevProps.audioSource !== this.props.audioSource) {
       this.loadAudio();
+    }
+    if (prevProps.newTime !== this.props.newTime) {
+      this.audio.currentTime = this.props.newTime;
+      this.props.onAudioTimeUpdate(this.props.newTime);
+    }
+    if (prevProps.volume !== this.props.volume) {
+      this.audio.volume = this.props.volume;
     }
   }
 
   componentWillUnmount() {
     this.audio.pause();
-    delete this.audio;
   }
 
   handleAudioCanPlay = () => {
+    if (this.props.autoplay) this.props.onAudioPlay();
     this.props.onAudioCanPlay(this.audio.duration);
   };
 
@@ -77,8 +88,9 @@ class GlobalPlayerComponent extends React.Component<
   handleAudioError = () => {};
 
   async loadAudio() {
-    await this.props.fetchTrack();
+    this.audio.pause();
     this.audio = new Audio(this.props.audioSource);
+    this.audio.load();
     this.audio.oncanplaythrough = this.handleAudioCanPlay;
     this.audio.onplay = this.handleAudioPlay;
     this.audio.ontimeupdate = this.handleAudioTimeUpdate;
@@ -90,6 +102,12 @@ class GlobalPlayerComponent extends React.Component<
 
   handlePlayButtonClick = (event: React.MouseEvent) => {
     this.props.isPlaying ? this.props.onAudioPause() : this.props.onAudioPlay();
+  };
+
+  handleBarAreaClick = (event: React.MouseEvent | any) => {
+    const { offsetX, toElement } = event.nativeEvent;
+    const newTime = (offsetX / toElement.offsetWidth) * this.props.duration;
+    this.props.onAudioTimeChange(newTime);
   };
 
   render() {
@@ -112,8 +130,10 @@ class GlobalPlayerComponent extends React.Component<
             <i className={playButtonIcon}></i>
           </div>
           <div className="bar-box">
-            <div className="bar">
-              <div className="not-fill" style={BarNotFillStyles}></div>
+            <div className="bar-area" onClick={this.handleBarAreaClick}>
+              <div className="bar">
+                <div className="not-fill" style={BarNotFillStyles}></div>
+              </div>
             </div>
           </div>
           <div className="volume-box">
@@ -141,12 +161,14 @@ class GlobalPlayerComponent extends React.Component<
 }
 
 const mapStateToProps = (state: AppState): GlobalPlayerProps | any => ({
+  autoplay: state.track.autoplay,
   cover: state.track.cover,
   author: state.track.author,
   title: state.track.title,
   audioSource: state.track.audioSource,
   isPlaying: state.track.isPlaying,
   currentTime: state.track.currentTime,
+  newTime: state.track.newTime,
   duration: state.track.duration,
   volume: state.track.volume
 });
@@ -171,6 +193,9 @@ const mapDispatchToProps = (
   },
   onAudioTimeUpdate: (currentTime: number) => {
     dispatch(actions.setAudioCurrentTime(currentTime));
+  },
+  onAudioTimeChange: (newTime: number) => {
+    dispatch(actions.setAudioNewTime(newTime));
   }
 });
 

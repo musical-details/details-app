@@ -36,9 +36,19 @@ const fetchMetaError = (error: any): Action => ({
   error: error
 });
 
+const setInPlayer = (): Action => ({
+  type: ActionTypes.SET_IN_PLAYER
+});
+
+const unsetInPlayer = (): Action => ({
+  type: ActionTypes.UNSET_IN_PLAYER
+});
+
 export default {
   setTrackId,
   fetchMetaPending,
   fetchMetaSuccess,
-  fetchMetaError
+  fetchMetaError,
+  setInPlayer,
+  unsetInPlayer
 };

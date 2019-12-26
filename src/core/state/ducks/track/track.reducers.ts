@@ -55,12 +55,27 @@ const trackReducer = (
         ...state,
         currentTime: action.payload.currentTime
       };
+    case ActionTypes.SET_AUDIO_NEW_TIME:
+      return {
+        ...state,
+        newTime: action.payload.newTime
+      };
     case ActionTypes.TRANSFER_META_SUCCESS:
       return {
         ...state,
         cover: action.payload.cover,
         title: action.payload.title,
         author: action.payload.author
+      };
+    case ActionTypes.SET_AUDIO_AUTOPLAY:
+      return {
+        ...state,
+        autoplay: action.payload.autoplay
+      };
+    case ActionTypes.SET_AUDIO_VOLUME:
+      return {
+        ...state,
+        volume: action.payload.volume
       };
     default:
       return state;

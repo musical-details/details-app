@@ -43,25 +43,6 @@ const setAudioSource = (audioSource: string): Action => ({
   }
 });
 
-const fetchWavePending = (trackId: number): Action => ({
-  type: "",
-  payload: {
-    trackId: trackId
-  }
-});
-
-const fetchWaveSuccess = (wave: Array<number>): Action => ({
-  type: "",
-  payload: {
-    wave: wave
-  }
-});
-
-const fetchWaveError = (error: any): Action => ({
-  type: "",
-  error: error
-});
-
 const setAudioDuration = (duration: number): Action => ({
   type: ActionTypes.SET_AUDIO_DURATION,
   payload: {
@@ -87,6 +68,20 @@ const setAudioCurrentTime = (currentTime: number): Action => ({
   }
 });
 
+const setAudioNewTime = (newTime: number): Action => ({
+  type: ActionTypes.SET_AUDIO_NEW_TIME,
+  payload: {
+    newTime: newTime
+  }
+});
+
+const setAudioVolume = (volume: number): Action => ({
+  type: ActionTypes.SET_AUDIO_VOLUME,
+  payload: {
+    volume: volume
+  }
+});
+
 const transferMetaSuccess = (data: {
   title: string;
   cover: string;
@@ -100,6 +95,13 @@ const transferMetaSuccess = (data: {
   }
 });
 
+const setAudioAutoplay = (autoplay: boolean) => ({
+  type: ActionTypes.SET_AUDIO_AUTOPLAY,
+  payload: {
+    autoplay: autoplay
+  }
+});
+
 export default {
   setTrackId,
   fetchMetaPending,
@@ -110,5 +112,8 @@ export default {
   setAudioStatus,
   toogleAudioStatus,
   setAudioCurrentTime,
-  transferMetaSuccess
+  setAudioNewTime,
+  transferMetaSuccess,
+  setAudioAutoplay,
+  setAudioVolume
 };
