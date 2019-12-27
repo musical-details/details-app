@@ -1,0 +1,17 @@
+@import "../../../assets/styles/global";
+
+.rate {
+  @extend .middle;
+  input {
+    width: 350px;
+    background: #222222;
+    color: #aaa;
+    padding: 15px;
+    border-radius: 20px;
+    border: none;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}

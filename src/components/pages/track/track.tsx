@@ -32,6 +32,7 @@ type TrackProps = {
   duration: number;
   volume: number;
   match?: any;
+  unsetPlayer: () => void;
   fetchTrack: (trackId: number) => void;
   transferTrackToPlayer: (data: {
     trackId: number;
@@ -129,8 +130,22 @@ class TrackComponent extends React.Component<TrackProps, TrackState> {
     this.audio = new Audio();
   }
 
-  async componentDidMount() {
+  componentDidMount() {
+    this.loadTrack();
+  }
+
+  componentDidUpdate(oldProps: TrackProps) {
+    if (this.props.match.params != oldProps.match.params) {
+      this.loadTrack();
+    }
+  }
+
+  async loadTrack() {
     const { trackId } = this.props.match.params;
+
+    if (this.props.trackId != trackId) {
+      this.props.unsetPlayer();
+    }
     await this.props.fetchTrack(parseInt(trackId));
     this.randomWave();
   }
@@ -233,6 +248,9 @@ const mapStateToProps = (state: AppState): TrackProps | any => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): TrackProps | any => ({
+  unsetPlayer: () => {
+    dispatch(viewedTrackActions.unsetInPlayer());
+  },
   fetchTrack: async (trackId: number) => {
     await dispatch(viewedTrackOperations.fetchViewedTrack(trackId));
   },

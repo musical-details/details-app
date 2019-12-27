@@ -6,6 +6,7 @@ import TrackComponent from "../../pages/track/track";
 import GlobalPlayer from "../global-player/global-player";
 import { useParams } from "react-router";
 import MyProfileComponent from "../../pages/my-profile/my-profile";
+import RateComponent from "../../pages/rate/rate";
 
 const Content: React.FC = () => {
   return (
@@ -16,6 +17,7 @@ const Content: React.FC = () => {
       <div className="pages">
         <Route exact path="/track/:trackId/" component={TrackComponent} />
         <Route exact path="/my-profile" component={MyProfileComponent} />
+        <Route exact path="/rate" component={RateComponent} />
       </div>
     </div>
   );
