@@ -5,6 +5,7 @@ import "./Content.scss";
 import TrackComponent from "../../pages/track/track";
 import GlobalPlayer from "../global-player/global-player";
 import { useParams } from "react-router";
+import MyProfileComponent from "../../pages/my-profile/my-profile";
 
 const Content: React.FC = () => {
   return (
@@ -14,6 +15,7 @@ const Content: React.FC = () => {
       </div>
       <div className="pages">
         <Route exact path="/track/:trackId/" component={TrackComponent} />
+        <Route exact path="/my-profile" component={MyProfileComponent} />
       </div>
     </div>
   );

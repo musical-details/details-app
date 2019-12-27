@@ -131,7 +131,7 @@ class TrackComponent extends React.Component<TrackProps, TrackState> {
 
   async componentDidMount() {
     const { trackId } = this.props.match.params;
-    await this.props.fetchTrack(trackId);
+    await this.props.fetchTrack(parseInt(trackId));
     this.randomWave();
   }
 

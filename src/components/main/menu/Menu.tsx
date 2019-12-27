@@ -3,6 +3,7 @@ import "./Menu.scss";
 import Logo from "../logo/Logo";
 import GradientHeader from "../../shared/gradient-header/gradient-header";
 import UserBar from "../user-bar/user-bar";
+import { BrowserRouter, NavLink, Link } from "react-router-dom";
 
 const Menu: React.FC = () => {
   return (
@@ -22,19 +23,23 @@ const Menu: React.FC = () => {
 
             <div>
               <ul className="options">
-                <li>
-                  <span>Home</span>
-                </li>
-                <li>
-                  <span>My Profile</span>
-                </li>
-                <li className="selected">
-                  <div>
-                    <div>
+                <div>
+                  <NavLink activeClassName="selected" to="/home">
+                    <li>
+                      <span>Home</span>
+                    </li>
+                  </NavLink>
+                  <NavLink activeClassName="selected" to="/my-profile">
+                    <li>
+                      <span>My profile</span>
+                    </li>
+                  </NavLink>
+                  <NavLink activeClassName="selected" to="/rate">
+                    <li>
                       <span>Rate new Track</span>
-                    </div>
-                  </div>
-                </li>
+                    </li>
+                  </NavLink>
+                </div>
               </ul>
             </div>
           </div>

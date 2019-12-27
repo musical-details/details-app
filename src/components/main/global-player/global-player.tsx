@@ -7,8 +7,10 @@ import "./global-player.scss";
 import { AppState } from "../../../core/state/store";
 import trackOperations from "../../../core/state/ducks/track/track.operations";
 import actions from "../../../core/state/ducks/track/track.actions";
+import { NavLink } from "react-router-dom";
 
 type GlobalPlayerProps = {
+  trackId: number;
   autoplay: boolean;
   cover: string;
   author: string;
@@ -139,21 +141,23 @@ class GlobalPlayerComponent extends React.Component<
           <div className="volume-box">
             <i className="icon-volume"></i>
           </div>
-          <div className="track-box">
-            <div className="left">
-              <div className="track-cover" style={TrackCoverStyles}></div>
-            </div>
-            <div className="right">
-              <div>
+          <NavLink to={`/track/${this.props.trackId}`}>
+            <div className="track-box">
+              <div className="left">
+                <div className="track-cover" style={TrackCoverStyles}></div>
+              </div>
+              <div className="right">
                 <div>
-                  <span className="author">{this.props.author}</span>
-                </div>
-                <div>
-                  <span className="title">{this.props.title}</span>
+                  <div>
+                    <span className="author">{this.props.author}</span>
+                  </div>
+                  <div>
+                    <span className="title">{this.props.title}</span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          </NavLink>
         </div>
       </div>
     );
@@ -162,6 +166,7 @@ class GlobalPlayerComponent extends React.Component<
 
 const mapStateToProps = (state: AppState): GlobalPlayerProps | any => ({
   autoplay: state.track.autoplay,
+  trackId: state.track.trackId,
   cover: state.track.cover,
   author: state.track.author,
   title: state.track.title,

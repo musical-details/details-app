@@ -10,6 +10,7 @@ function fetchViewedTrack(trackId: number) {
   ): Promise<any> => {
     dispatch(actions.setTrackId(trackId));
     const metaUrl: string = `https://api.soundcloud.com/tracks/${trackId}?client_id=${API_KEY}`;
+    const waveUrl: string = `localhost`;
     try {
       dispatch(actions.fetchMetaPending(trackId));
       const response: Response = await fetch(metaUrl);
@@ -22,6 +23,8 @@ function fetchViewedTrack(trackId: number) {
       dispatch(actions.fetchMetaError(error));
       return;
     }
+    try {
+    } catch (error) {}
   };
 }
 

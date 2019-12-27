@@ -43,7 +43,18 @@
   margin: 0;
   padding: 0;
 
-  & > li {
+  a {
+    text-decoration: none;
+
+    &:hover span,
+    &.selected span {
+      background: linear-gradient(to right, #f94922, #bc209b);
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  }
+
+  li {
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -54,17 +65,6 @@
     box-sizing: border-box;
     text-align: left;
     line-height: 10px;
-
-    &:hover {
-      cursor: pointer;
-    }
-
-    &:hover span,
-    &.selected span {
-      background: linear-gradient(to right, #f94922, #bc209b);
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
 
     span {
       text-transform: uppercase;
