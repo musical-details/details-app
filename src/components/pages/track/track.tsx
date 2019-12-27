@@ -212,12 +212,6 @@ class TrackComponent extends React.Component<TrackProps, TrackState> {
             moment={this.state.selectedRating.moments}
           ></Timeline>
         </div>
-        <div className="track-timeline-timer-wrapper">
-          <TimelineTimer
-            currentTime={this.props.currentTime}
-            duration={this.props.duration}
-          ></TimelineTimer>
-        </div>
         <div>"Track Description" section</div>
       </div>
     );

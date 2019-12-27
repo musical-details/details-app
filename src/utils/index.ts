@@ -1,8 +1,22 @@
-export const convertTimeFormat = (seconds: number):string => {
-    let s = Math.floor(seconds);
-    let ms = (seconds * 1000) - (Math.floor(seconds) * 1000);
-    let date = new Date(0,0,0,0,0, s, ms);
-    return '' + ('0' + date.getMinutes()).slice(-2) + 
-      ':' + ('0' + date.getSeconds()).slice(-2) + 
-      ':' + ('0000' + date.getMilliseconds()).slice(-3);
-  }
+type Time = {
+  signed: string;
+  h?: string;
+  m: string;
+  s: string;
+  ms: string;
+};
+
+export const convertToMMSSMS = (seconds: number): Time => {
+  let m: number = Math.floor(Math.abs(seconds) / 60);
+  seconds %= 60;
+  let s: number = Math.floor(seconds);
+  let ms: number = Math.floor(seconds * 1000) % 1000;
+  ms = Math.abs(ms);
+
+  return {
+    signed: s < 0 ? `-` : ``,
+    m: m < 10 ? `0${Math.abs(m)}` : `${m}`,
+    s: Math.abs(s) < 10 ? `0${Math.abs(s)}` : `${Math.abs(s)}`,
+    ms: ms < 100 ? (ms < 10 ? `00${ms}` : `0${ms}`) : `${ms}`
+  };
+};
