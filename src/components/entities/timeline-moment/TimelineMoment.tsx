@@ -12,6 +12,7 @@ type TimelineMomentProps = {
   start: number;
   end: number;
   currentTime: number;
+  timelineSection: number;
 };
 
 class TimelineMoment extends React.Component<TimelineMomentProps> {
@@ -28,7 +29,8 @@ class TimelineMoment extends React.Component<TimelineMomentProps> {
       width: `${this.countWidth()}px`,
       transform: `translate(${(this.props.start * 28) / 1000}px)`,
       display: "flex",
-      borderBottom: `6px solid ${this.props.color}`
+      borderBottom: `6px solid ${this.props.color}`,
+      top: `${this.props.timelineSection * 20}%`
     };
 
     let getMomentBackgroundClass = (): string => {

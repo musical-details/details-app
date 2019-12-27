@@ -96,7 +96,7 @@ class TrackComponent extends React.Component<TrackProps, TrackState> {
           color: "#9C27BD",
           start: 8000,
           end: 17000,
-          timelineSection: 1
+          timelineSection: 0
         },
         {
           name: "Bass2",
@@ -121,6 +121,14 @@ class TrackComponent extends React.Component<TrackProps, TrackState> {
           start: 20000,
           end: 24000,
           timelineSection: 3
+        },
+        {
+          name: "Vocals3",
+          description: "Descc",
+          color: "#e91e53",
+          start: 30000,
+          end: 44000,
+          timelineSection: 4
         }
       ]
     }

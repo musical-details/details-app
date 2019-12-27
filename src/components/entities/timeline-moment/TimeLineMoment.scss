@@ -1,7 +1,10 @@
 .moment-container {
-  height: 100%;
+  height: 20%;
   box-sizing: border-box;
   position: absolute;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
 }
 
 .moment-name-container {
@@ -27,12 +30,17 @@
 
 .moment-background {
   position: absolute;
-  opacity: 0.4;
+  opacity: 0.1;
   width: 100%;
   height: 100%;
   box-sizing: border-box;
 
   &.highlight {
-    opacity: 0.6;
+    opacity: 0.5;
   }
+}
+
+.moment-container :hover, .moment-background :hover {
+   opacity: 0.55;
+   cursor: pointer;
 }

@@ -28,6 +28,24 @@ class Timeline extends React.Component<TimelineProps> {
     console.log(this.props.duration);
   }
 
+  createMoments = (): Array<JSX.Element> => {
+    let moments: Array<JSX.Element> = [];
+
+    for( let i = 0; i<this.props.moment.length; ++i) {
+      moments.push(
+        <TimelineMoment
+          name={this.props.moment[i].name}
+          color={this.props.moment[i].color}
+          start={this.props.moment[i].start}
+          end={this.props.moment[i].end}
+          timelineSection={this.props.moment[i].timelineSection}
+          currentTime={this.props.currentTime}
+        />
+      );
+    }
+    return moments;
+  }
+
   render() {
     let timelineFullStyles: CSS.Properties = {
       width: 28 * this.props.duration + "px",
@@ -39,11 +57,9 @@ class Timeline extends React.Component<TimelineProps> {
         <div className="timeline-container">
           <div className="timeline-full" style={timelineFullStyles}>
             <div className="timeline-sections-wrapper">
-              <div className="timeline-section" id="timeline-section-1"></div>
-              <div className="timeline-section" id="timeline-section-2"></div>
-              <div className="timeline-section" id="timeline-section-3"></div>
-              <div className="timeline-section" id="timeline-section-4"></div>
-              <div className="timeline-section" id="timeline-section-5"></div>
+              <div className="timeline-sections-container">
+              {this.createMoments()}
+              </div>
             </div>
           </div>
           <div className="timeline-pointer"></div>
