@@ -26,6 +26,21 @@ const viewedTrackReducer = (
       return {
         ...state
       };
+
+    case ActionTypes.FETCH_WAVE_PENDING:
+      return {
+        ...state
+      };
+    case ActionTypes.FETCH_WAVE_SUCCEESS:
+      return {
+        ...state,
+        wave: action.payload.wave
+      };
+    case ActionTypes.FETCH_WAVE_ERROR:
+      return {
+        ...state
+      };
+
     case ActionTypes.SET_IN_PLAYER:
       return {
         ...state,

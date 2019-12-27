@@ -20,6 +20,7 @@ import viewedTrackActions from "../../../core/state/ducks/viewed-track/viewed-tr
 import trackActions from "../../../core/state/ducks/track/track.actions";
 
 type TrackProps = {
+  playerTrackId: number;
   trackId: number;
   isSetInPlayer: boolean;
   cover: string;
@@ -234,6 +235,7 @@ class TrackComponent extends React.Component<TrackProps, TrackState> {
 }
 
 const mapStateToProps = (state: AppState): TrackProps | any => ({
+  playerTrackId: state.track.trackId,
   trackId: state.viewedTrack.trackId,
   isSetInPlayer: state.viewedTrack.isSetInPlayer,
   cover: state.viewedTrack.cover,

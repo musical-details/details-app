@@ -36,6 +36,22 @@ const fetchMetaError = (error: any): Action => ({
   error: error
 });
 
+const fetchWavePending = (): Action => ({
+  type: ActionTypes.FETCH_WAVE_PENDING
+});
+
+const fetchWaveSuccess = (wave: Array<number>): Action => ({
+  type: ActionTypes.FETCH_WAVE_SUCCEESS,
+  payload: {
+    wave: wave
+  }
+});
+
+const fetchWaveError = (error: any): Action => ({
+  type: ActionTypes.FETCH_WAVE_ERROR,
+  error: error
+});
+
 const setInPlayer = (): Action => ({
   type: ActionTypes.SET_IN_PLAYER
 });
@@ -49,6 +65,9 @@ export default {
   fetchMetaPending,
   fetchMetaSuccess,
   fetchMetaError,
+  fetchWavePending,
+  fetchWaveSuccess,
+  fetchWaveError,
   setInPlayer,
   unsetInPlayer
 };
