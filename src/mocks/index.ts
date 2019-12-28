@@ -88,7 +88,7 @@ const momentsColors: Array<string> = [
 ];
 
 const randomMoment = (trackDuration: number): Moment => {
-  let momentStart = random(0, Math.floor(trackDuration) - 16);
+  let momentStart = random(0, Math.floor(trackDuration) / 4 - 16);
   let momentDuration = random(1, 16);
   let momentEnd = momentStart + momentDuration;
   return {
