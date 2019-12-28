@@ -4,7 +4,7 @@ import { API_KEY, SoundCloud } from "../../../soundcloud";
 import { AnyAction } from "redux";
 import mocks from "../../../../mocks";
 
-function fetchViewedTrack(trackId: number) {
+function fetchViewedTrack(trackId: number, ratingId: number = 1) {
   return async (
     dispatch: Dispatch<AnyAction>,
     getState: Function
@@ -29,7 +29,15 @@ function fetchViewedTrack(trackId: number) {
       dispatch(actions.fetchWaveError(error));
       return;
     }
-    // fetch ratings
+    try {
+      dispatch(actions.setSelectedRating(ratingId));
+      dispatch(actions.fetchRatingsPending());
+      const ratingsResponse = mocks.randomRatings(300);
+      dispatch(actions.fetchRatingsSuccess(ratingsResponse));
+      dispatch(actions.fetchRatingsSuccess(ratingsResponse));
+    } catch (error) {
+      dispatch(actions.fetchRatingsError(error));
+    }
   };
 }
 

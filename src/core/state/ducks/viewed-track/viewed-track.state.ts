@@ -1,6 +1,13 @@
-type Moment = {};
+export type Moment = {
+  name: string;
+  description: string;
+  color: string;
+  start: number;
+  end: number;
+  timelineSection: number;
+};
 
-type Rating = {
+export type Rating = {
   ratingId: number;
   user: {
     userId: number;
@@ -17,7 +24,7 @@ export interface AppViewedTrackState {
   readonly author: string;
   readonly title: string;
   readonly wave: Array<number>;
-  readonly selectedRating: Rating;
+  readonly selectedRatingId: number;
   readonly ratings: Array<Rating>;
 }
 
@@ -28,14 +35,6 @@ export const initialState: AppViewedTrackState = {
   author: "",
   title: "",
   wave: [],
-  selectedRating: {
-    ratingId: 0,
-    user: {
-      userId: 0,
-      nickname: "",
-      avatar: ""
-    },
-    moments: []
-  },
+  selectedRatingId: 1,
   ratings: []
 };

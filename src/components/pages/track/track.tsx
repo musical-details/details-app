@@ -5,19 +5,17 @@ import { withRouter } from "react-router-dom";
 import TrackInfo from "../../entities/track-info/track-info";
 import TrackWaver from "../../entities/track-waver/track-waver";
 import Timeline from "../../entities/timeline/Timeline";
-import TimelineTimer from "../../entities/timeline/timeline-timer";
-
-import { SoundCloud, API_KEY } from "../../../core/soundcloud";
-import CSS from "csstype";
-
 import "./track.scss";
 
 import { AppState } from "../../../core/state/store";
-import actions from "../../../core/state/ducks/track/track.actions";
-import trackOperations from "../../../core/state/ducks/track/track.operations";
-import viewedTrackOperations from "../../../core/state/ducks/viewed-track/viewed-track.operations";
-import viewedTrackActions from "../../../core/state/ducks/viewed-track/viewed-track.actions";
+import { Rating } from "../../../core/state/ducks/viewed-track/viewed-track.state";
+
 import trackActions from "../../../core/state/ducks/track/track.actions";
+import trackOperations from "../../../core/state/ducks/track/track.operations";
+
+import viewedTrackActions from "../../../core/state/ducks/viewed-track/viewed-track.actions";
+import viewedTrackOperations from "../../../core/state/ducks/viewed-track/viewed-track.operations";
+import viewedTrackSelectors from "../../../core/state/ducks/viewed-track/viewed-track.selectors";
 
 type TrackProps = {
   playerTrackId: number;
@@ -32,6 +30,9 @@ type TrackProps = {
   currentTime: number;
   duration: number;
   volume: number;
+  ratings: Array<Rating>;
+  selectedRating: Rating | undefined;
+  selectedMoments: [];
   match?: any;
   unsetPlayer: () => void;
   fetchTrack: (trackId: number) => void;
@@ -51,37 +52,9 @@ type TrackState = {
   selectedRating: any;
 };
 
-type TrackPlayerState = {
-  audio: HTMLAudioElement;
-  wave: Array<number>;
-  isPlaying: boolean;
-  currentTime: number;
-  duration: number;
-  volume: number;
-};
-
-type UserState = {
-  id_user: number;
-  nickname: string;
-  avatar: string;
-};
-
-type MomentState = {
-  name: string;
-  description: string;
-  color: string;
-  start: number;
-  end: number;
-  timelineSection: number;
-};
-
 class TrackComponent extends React.Component<TrackProps, TrackState> {
   audio: HTMLAudioElement;
   state: TrackState | any = {
-    player: {
-      wave: []
-    },
-
     selectedRating: {
       id_rating: 1,
       user: {
@@ -148,7 +121,6 @@ class TrackComponent extends React.Component<TrackProps, TrackState> {
       this.props.unsetPlayer();
     }
     await this.props.fetchTrack(parseInt(trackId));
-    this.randomWave();
   }
 
   handleChangeTime = (newTime: number): void => {
@@ -183,21 +155,6 @@ class TrackComponent extends React.Component<TrackProps, TrackState> {
     this.props.changeVolume(volume);
   };
 
-  randomWave() {
-    let wave: Array<number> = [];
-    let min: number = Math.ceil(30);
-    let max: number = Math.floor(90);
-
-    for (let i = 0; i < 200; ++i) {
-      wave.push(Math.floor(Math.random() * (max - min)) + min);
-    }
-
-    this.setState((prevState: TrackState) => ({
-      ...prevState,
-      player: { ...prevState.player, wave: wave }
-    }));
-  }
-
   render() {
     return (
       <div>
@@ -215,7 +172,7 @@ class TrackComponent extends React.Component<TrackProps, TrackState> {
         </div>
         <div className="track-waver-wrapper">
           <TrackWaver
-            wave={this.state.player.wave}
+            wave={this.props.wave}
             currentTime={this.props.isSetInPlayer ? this.props.currentTime : 0}
             duration={this.props.isSetInPlayer ? this.props.duration : 1}
             onChangeTime={this.handleChangeTime}
@@ -225,7 +182,7 @@ class TrackComponent extends React.Component<TrackProps, TrackState> {
           <Timeline
             currentTime={this.props.isSetInPlayer ? this.props.currentTime : 0}
             duration={this.props.isSetInPlayer ? this.props.duration : 1}
-            moment={this.state.selectedRating.moments}
+            moment={this.props.selectedMoments}
           ></Timeline>
         </div>
         <div>"Track Description" section</div>
@@ -242,11 +199,14 @@ const mapStateToProps = (state: AppState): TrackProps | any => ({
   author: state.viewedTrack.author,
   title: state.viewedTrack.title,
   audio: state.track.audioSource,
-  wave: [],
+  wave: state.viewedTrack.wave,
   isPlaying: state.track.isPlaying,
   currentTime: state.track.currentTime,
   duration: state.track.duration,
-  volume: state.track.volume
+  volume: state.track.volume,
+  ratings: state.viewedTrack.ratings,
+  selectedRating: viewedTrackSelectors.getSelectedRating(state),
+  selectedMoments: viewedTrackSelectors.getSelectedMoments(state)
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): TrackProps | any => ({

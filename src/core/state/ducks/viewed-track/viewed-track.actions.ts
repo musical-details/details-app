@@ -1,3 +1,4 @@
+import { Rating } from "./viewed-track.state";
 import ActionTypes from "./viewed-track.types";
 import { SoundCloud } from "../../../soundcloud";
 
@@ -52,6 +53,29 @@ const fetchWaveError = (error: any): Action => ({
   error: error
 });
 
+const fetchRatingsPending = (): Action => ({
+  type: ActionTypes.FETCH_RATINGS_PENDING
+});
+
+const fetchRatingsSuccess = (ratings: Array<Rating>): Action => ({
+  type: ActionTypes.FETCH_RATINGS_SUCCEESS,
+  payload: {
+    ratings: ratings
+  }
+});
+
+const fetchRatingsError = (error: any): Action => ({
+  type: ActionTypes.FETCH_RATINGS_ERROR,
+  error: error
+});
+
+const setSelectedRating = (ratingId: number): Action => ({
+  type: ActionTypes.SET_SELECTED_RATING,
+  payload: {
+    ratingId: ratingId
+  }
+});
+
 const setInPlayer = (): Action => ({
   type: ActionTypes.SET_IN_PLAYER
 });
@@ -68,6 +92,10 @@ export default {
   fetchWavePending,
   fetchWaveSuccess,
   fetchWaveError,
+  fetchRatingsPending,
+  fetchRatingsSuccess,
+  fetchRatingsError,
   setInPlayer,
+  setSelectedRating,
   unsetInPlayer
 };

@@ -41,6 +41,26 @@ const viewedTrackReducer = (
         ...state
       };
 
+    case ActionTypes.FETCH_RATINGS_PENDING:
+      return {
+        ...state
+      };
+    case ActionTypes.FETCH_RATINGS_SUCCEESS:
+      return {
+        ...state,
+        ratings: action.payload.ratings
+      };
+    case ActionTypes.FETCH_RATINGS_ERROR:
+      return {
+        ...state
+      };
+
+    case ActionTypes.SET_SELECTED_RATING:
+      return {
+        ...state,
+        selectedRatingId: action.payload.ratingId
+      };
+
     case ActionTypes.SET_IN_PLAYER:
       return {
         ...state,
