@@ -1,14 +1,22 @@
-.moment-container {
-  height: 20%;
-  box-sizing: border-box;
+.moment-wrapper {
   position: absolute;
+  box-sizing: border-box;
+  height: 20%;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
+  padding: 5px 0px;
+}
+
+.moment-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
 }
 
 .moment-name-container {
-  position: absolute;
+  position: relative;
+  top: 0;
   z-index: 10;
   justify-content: center;
   width: 100%;
@@ -18,19 +26,27 @@
 .moment-name {
   position: absolute;
   top: 50%;
-  left: 6%;
+  left: 8px;
   transform: translate(0, -50%);
   font-family: Roboto;
   font-weight: 500;
   text-align: left;
-  font-size: 17px;
+  font-size: 13px;
   letter-spacing: 0.9px;
+  text-transform: uppercase;
   font-variant: small-caps;
+}
+
+.moment-name {
+  &.slide {
+    left: 75%;
+    transition: 5.25s linear;
+  }
 }
 
 .moment-background {
   position: absolute;
-  opacity: 0.1;
+  opacity: 0.2;
   width: 100%;
   height: 100%;
   box-sizing: border-box;
@@ -40,7 +56,8 @@
   }
 }
 
-.moment-container :hover, .moment-background :hover {
-   opacity: 0.55;
-   cursor: pointer;
+.moment-container :hover,
+.moment-background :hover {
+  opacity: 0.55;
+  cursor: pointer;
 }
