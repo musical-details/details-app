@@ -35,6 +35,7 @@ type TrackProps = {
   selectedMoments: [];
   match?: any;
   unsetPlayer: () => void;
+  setPlayer: () => void;
   fetchTrack: (trackId: number) => void;
   transferTrackToPlayer: (data: {
     trackId: number;
@@ -47,61 +48,11 @@ type TrackProps = {
   changeVolume: (newVolume: number) => void;
 };
 
-type TrackState = {
-  player: any;
-  selectedRating: any;
-};
+type TrackState = any;
 
 class TrackComponent extends React.Component<TrackProps, TrackState> {
-  audio: HTMLAudioElement;
-  state: TrackState | any = {
-    selectedRating: {
-      id_rating: 1,
-      user: {
-        id_user: 1,
-        nickname: "daddyaddy",
-        avatar: ""
-      },
-      moments: [
-        {
-          name: "Bass",
-          description: "Descc",
-          color: "#9C27BD",
-          start: 8000,
-          end: 17000,
-          timelineSection: 1
-        },
-        {
-          name: "Bass2",
-          description: "Descc",
-          color: "#9C27BD",
-          start: 18000,
-          end: 20000,
-          timelineSection: 1
-        },
-        {
-          name: "Drums",
-          description: "Descc",
-          color: "#00bcd4",
-          start: 20000,
-          end: 24000,
-          timelineSection: 2
-        },
-        {
-          name: "Vocals",
-          description: "Descc",
-          color: "#e91e63",
-          start: 20000,
-          end: 24000,
-          timelineSection: 3
-        }
-      ]
-    }
-  };
-
   constructor(props: TrackProps) {
     super(props);
-    this.audio = new Audio();
   }
 
   componentDidMount() {
@@ -109,18 +60,24 @@ class TrackComponent extends React.Component<TrackProps, TrackState> {
   }
 
   componentDidUpdate(oldProps: TrackProps) {
-    if (this.props.match.params != oldProps.match.params) {
+    if (this.props.match.params.id != oldProps.match.params.id) {
       this.loadTrack();
     }
   }
 
   async loadTrack() {
-    const { trackId } = this.props.match.params;
+    const trackId: number = this.props.match.params.trackId;
 
+    this.readParams(trackId);
+    await this.props.fetchTrack(trackId);
+  }
+
+  readParams(trackId: number) {
     if (this.props.trackId != trackId) {
       this.props.unsetPlayer();
+    } else {
+      this.props.setPlayer();
     }
-    await this.props.fetchTrack(parseInt(trackId));
   }
 
   handleChangeTime = (newTime: number): void => {
@@ -212,6 +169,9 @@ const mapStateToProps = (state: AppState): TrackProps | any => ({
 const mapDispatchToProps = (dispatch: Dispatch<any>): TrackProps | any => ({
   unsetPlayer: () => {
     dispatch(viewedTrackActions.unsetInPlayer());
+  },
+  setPlayer: () => {
+    dispatch(viewedTrackActions.setInPlayer());
   },
   fetchTrack: async (trackId: number) => {
     await dispatch(viewedTrackOperations.fetchViewedTrack(trackId));

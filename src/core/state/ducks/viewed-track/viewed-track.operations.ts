@@ -1,3 +1,4 @@
+import { AppState } from "./../../store";
 import { Dispatch } from "react";
 import actions from "./viewed-track.actions";
 import { API_KEY, SoundCloud } from "../../../soundcloud";
@@ -7,7 +8,7 @@ import mocks from "../../../../mocks";
 function fetchViewedTrack(trackId: number, ratingId: number = 1) {
   return async (
     dispatch: Dispatch<AnyAction>,
-    getState: Function
+    getState: () => AppState
   ): Promise<any> => {
     dispatch(actions.setTrackId(trackId));
     const metaUrl: string = `https://api.soundcloud.com/tracks/${trackId}?client_id=${API_KEY}`;
@@ -34,9 +35,11 @@ function fetchViewedTrack(trackId: number, ratingId: number = 1) {
       dispatch(actions.fetchRatingsPending());
       const ratingsResponse = mocks.randomRatings(300);
       dispatch(actions.fetchRatingsSuccess(ratingsResponse));
-      dispatch(actions.fetchRatingsSuccess(ratingsResponse));
     } catch (error) {
       dispatch(actions.fetchRatingsError(error));
+    }
+    if (trackId == getState().track.trackId) {
+      // TODO dispatch()
     }
   };
 }
