@@ -39,7 +39,7 @@ function fetchViewedTrack(trackId: number, ratingId: number = 1) {
       dispatch(actions.fetchRatingsError(error));
     }
     if (trackId == getState().track.trackId) {
-      // TODO dispatch()
+      dispatch(actions.setInPlayer());
     }
   };
 }

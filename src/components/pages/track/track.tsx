@@ -60,7 +60,7 @@ class TrackComponent extends React.Component<TrackProps, TrackState> {
   }
 
   componentDidUpdate(oldProps: TrackProps) {
-    if (this.props.match.params.id != oldProps.match.params.id) {
+    if (this.props.match.params.trackId != oldProps.match.params.trackId) {
       this.loadTrack();
     }
   }
