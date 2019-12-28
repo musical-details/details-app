@@ -31,13 +31,8 @@ class TimelineMoment extends React.Component<TimelineMomentProps> {
     top: `${this.props.timelineSection * 20}%`
   };
 
-  momentContainerStyle: CSS.Properties = {
-
-  }
-
   momentBackgroundStyle: CSS.Properties = {
     backgroundColor: this.props.color ,
-    borderBottom: `6px solid ${this.props.color}`
   }
 
   getMomentBackgroundClass = (): string => {
@@ -53,16 +48,23 @@ class TimelineMoment extends React.Component<TimelineMomentProps> {
     : "moment-name slide";
   }
 
-  render() {
+  getMomentNameStyle = (): CSS.Properties => {
+    return this.props.currentTime >= this.props.start / 1000 &&
+    this.props.currentTime <= this.props.end / 1000
+    ? {color: this.props.color }
+    : {color: this.props.color };
+  }
 
+  render() {
     return (
       <div className="moment-wrapper" style={this.momentWrapperStyleNormal}>
-        <div className="moment-container" style={this.momentContainerStyle}>
+        <div className="moment-container">
         <div className="moment-name-container" style={{ color: this.props.color }}>
-              <div className={this.getMomentNameClass()}>{this.props.name}</div>
-              </div>
+          <div className={this.getMomentNameClass()}>{this.props.name}</div>
+        </div>
           <div className={this.getMomentBackgroundClass()} style={this.momentBackgroundStyle}>
             </div>
+            <div className="moment-bottom-stripe" style={{backgroundColor: this.props.color}}></div>
         </div>
       </div>
     );
