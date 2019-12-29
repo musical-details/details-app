@@ -1,3 +1,6 @@
+$main-text-color: #ffffffd1;
+
+
 .moment-editor-container {
     width: 100%;
     height: 100%;
@@ -17,58 +20,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-}
-
-.moment-name-input-container {
-    width: 100%;
-    height: 20px;
-
-    .moment-name-input {
-        width: 100%;
-        height: 100%;
-        background: none;
-        border: none;
-        font-size: 20px;
-        font-family: Roboto;
-        font-weight: 500;
-        outline: none;
-        color: #c6c6c6;
-        letter-spacing: 3px;
-
-        &::placeholder {
-            color: #595959;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-    }
-}
-
-.moment-description-container {
-    width: 100%;
-    height: 80px;
-
-    .moment-description-input {
-        width: 100%;
-        height: 100%;
-        background: none;
-        border: none;
-        font-size: 12px;
-        font-family: Roboto;
-        font-weight: 500;
-        outline: none;
-        color: #c6c6c6;
-
-        &::placeholder {
-            color: #595959;
-        }
-    }
-}
-
-.moment-editor-right {
-    position: relative;
-    height: 100%;
-    width: 50%;
-    right: 0;
+    
 }
 
 .moment-editor-divider-container {
@@ -84,5 +36,177 @@
     margin: auto;
     height: 80%;
     width: 1.5px;
-    background-color: #2c2c2c;
+    background-color: #ffffff14;
 }
+
+.moment-name-input-container {
+    width: 100%;
+    height: 20px;
+    margin: 10px 0px 0px 0px;
+
+    .moment-name-input {
+        width: 100%;
+        height: 100%;
+        background: none;
+        border: none;
+        font-size: 27px;
+        font-family: Roboto;
+        font-weight: 700;
+        outline: none;
+        color: $main-text-color;
+        letter-spacing: 3px;
+
+        &::placeholder {
+            color: #ffffff61;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+    }
+}
+
+.moment-description-container {
+    width: 100%;
+    height: 50px;
+    margin: 10px 0px 0px 0px;
+
+    .moment-description-input {
+        width: 100%;
+        height: 100%;
+        background: none;
+        border: none;
+        font-size: 12px;
+        font-family: Roboto;
+        font-weight: 500;
+        outline: none;
+        color: $main-text-color;
+        border-bottom: 2px solid #ffffff14;
+        box-sizing: border-box;
+
+        &::placeholder {
+            color: #ffffff61
+        }
+    }
+}
+
+.moment-colors-container {
+    width: 100%;
+    height: 30px;
+    margin: 30px 0px 0px 0px;
+
+    .moment-colors {
+        width:100%;
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        .color-button {
+            width: 30px;
+            height: 30px;
+            border-radius: 100%;
+            outline: none;
+            border: none;
+
+            &:hover {
+                cursor: pointer;
+                opacity: 0.8;
+            }
+
+            &:focus {
+                box-shadow: inset 0px 0px 0px 3px #0000002e;
+            }
+        }
+
+    }
+}
+
+.moment-reactions-container {
+    width: 100%;
+    height: 30px;
+    padding: 7px 5px;
+    
+    margin: 10px 0px 0px 0px;
+    display: flex;
+    justify-content: space-between;
+    flex-flow: row;
+
+    .moment-reaction {
+        max-width: 30px;
+        max-height: 30px;
+        position: relative;
+
+        .reaction-img {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            
+
+            &:hover {
+                transform: scale(1.3);
+                transition: all .2s ease-in-out;
+                cursor: pointer;
+            }
+
+            &:focus {
+                transform: scale(1.4);
+                outline: none;
+            }
+        }
+    }
+
+}
+
+.moment-editor-right {
+    position: relative;
+    height: 100%;
+    width: 50%;
+    right: 0;
+    box-sizing: border-box;
+    padding: 5% 5% 5% 5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.moment-time-container {
+    width: 100%;
+    height: 70px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .time-divider{
+        height: 2px;
+        width: 100%;
+        background-color: white;
+    }
+
+    .time-name {
+        color: $main-text-color;
+        text-transform: uppercase;
+        letter-spacing: 4px;
+        font-size: 19px;
+    }
+
+    .moment-time-start-container {
+        height: 100%;
+        width: 35%;
+        //background-color: lightblue;
+        display: flex;
+        flex-direction: column;
+
+        .time-start-value {
+            height: 35%;
+            width: 100%;
+        }
+    }
+
+    .moment-time-end-container {
+        height: 100%;
+        width: 35%;
+        //background-color: lightcoral;
+        display: flex;
+        flex-direction: column;
+    }
+}
+

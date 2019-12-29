@@ -25,7 +25,6 @@ type TimelineProps = {
 class Timeline extends React.Component<TimelineProps> {
   constructor(props: TimelineProps) {
     super(props);
-    console.log(this.props.duration);
   }
 
   createMoments = (): Array<JSX.Element> => {
