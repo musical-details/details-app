@@ -1,3 +1,4 @@
+import { AppUserState } from "./ducks/user/user.state";
 import { AppViewedTrackState } from "./ducks/viewed-track/viewed-track.state";
 import {
   createStore,
@@ -15,6 +16,7 @@ import { AppTrackState } from "./ducks/track/track.state";
 export type AppState = {
   track: AppTrackState;
   viewedTrack: AppViewedTrackState;
+  user: AppUserState;
 };
 
 export default function getStore(): Store {
