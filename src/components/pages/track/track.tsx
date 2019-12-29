@@ -5,6 +5,7 @@ import { withRouter } from "react-router-dom";
 import TrackInfo from "../../entities/track-info/track-info";
 import TrackWaver from "../../entities/track-waver/track-waver";
 import Timeline from "../../entities/timeline/Timeline";
+import MomentEditor from "../../entities/moment-editor/moment-editor";
 import "./track.scss";
 
 import { AppState } from "../../../core/state/store";
@@ -141,6 +142,9 @@ class TrackComponent extends React.Component<TrackProps, TrackState> {
             duration={this.props.isSetInPlayer ? this.props.duration : 1}
             moment={this.props.selectedMoments}
           ></Timeline>
+        </div>
+        <div className="track-moment-editor-wrapper">
+          <MomentEditor/>
         </div>
         <div>"Track Description" section</div>
       </div>
