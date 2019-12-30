@@ -12,4 +12,6 @@ const loginPending = (): Action => ({
   type: ActionTypes.LOGIN_PENDING
 });
 
-export default {};
+export default {
+  loginPending
+};
