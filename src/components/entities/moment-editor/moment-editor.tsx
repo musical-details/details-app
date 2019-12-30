@@ -1,9 +1,7 @@
 import React from "react";
 import "./moment-editor.scss";
 import CSS from "csstype";
-import Emojis from "../../../../src/assets/png/emojis/1f44d.png";
-import { stringify } from "querystring";
-import { withRouter } from "react-router-dom";
+import momentColorsJSON from "../../../assets/data/moment-colors.json"
 
 
 type MomentEditorState = {
@@ -20,31 +18,8 @@ class MomentEditor extends React.Component {
     super(props);
   }
 
-  colorsArr: Array<string> = [
-    "#5D238A",
-    "#283DC3",
-    "#38ADAE",
-    "#F85765",
-    "#F94922",
-    "#D12E71",
-    "#BC209B",
-    "#6A4BA2"
-  ];
-
   countShade = (color: string): string => {
-    let rgb: Array<string> = color.substring(4, color.length-1)
-        .replace(/ /g, '')
-        .split(',');
-    let shadeFactor: number = 0.4;
-    let newR: number = parseInt(rgb[0]) * (1 - shadeFactor);
-    let newG: number = parseInt(rgb[1]) * (1 - shadeFactor);
-    let newB: number = parseInt(rgb[2]) * (1 - shadeFactor);
-
-    return "rgb(" + 
-      String(newR) + ", " + 
-      String(newG) + ", " +
-      String(newB) + 
-      ")";
+    return color + '90';
   }
 
   setMomentColorButtonStyle = (backgroundColor: string): CSS.Properties => {
@@ -52,25 +27,27 @@ class MomentEditor extends React.Component {
   };
 
   handleColorButtonClick = (event: React.MouseEvent<HTMLSpanElement>) => {
-    let newMainColor = this.countShade(event.currentTarget.style.backgroundColor);
-    console.log(newMainColor);
-  
     this.setState({
-      mainColor: newMainColor
+      mainColor: event.currentTarget.getAttribute('data-color')
     });
-
   };
 
   createMomentColorButtons = (): Array<JSX.Element> => {
     let buttonsArr: Array<JSX.Element> = [];
 
-    for (let i = 0; i < this.colorsArr.length; ++i) {
-      buttonsArr.push(
+    for (let i = 0; i < momentColorsJSON.colors.length; ++i) {
+    
+      let buttonClass: string;
+      momentColorsJSON.colors[i].color == this.state.mainColor 
+      ? buttonClass = "color-button active"
+      : buttonClass = "color-button"
+      
+        buttonsArr.push(
         <input
           type="button"
-          className="color-button"
-          id="off"
-          style={this.setMomentColorButtonStyle(this.colorsArr[i])}
+          className={buttonClass}
+          data-color={momentColorsJSON.colors[i].color}
+          style={this.setMomentColorButtonStyle(momentColorsJSON.colors[i].color)}
           onClick={this.handleColorButtonClick}
         />
       );
@@ -80,7 +57,7 @@ class MomentEditor extends React.Component {
 
   render() {
     return (
-      <div className="moment-editor-container" style={{backgroundColor: this.state.mainColor}}>
+      <div className="moment-editor-container" style={{backgroundColor: this.countShade(this.state.mainColor)}}>
         <div className="moment-editor-left">
           <div className="moment-name-input-container">
             <input

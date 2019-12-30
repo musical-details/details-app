@@ -110,11 +110,16 @@ $main-text-color: #ffffffd1;
             &:hover {
                 cursor: pointer;
                 opacity: 0.8;
+                transform: scale(1.2);
+                transition: all .2s ease-in-out;
             }
 
-            &:focus {
-                box-shadow: inset 0px 0px 0px 3px #0000002e;
+            &.active{
+                box-shadow: inset 0px 0px 0px 3px #ffffff30;
             }
+
+            
+            
         }
 
     }
