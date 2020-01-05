@@ -17,6 +17,8 @@ import trackOperations from "../../../core/state/ducks/track/track.operations";
 import viewedTrackActions from "../../../core/state/ducks/viewed-track/viewed-track.actions";
 import viewedTrackOperations from "../../../core/state/ducks/viewed-track/viewed-track.operations";
 import viewedTrackSelectors from "../../../core/state/ducks/viewed-track/viewed-track.selectors";
+import { runInThisContext } from "vm";
+import { track } from "../../../core/state/ducks";
 
 type TrackProps = {
   playerTrackId: number;
@@ -113,6 +115,10 @@ class TrackComponent extends React.Component<TrackProps, TrackState> {
     this.props.changeVolume(volume);
   };
 
+  newCurrentTime = (newTime: number): void =>{
+
+  }
+
   render() {
     return (
       <div>
@@ -144,7 +150,10 @@ class TrackComponent extends React.Component<TrackProps, TrackState> {
           ></Timeline>
         </div>
         <div className="track-moment-editor-wrapper">
-          <MomentEditor/>
+          <MomentEditor
+            newCurrentTime={this.newCurrentTime}
+            currentTime={this.props.isSetInPlayer ? this.props.currentTime : 0}
+          ></MomentEditor>
         </div>
         <div>"Track Description" section</div>
       </div>

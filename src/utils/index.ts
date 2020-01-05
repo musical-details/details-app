@@ -20,3 +20,8 @@ export const convertToMMSSMS = (seconds: number): Time => {
     ms: ms < 100 ? (ms < 10 ? `00${ms}` : `0${ms}`) : `${ms}`
   };
 };
+
+export const convertToSeconds = (m: number, s: number, ms: number): number => {
+
+  return 4;
+}
