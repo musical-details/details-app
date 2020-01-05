@@ -4,12 +4,13 @@ import Logo from "../logo/Logo";
 import GradientHeader from "../../shared/gradient-header/gradient-header";
 import UserBar from "../user-bar/user-bar";
 import { BrowserRouter, NavLink, Link } from "react-router-dom";
+import TopBarContainer from "../top-bar/top-bar";
 
 const Menu: React.FC = () => {
   return (
     <div className="menu">
       <div className="user-bar-wrapper">
-        <UserBar />
+        <TopBarContainer />
       </div>
       <div className="menu-content">
         <div>

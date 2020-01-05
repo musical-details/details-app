@@ -1,0 +1,126 @@
+@import "../../../assets/styles/global";
+
+.access {
+  @extend .middle;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+
+  & > div {
+    width: 100%;
+    height: 80%;
+  }
+
+  section {
+    @extend .middle;
+    width: 50%;
+    height: 100%;
+    box-sizing: border-box;
+    position: relative;
+    float: left;
+    padding: 15px;
+
+    &.sign-in-area {
+      border-right: 2px solid #777;
+    }
+
+    & > div {
+      width: 100%;
+      height: 100%;
+    }
+
+    h2 {
+      width: 100%;
+      text-align: center;
+      border-bottom: 2px solid #666;
+    }
+
+    .form {
+      padding: 0 20px;
+      box-sizing: border-box;
+    }
+
+    .error-box {
+      @extend .middle;
+      width: 100%;
+      height: 20px;
+      span {
+        color: #e84c4c;
+        font-size: 13px;
+        font-weight: bold;
+      }
+    }
+
+    .input-box {
+      @extend .middle;
+      width: 100%;
+      height: 50px;
+      background: #222222;
+      box-sizing: border-box;
+      border: none;
+      border-radius: 20px;
+      margin: 5px;
+      position: relative;
+
+      &:hover,
+      &:focus {
+        outline: none;
+        i {
+          color: #ff9125;
+        }
+      }
+
+      input {
+        width: 100%;
+        height: 100%;
+        padding: 0 20px;
+        box-sizing: border-box;
+        color: #aaa;
+        background: transparent;
+        border: none;
+        &:focus {
+          outline: none;
+        }
+
+        &:disabled {
+          opacity: 0.5;
+        }
+      }
+
+      .icon {
+        @extend .middle;
+        transition: 0.3s ease-out;
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 50px;
+        height: 50px;
+
+        i {
+          transition: 0.3s ease-out;
+        }
+      }
+
+      &.button {
+        transition: 0.3s ease-out;
+        &:hover {
+          cursor: pointer;
+          background: #e13953;
+
+          input {
+            color: white;
+          }
+        }
+        input {
+          transition: 0.3s ease-out;
+          text-transform: uppercase;
+          font-weight: bold;
+          font-size: 14px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}

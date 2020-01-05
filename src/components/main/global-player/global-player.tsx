@@ -22,7 +22,9 @@ type GlobalPlayerProps = {
   duration: number;
   volume: number;
   fetchTrack: () => void;
+  toogleAudioPlay: () => void;
   onAudioCanPlay: (duration: number) => void;
+  onAudioAutoplay: () => void;
   onAudioPlay: () => void;
   onAudioPause: () => void;
   onAudioVolumeChange: (volume: number) => void;
@@ -37,15 +39,19 @@ class GlobalPlayerComponent extends React.Component<
   GlobalPlayerState
 > {
   audio: HTMLAudioElement;
+  allowToKeyPressOnSpaceTimeout: NodeJS.Timeout | any;
+  isAllowToKeyPressOnSpace: boolean;
 
   constructor(props: GlobalPlayerProps) {
     super(props);
     this.audio = new Audio();
+    this.isAllowToKeyPressOnSpace = true;
   }
 
   async componentDidMount() {
     await this.props.fetchTrack();
     await this.loadAudio();
+    this.loadAudioController();
   }
 
   componentDidUpdate(prevProps: GlobalPlayerProps) {
@@ -69,7 +75,7 @@ class GlobalPlayerComponent extends React.Component<
   }
 
   handleAudioCanPlay = () => {
-    if (this.props.autoplay) this.props.onAudioPlay();
+    if (this.props.autoplay) this.props.onAudioAutoplay();
     this.props.onAudioCanPlay(this.audio.duration);
   };
 
@@ -93,6 +99,7 @@ class GlobalPlayerComponent extends React.Component<
     this.audio.pause();
     this.audio = new Audio(this.props.audioSource);
     this.audio.load();
+    this.audio.volume = this.props.volume;
     this.audio.oncanplaythrough = this.handleAudioCanPlay;
     this.audio.onplay = this.handleAudioPlay;
     this.audio.ontimeupdate = this.handleAudioTimeUpdate;
@@ -100,6 +107,45 @@ class GlobalPlayerComponent extends React.Component<
     this.audio.onended = this.handleAudioEnded;
     this.audio.onwaiting = this.handleAudioWaiting;
     this.audio.onerror = this.handleAudioError;
+  }
+
+  loadAudioController() {
+    window.onkeypress = (event: Event | any): void => {
+      switch (event.which) {
+        case 32:
+          if (!this.isAllowToKeyPressOnSpace) return;
+          event.preventDefault();
+          this.props.toogleAudioPlay();
+          this.isAllowToKeyPressOnSpace = false;
+          this.allowToKeyPressOnSpaceTimeout = setTimeout(() => {
+            this.isAllowToKeyPressOnSpace = true;
+          }, 100);
+          return;
+      }
+    };
+
+    window.onkeydown = (event: Event | any): void => {
+      const { currentTime, duration } = this.props;
+      let diffTime: number = 0.5;
+      switch (event.which) {
+        case 37:
+          event.preventDefault();
+          const prevTime: number =
+            currentTime > diffTime ? currentTime - diffTime : 0;
+          this.audio.currentTime = prevTime;
+          return;
+        case 39:
+          event.preventDefault();
+          const nextTime: number =
+            duration > currentTime + diffTime
+              ? currentTime + diffTime
+              : duration - (currentTime + diffTime);
+          this.audio.currentTime = nextTime;
+          return;
+        default:
+          break;
+      }
+    };
   }
 
   handlePlayButtonClick = (event: React.MouseEvent) => {
@@ -186,6 +232,13 @@ const mapDispatchToProps = (
   },
   onAudioCanPlay: (duration: number) => {
     dispatch(actions.setAudioDuration(duration));
+  },
+  toogleAudioPlay: () => {
+    dispatch(actions.toogleAudioStatus());
+  },
+  onAudioAutoplay: () => {
+    dispatch(actions.setAudioStatus(true));
+    dispatch(actions.setAudioAutoplay(false));
   },
   onAudioPlay: () => {
     dispatch(actions.setAudioStatus(true));

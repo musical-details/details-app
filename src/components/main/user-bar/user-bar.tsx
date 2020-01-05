@@ -6,18 +6,8 @@ import { withRouter } from "react-router";
 import { connect } from "react-redux";
 import { ConnectedComponent } from "react-redux";
 
-type UserBarProps = {
-  isLogged: boolean;
-  nickname: string;
-  avatar: string;
-};
-
-type UserBarState = {
-  id: number;
-  nickname: string | null;
-  avatar: string;
-  data: any;
-};
+import userActions from "../../../core/state/ducks/user/user.actions";
+import userOperations from "../../../core/state/ducks/user/user.operations";
 
 const mapStateToProps = (state: AppState): UserBarProps | any => ({
   isLogged: state.user.isLogged,
@@ -25,31 +15,29 @@ const mapStateToProps = (state: AppState): UserBarProps | any => ({
   avatar: state.user.avatar
 });
 
-const mapDispatchToProps = (
-  dispatch: Dispatch<any>
-): UserBarProps | any => ({});
+const mapDispatchToProps = (dispatch: Dispatch<any>): UserBarProps | any => ({
+  logOut: () => {
+    dispatch(userActions.logout());
+  }
+});
+
+type UserBarProps = {
+  isLogged: boolean;
+  nickname: string;
+  avatar: string;
+  logOut: () => void;
+};
+
+type UserBarState = {};
 
 class UserBar extends React.Component<UserBarProps, UserBarState> {
-  state: UserBarState = {
-    id: 140438034,
-    nickname: null,
-    avatar: "",
-    data: null
-  };
-
   constructor(props: UserBarProps) {
     super(props);
   }
 
-  componentDidMount() {
-    fetch(
-      `https://api.soundcloud.com/users/${this.state.id}?client_id=${API_KEY}`
-    )
-      .then(response => response.json())
-      .then(data => {
-        this.setState({ nickname: data.username, avatar: data.avatar_url });
-      });
-  }
+  handleUserLogoutClick = (event: React.MouseEvent) => {
+    this.props.logOut();
+  };
 
   render() {
     return (
@@ -57,15 +45,15 @@ class UserBar extends React.Component<UserBarProps, UserBarState> {
         <div>
           <div className="user-box">
             <div className="user-nickname">
-              <span>{this.state.nickname}</span>
+              <span>{this.props.nickname}</span>
             </div>
             <div className="user-photo">
               <div
-                style={{ backgroundImage: `url(${this.state.avatar})` }}
+                style={{ backgroundImage: `url(${this.props.avatar})` }}
               ></div>
             </div>
           </div>
-          <div className="user-logout">
+          <div className="user-logout" onClick={this.handleUserLogoutClick}>
             <span>Log out</span>
           </div>
         </div>

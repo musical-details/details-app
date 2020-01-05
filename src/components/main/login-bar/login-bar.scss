@@ -71,16 +71,7 @@
     width: calc(100% - 205px);
     height: 100%;
 
-    &:hover {
-      cursor: pointer;
-
-      & > span {
-        color: #bc76fa;
-      }
-    }
-
     & > span {
-      transition: 0.2s ease-out;
       color: #c789ff;
       font-size: 11px;
       text-transform: uppercase;

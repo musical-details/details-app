@@ -31,8 +31,7 @@ const trackReducer = (
         ...state,
         audioSource: action.payload.audioSource,
         isPlaying: false,
-        currentTime: 0,
-        volume: 1
+        currentTime: 0
       };
     case ActionTypes.SET_AUDIO_DURATION:
       return {

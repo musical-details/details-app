@@ -19,10 +19,25 @@ export type AppState = {
   user: AppUserState;
 };
 
+// TODO
+const volume = localStorage.getItem("volume")
+  ? JSON.parse(localStorage.getItem("volume") as string)
+  : {};
+
+const persistedState = {
+  track: {
+    volume: 0.5
+  }
+};
+
 export default function getStore(): Store {
   const rootReducer: Reducer = combineReducers(reducers);
   const middlewares = applyMiddleware(thunkMiddleware);
   const composeEnhancers = composeWithDevTools({});
 
-  return createStore(rootReducer, undefined, composeEnhancers(middlewares));
+  return createStore(
+    rootReducer,
+    persistedState,
+    composeEnhancers(middlewares)
+  );
 }
