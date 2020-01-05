@@ -1,0 +1,33 @@
+{
+    "reactions": [
+        {
+            "name": "SuprisedFace",
+            "path": "/images/png/emojis/1f62e.png"
+        },
+        {
+            "name": "CryingFace",
+            "path": "/images/png/emojis/1f622.png"
+        },
+        {
+            "name": "PoutingFace",
+            "path": "/images/png/emojis/1f620.png"
+        },
+        {
+            "name": "Love",
+            "path": "/images/png/emojis/1f60d.png"
+        },
+        {
+            "name": "LaughingFace",
+            "path": "/images/png/emojis/1f606.png"
+        },
+        {
+            "name": "ThumbDown",
+            "path": "/images/png/emojis/1f44e.png"
+        },
+        {
+            "name": "ThumbUp",
+            "path": "/images/png/emojis/1f44d.png"
+        }
+   
+    ]
+}

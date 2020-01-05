@@ -5,6 +5,7 @@ import { withRouter } from "react-router-dom";
 import TrackInfo from "../../entities/track-info/track-info";
 import TrackWaver from "../../entities/track-waver/track-waver";
 import Timeline from "../../entities/timeline/Timeline";
+import MomentEditor from "../../entities/moment-editor/moment-editor";
 import "./track.scss";
 
 import { AppState } from "../../../core/state/store";
@@ -16,6 +17,8 @@ import trackOperations from "../../../core/state/ducks/track/track.operations";
 import viewedTrackActions from "../../../core/state/ducks/viewed-track/viewed-track.actions";
 import viewedTrackOperations from "../../../core/state/ducks/viewed-track/viewed-track.operations";
 import viewedTrackSelectors from "../../../core/state/ducks/viewed-track/viewed-track.selectors";
+import { runInThisContext } from "vm";
+import { track } from "../../../core/state/ducks";
 
 type TrackProps = {
   playerTrackId: number;
@@ -112,6 +115,10 @@ class TrackComponent extends React.Component<TrackProps, TrackState> {
     this.props.changeVolume(volume);
   };
 
+  newCurrentTime = (newTime: number): void =>{
+
+  }
+
   render() {
     return (
       <div>
@@ -141,6 +148,12 @@ class TrackComponent extends React.Component<TrackProps, TrackState> {
             duration={this.props.isSetInPlayer ? this.props.duration : 1}
             moment={this.props.selectedMoments}
           ></Timeline>
+        </div>
+        <div className="track-moment-editor-wrapper">
+          <MomentEditor
+            newCurrentTime={this.newCurrentTime}
+            currentTime={this.props.isSetInPlayer ? this.props.currentTime : 0}
+          ></MomentEditor>
         </div>
         <div>"Track Description" section</div>
       </div>

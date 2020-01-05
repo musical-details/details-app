@@ -45,3 +45,6 @@ export const fetchFromApi = async (
   });
   return await response.json();
 };
+export const convertToSeconds = (m: number, s: number, ms: number): number => {
+  return 4;
+};
