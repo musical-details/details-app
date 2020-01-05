@@ -2,6 +2,7 @@ import { Dispatch } from "react";
 import actions from "./track.actions";
 import { API_KEY, SoundCloud } from "../../../soundcloud";
 import { AnyAction } from "redux";
+import { AppState } from "../../store";
 
 function fetchTrack(trackId: number) {
   return async (dispatch: Dispatch<AnyAction>): Promise<any> => {
@@ -43,7 +44,28 @@ function transferTrackToPlayer(data: {
   };
 }
 
+function startRecording() {
+  return (dispatch: Dispatch<AnyAction>, getState: () => AppState): any => {
+    const { isPlaying, currentTime } = getState().track;
+    if (!isPlaying) {
+      dispatch(actions.setAudioStatus(true));
+    }
+    dispatch(actions.setAudioRecording(true));
+    dispatch(actions.setAudioRecordingTimeStart(currentTime));
+  };
+}
+
+function stopRecording() {
+  return (dispatch: Dispatch<AnyAction>, getState: () => AppState): any => {
+    const { isPlaying, currentTime } = getState().track;
+    dispatch(actions.setAudioRecording(false));
+    dispatch(actions.setAudioRecordingTimeEnd(currentTime));
+  };
+}
+
 export default {
   fetchTrack,
-  transferTrackToPlayer
+  transferTrackToPlayer,
+  startRecording,
+  stopRecording
 };

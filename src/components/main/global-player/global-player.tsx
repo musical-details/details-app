@@ -9,6 +9,60 @@ import trackOperations from "../../../core/state/ducks/track/track.operations";
 import actions from "../../../core/state/ducks/track/track.actions";
 import { NavLink } from "react-router-dom";
 
+const mapStateToProps = (state: AppState): GlobalPlayerProps | any => ({
+  autoplay: state.track.autoplay,
+  trackId: state.track.trackId,
+  cover: state.track.cover,
+  author: state.track.author,
+  title: state.track.title,
+  audioSource: state.track.audioSource,
+  isPlaying: state.track.isPlaying,
+  isRecording: state.track.isRecording,
+  currentTime: state.track.currentTime,
+  newTime: state.track.newTime,
+  duration: state.track.duration,
+  volume: state.track.volume
+});
+
+const mapDispatchToProps = (
+  dispatch: Dispatch<any>
+): GlobalPlayerProps | any => ({
+  fetchTrack: async () => {
+    await dispatch(trackOperations.fetchTrack(567463899));
+  },
+  onAudioCanPlay: (duration: number) => {
+    dispatch(actions.setAudioDuration(duration));
+  },
+  toogleAudioPlay: () => {
+    dispatch(actions.toogleAudioStatus());
+  },
+  onAudioAutoplay: () => {
+    dispatch(actions.setAudioStatus(true));
+    dispatch(actions.setAudioAutoplay(false));
+  },
+  onAudioPlay: () => {
+    dispatch(actions.setAudioStatus(true));
+  },
+  onAudioPause: () => {
+    dispatch(actions.setAudioStatus(false));
+  },
+  onAudioRecordStart: () => {
+    dispatch(trackOperations.startRecording());
+  },
+  onAudioRecordStop: () => {
+    dispatch(trackOperations.stopRecording());
+  },
+  onAudioVolumeChange: (volume: number) => {
+    dispatch(() => {});
+  },
+  onAudioTimeUpdate: (currentTime: number) => {
+    dispatch(actions.setAudioCurrentTime(currentTime));
+  },
+  onAudioTimeChange: (newTime: number) => {
+    dispatch(actions.setAudioNewTime(newTime));
+  }
+});
+
 type GlobalPlayerProps = {
   trackId: number;
   autoplay: boolean;
@@ -17,6 +71,7 @@ type GlobalPlayerProps = {
   title: string;
   audioSource: string;
   isPlaying: boolean;
+  isRecording: boolean;
   currentTime: number;
   newTime: number;
   duration: number;
@@ -27,6 +82,8 @@ type GlobalPlayerProps = {
   onAudioAutoplay: () => void;
   onAudioPlay: () => void;
   onAudioPause: () => void;
+  onAudioRecordStart: () => void;
+  onAudioRecordStop: () => void;
   onAudioVolumeChange: (volume: number) => void;
   onAudioTimeUpdate: (currentTime: number) => void;
   onAudioTimeChange: (newTime: number) => void;
@@ -152,6 +209,12 @@ class GlobalPlayerComponent extends React.Component<
     this.props.isPlaying ? this.props.onAudioPause() : this.props.onAudioPlay();
   };
 
+  handleRecordButtonClick = (event: React.MouseEvent) => {
+    this.props.isRecording
+      ? this.props.onAudioRecordStop()
+      : this.props.onAudioRecordStart();
+  };
+
   handleBarAreaClick = (event: React.MouseEvent | any) => {
     const { offsetX, toElement } = event.nativeEvent;
     const newTime = (offsetX / toElement.offsetWidth) * this.props.duration;
@@ -159,7 +222,7 @@ class GlobalPlayerComponent extends React.Component<
   };
 
   render() {
-    const { currentTime, duration, isPlaying } = this.props;
+    const { currentTime, duration, isPlaying, isRecording } = this.props;
 
     let BarNotFillStyles: CSS.Properties = {
       width: 100 - (currentTime / duration) * 100 + "%"
@@ -171,11 +234,23 @@ class GlobalPlayerComponent extends React.Component<
 
     let playButtonIcon: string = isPlaying ? "icon-pause" : "icon-play";
 
+    let recordButtonActive: string = isRecording ? "active" : "";
+
     return (
       <div className="global-player">
         <div>
-          <div className="button" onClick={this.handlePlayButtonClick}>
+          <div
+            className="button playing-box"
+            onClick={this.handlePlayButtonClick}
+          >
             <i className={playButtonIcon}></i>
+          </div>
+          <div
+            className={`button recording-box ${recordButtonActive}`}
+            onClick={this.handleRecordButtonClick}
+          >
+            <div className="background"></div>
+            <i className="icon-note"></i>
           </div>
           <div className="bar-box">
             <div className="bar-area" onClick={this.handleBarAreaClick}>
@@ -209,53 +284,6 @@ class GlobalPlayerComponent extends React.Component<
     );
   }
 }
-
-const mapStateToProps = (state: AppState): GlobalPlayerProps | any => ({
-  autoplay: state.track.autoplay,
-  trackId: state.track.trackId,
-  cover: state.track.cover,
-  author: state.track.author,
-  title: state.track.title,
-  audioSource: state.track.audioSource,
-  isPlaying: state.track.isPlaying,
-  currentTime: state.track.currentTime,
-  newTime: state.track.newTime,
-  duration: state.track.duration,
-  volume: state.track.volume
-});
-
-const mapDispatchToProps = (
-  dispatch: Dispatch<any>
-): GlobalPlayerProps | any => ({
-  fetchTrack: async () => {
-    await dispatch(trackOperations.fetchTrack(567463899));
-  },
-  onAudioCanPlay: (duration: number) => {
-    dispatch(actions.setAudioDuration(duration));
-  },
-  toogleAudioPlay: () => {
-    dispatch(actions.toogleAudioStatus());
-  },
-  onAudioAutoplay: () => {
-    dispatch(actions.setAudioStatus(true));
-    dispatch(actions.setAudioAutoplay(false));
-  },
-  onAudioPlay: () => {
-    dispatch(actions.setAudioStatus(true));
-  },
-  onAudioPause: () => {
-    dispatch(actions.setAudioStatus(false));
-  },
-  onAudioVolumeChange: (volume: number) => {
-    dispatch(() => {});
-  },
-  onAudioTimeUpdate: (currentTime: number) => {
-    dispatch(actions.setAudioCurrentTime(currentTime));
-  },
-  onAudioTimeChange: (newTime: number) => {
-    dispatch(actions.setAudioNewTime(newTime));
-  }
-});
 
 const GlobalPlayerContainer: ConnectedComponent<
   typeof GlobalPlayerComponent,

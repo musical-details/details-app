@@ -57,6 +57,27 @@ const setAudioStatus = (status: boolean): Action => ({
   }
 });
 
+const setAudioRecording = (status: boolean): Action => ({
+  type: ActionTypes.SET_AUDIO_RECORDING,
+  payload: {
+    status: status
+  }
+});
+
+const setAudioRecordingTimeStart = (timeStart: number): Action => ({
+  type: ActionTypes.SET_AUDIO_RECORDING_TIME_START,
+  payload: {
+    recordedTimeStart: timeStart
+  }
+});
+
+const setAudioRecordingTimeEnd = (timeEnd: number): Action => ({
+  type: ActionTypes.SET_AUDIO_RECORDING_TIME_END,
+  payload: {
+    recordedTimeEnd: timeEnd
+  }
+});
+
 const toogleAudioStatus = (): Action => ({
   type: ActionTypes.TOOGLE_AUDIO_STATUS
 });
@@ -110,6 +131,9 @@ export default {
   setAudioSource,
   setAudioDuration,
   setAudioStatus,
+  setAudioRecording,
+  setAudioRecordingTimeStart,
+  setAudioRecordingTimeEnd,
   toogleAudioStatus,
   setAudioCurrentTime,
   setAudioNewTime,

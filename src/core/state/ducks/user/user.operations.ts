@@ -5,6 +5,10 @@ import { AnyAction } from "redux";
 import actions from "./user.actions";
 import { FeedbackError } from "./user.state";
 
+type Operation = {
+  (dispatch: Dispatch<AnyAction>, getState: () => AppState): any;
+};
+
 function signIn(login: string, password: string) {
   return async (
     dispatch: Dispatch<AnyAction>,
@@ -41,7 +45,11 @@ function signIn(login: string, password: string) {
   };
 }
 
-function signUp(login: string, password: string, soundcloudUri: string) {
+function signUp(
+  login: string,
+  password: string,
+  soundcloudUri: string
+): Operation {
   return async (
     dispatch: Dispatch<AnyAction>,
     getState: () => AppState

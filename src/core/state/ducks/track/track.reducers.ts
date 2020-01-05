@@ -31,6 +31,7 @@ const trackReducer = (
         ...state,
         audioSource: action.payload.audioSource,
         isPlaying: false,
+        isRecording: false,
         currentTime: 0
       };
     case ActionTypes.SET_AUDIO_DURATION:
@@ -47,6 +48,21 @@ const trackReducer = (
       return {
         ...state,
         isPlaying: !state.isPlaying
+      };
+    case ActionTypes.SET_AUDIO_RECORDING:
+      return {
+        ...state,
+        isRecording: action.payload.status
+      };
+    case ActionTypes.SET_AUDIO_RECORDING_TIME_START:
+      return {
+        ...state,
+        recordedTimeStart: action.payload.recordedTimeStart
+      };
+    case ActionTypes.SET_AUDIO_RECORDING_TIME_END:
+      return {
+        ...state,
+        recordedTimeEnd: action.payload.recordedTimeEnd
       };
     case ActionTypes.SET_AUDIO_CURRENT_TIME:
       return {
