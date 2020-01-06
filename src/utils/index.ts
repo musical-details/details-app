@@ -21,6 +21,12 @@ export const convertToMMSSMS = (seconds: number): Time => {
   };
 };
 
+export const convertToSeconds = (m: number, s: number, ms: number): number => {
+  let seconds: number = 0;
+  seconds = m*60 + s + (ms / 1000);
+  return seconds;
+};
+
 export const fetchFromApi = async (
   endpoint: string,
   data: {
@@ -45,6 +51,4 @@ export const fetchFromApi = async (
   });
   return await response.json();
 };
-export const convertToSeconds = (m: number, s: number, ms: number): number => {
-  return 4;
-};
+
