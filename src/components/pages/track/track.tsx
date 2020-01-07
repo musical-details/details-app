@@ -17,8 +17,63 @@ import trackOperations from "../../../core/state/ducks/track/track.operations";
 import viewedTrackActions from "../../../core/state/ducks/viewed-track/viewed-track.actions";
 import viewedTrackOperations from "../../../core/state/ducks/viewed-track/viewed-track.operations";
 import viewedTrackSelectors from "../../../core/state/ducks/viewed-track/viewed-track.selectors";
-import { runInThisContext } from "vm";
-import { track } from "../../../core/state/ducks";
+import RatingList from "../../entities/rating-list/rating-list";
+
+const mapStateToProps = (state: AppState): TrackProps | any => ({
+  playerTrackId: state.track.trackId,
+  trackId: state.viewedTrack.trackId,
+  isSetInPlayer: state.viewedTrack.isSetInPlayer,
+  cover: state.viewedTrack.cover,
+  author: state.viewedTrack.author,
+  title: state.viewedTrack.title,
+  audio: state.track.audioSource,
+  wave: state.viewedTrack.wave,
+  isPlaying: state.track.isPlaying,
+  currentTime: state.track.currentTime,
+  duration: state.track.duration,
+  volume: state.track.volume,
+  ratings: state.viewedTrack.ratings,
+  selectedRating: viewedTrackSelectors.getSelectedRating(state),
+  selectedMoments: viewedTrackSelectors.getSelectedMoments(state)
+});
+
+const mapDispatchToProps = (dispatch: Dispatch<any>): TrackProps | any => ({
+  unsetPlayer: () => {
+    dispatch(viewedTrackActions.unsetInPlayer());
+  },
+  setPlayer: () => {
+    dispatch(viewedTrackActions.setInPlayer());
+  },
+  fetchTrack: async (trackId: number, ratingId?: number) => {
+    await dispatch(viewedTrackOperations.fetchViewedTrack(trackId, ratingId));
+  },
+  transferTrackToPlayer: (data: {
+    trackId: number;
+    cover: string;
+    author: string;
+    title: string;
+  }) => {
+    dispatch(
+      trackOperations.transferTrackToPlayer({
+        autoplay: true,
+        trackId: data.trackId,
+        cover: data.cover,
+        author: data.author,
+        title: data.title
+      })
+    );
+    dispatch(viewedTrackActions.setInPlayer());
+  },
+  toogleAudioStatus: () => {
+    dispatch(trackActions.toogleAudioStatus());
+  },
+  changeTime: (newTime: number) => {
+    dispatch(trackActions.setAudioNewTime(newTime));
+  },
+  changeVolume: (newVolume: number) => {
+    dispatch(trackActions.setAudioVolume(newVolume));
+  }
+});
 
 type TrackProps = {
   playerTrackId: number;
@@ -39,7 +94,7 @@ type TrackProps = {
   match?: any;
   unsetPlayer: () => void;
   setPlayer: () => void;
-  fetchTrack: (trackId: number) => void;
+  fetchTrack: (trackId: number, ratingId: number) => void;
   transferTrackToPlayer: (data: {
     trackId: number;
     cover: string;
@@ -69,10 +124,11 @@ class TrackComponent extends React.Component<TrackProps, TrackState> {
   }
 
   async loadTrack() {
-    const trackId: number = this.props.match.params.trackId;
+    const trackId: number = parseInt(this.props.match.params.trackId);
+    const ratingId: number = parseInt(this.props.match.params.ratingId);
 
     this.readParams(trackId);
-    await this.props.fetchTrack(trackId);
+    await this.props.fetchTrack(trackId, ratingId);
   }
 
   readParams(trackId: number) {
@@ -115,9 +171,7 @@ class TrackComponent extends React.Component<TrackProps, TrackState> {
     this.props.changeVolume(volume);
   };
 
-  newCurrentTime = (newTime: number): void =>{
-
-  }
+  newCurrentTime = (newTime: number): void => {};
 
   render() {
     return (
@@ -142,6 +196,9 @@ class TrackComponent extends React.Component<TrackProps, TrackState> {
             onChangeTime={this.handleChangeTime}
           ></TrackWaver>
         </div>
+        <div className="track-rating-list">
+          <RatingList />
+        </div>
         <div className="track-timeline-wrapper">
           <Timeline
             currentTime={this.props.isSetInPlayer ? this.props.currentTime : 0}
@@ -160,62 +217,6 @@ class TrackComponent extends React.Component<TrackProps, TrackState> {
     );
   }
 }
-
-const mapStateToProps = (state: AppState): TrackProps | any => ({
-  playerTrackId: state.track.trackId,
-  trackId: state.viewedTrack.trackId,
-  isSetInPlayer: state.viewedTrack.isSetInPlayer,
-  cover: state.viewedTrack.cover,
-  author: state.viewedTrack.author,
-  title: state.viewedTrack.title,
-  audio: state.track.audioSource,
-  wave: state.viewedTrack.wave,
-  isPlaying: state.track.isPlaying,
-  currentTime: state.track.currentTime,
-  duration: state.track.duration,
-  volume: state.track.volume,
-  ratings: state.viewedTrack.ratings,
-  selectedRating: viewedTrackSelectors.getSelectedRating(state),
-  selectedMoments: viewedTrackSelectors.getSelectedMoments(state)
-});
-
-const mapDispatchToProps = (dispatch: Dispatch<any>): TrackProps | any => ({
-  unsetPlayer: () => {
-    dispatch(viewedTrackActions.unsetInPlayer());
-  },
-  setPlayer: () => {
-    dispatch(viewedTrackActions.setInPlayer());
-  },
-  fetchTrack: async (trackId: number) => {
-    await dispatch(viewedTrackOperations.fetchViewedTrack(trackId));
-  },
-  transferTrackToPlayer: (data: {
-    trackId: number;
-    cover: string;
-    author: string;
-    title: string;
-  }) => {
-    dispatch(
-      trackOperations.transferTrackToPlayer({
-        autoplay: true,
-        trackId: data.trackId,
-        cover: data.cover,
-        author: data.author,
-        title: data.title
-      })
-    );
-    dispatch(viewedTrackActions.setInPlayer());
-  },
-  toogleAudioStatus: () => {
-    dispatch(trackActions.toogleAudioStatus());
-  },
-  changeTime: (newTime: number) => {
-    dispatch(trackActions.setAudioNewTime(newTime));
-  },
-  changeVolume: (newVolume: number) => {
-    dispatch(trackActions.setAudioVolume(newVolume));
-  }
-});
 
 const TrackContainer: ComponentClass = withRouter(
   connect(

@@ -4,12 +4,14 @@ import actions from "./viewed-track.actions";
 import { API_KEY, SoundCloud } from "../../../soundcloud";
 import { AnyAction } from "redux";
 import mocks from "../../../../mocks";
+import { Rating } from "./viewed-track.state";
 
-function fetchViewedTrack(trackId: number, ratingId: number = 1) {
+function fetchViewedTrack(trackId: number, selectedRatingId: number = -1) {
   return async (
     dispatch: Dispatch<AnyAction>,
     getState: () => AppState
   ): Promise<any> => {
+    selectedRatingId = isNaN(selectedRatingId) ? -1 : selectedRatingId;
     dispatch(actions.setTrackId(trackId));
     const metaUrl: string = `https://api.soundcloud.com/tracks/${trackId}?client_id=${API_KEY}`;
     const waveUrl: string = `localhost`;
@@ -31,10 +33,16 @@ function fetchViewedTrack(trackId: number, ratingId: number = 1) {
       return;
     }
     try {
-      dispatch(actions.setSelectedRating(ratingId));
+      const userId = getState().user.userId;
       dispatch(actions.fetchRatingsPending());
-      const ratingsResponse = mocks.randomRatings(300);
-      dispatch(actions.fetchRatingsSuccess(ratingsResponse));
+      const ratingsData: Array<Rating> = mocks.randomRatings(300);
+      const userRating: Rating | undefined = ratingsData.find(
+        rating => rating.ratingId === userId
+      );
+      const userRatingId = userRating === undefined ? -1 : userRating.ratingId;
+      dispatch(actions.fetchRatingsSuccess(ratingsData));
+      dispatch(actions.setSelectedRatingId(selectedRatingId));
+      dispatch(actions.setUserRatingId(userRatingId));
     } catch (error) {
       dispatch(actions.fetchRatingsError(error));
     }

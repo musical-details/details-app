@@ -69,8 +69,15 @@ const fetchRatingsError = (error: any): Action => ({
   error: error
 });
 
-const setSelectedRating = (ratingId: number): Action => ({
-  type: ActionTypes.SET_SELECTED_RATING,
+const setSelectedRatingId = (ratingId: number): Action => ({
+  type: ActionTypes.SET_SELECTED_RATING_ID,
+  payload: {
+    ratingId: ratingId
+  }
+});
+
+const setUserRatingId = (ratingId: number): Action => ({
+  type: ActionTypes.SET_USER_RATING_ID,
   payload: {
     ratingId: ratingId
   }
@@ -96,6 +103,7 @@ export default {
   fetchRatingsSuccess,
   fetchRatingsError,
   setInPlayer,
-  setSelectedRating,
+  setSelectedRatingId,
+  setUserRatingId,
   unsetInPlayer
 };

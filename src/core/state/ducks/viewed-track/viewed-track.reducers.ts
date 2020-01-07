@@ -55,10 +55,15 @@ const viewedTrackReducer = (
         ...state
       };
 
-    case ActionTypes.SET_SELECTED_RATING:
+    case ActionTypes.SET_SELECTED_RATING_ID:
       return {
         ...state,
         selectedRatingId: action.payload.ratingId
+      };
+    case ActionTypes.SET_USER_RATING_ID:
+      return {
+        ...state,
+        userRatingId: action.payload.ratingId
       };
 
     case ActionTypes.SET_IN_PLAYER:

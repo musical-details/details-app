@@ -24,6 +24,7 @@ export interface AppViewedTrackState {
   readonly author: string;
   readonly title: string;
   readonly wave: Array<number>;
+  readonly userRatingId: number | -1;
   readonly selectedRatingId: number;
   readonly ratings: Array<Rating>;
 }
@@ -35,6 +36,7 @@ export const initialState: AppViewedTrackState = {
   author: "",
   title: "",
   wave: [],
+  userRatingId: -1,
   selectedRatingId: 1,
   ratings: []
 };
