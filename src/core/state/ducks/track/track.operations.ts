@@ -4,8 +4,13 @@ import { API_KEY, SoundCloud } from "../../../soundcloud";
 import { AnyAction } from "redux";
 import { AppState } from "../../store";
 
-function fetchTrack(trackId: number) {
-  return async (dispatch: Dispatch<AnyAction>): Promise<any> => {
+function fetchTrack(trackId: number = 0) {
+  return async (
+    dispatch: Dispatch<AnyAction>,
+    getState: () => AppState
+  ): Promise<any> => {
+    if (!trackId || trackId === undefined) trackId = getState().track.trackId;
+    if (!trackId) trackId = 730589809;
     const metaUrl: string = `https://api.soundcloud.com/tracks/${trackId}?client_id=${API_KEY}`;
     const audioUrl: string = `https://api.soundcloud.com/tracks/${trackId}/stream?client_id=${API_KEY}`;
     try {

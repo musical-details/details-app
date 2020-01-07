@@ -28,7 +28,7 @@ const mapDispatchToProps = (
   dispatch: Dispatch<any>
 ): GlobalPlayerProps | any => ({
   fetchTrack: async () => {
-    await dispatch(trackOperations.fetchTrack(567463899));
+    await dispatch(trackOperations.fetchTrack());
   },
   onAudioCanPlay: (duration: number) => {
     dispatch(actions.setAudioDuration(duration));

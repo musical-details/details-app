@@ -76,7 +76,7 @@ const loginError = (error: any): Action => ({
 });
 
 const logout = (): Action => ({
-  type: ActionTypes.LOGIN_ERROR,
+  type: ActionTypes.LOGOUT,
   payload: {
     loginStage: LoginStage.NOT_LOGGED
   }

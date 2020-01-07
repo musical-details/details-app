@@ -13,6 +13,9 @@ function fetchViewedTrack(trackId: number, selectedRatingId: number = -1) {
   ): Promise<any> => {
     selectedRatingId = isNaN(selectedRatingId) ? -1 : selectedRatingId;
     dispatch(actions.setTrackId(trackId));
+    if (trackId !== getState().track.trackId) {
+      dispatch(actions.unsetInPlayer());
+    }
     const metaUrl: string = `https://api.soundcloud.com/tracks/${trackId}?client_id=${API_KEY}`;
     const waveUrl: string = `localhost`;
     try {
