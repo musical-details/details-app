@@ -226,6 +226,7 @@ $main-color: #ffffffd1;
             box-sizing: border-box;
             display: flex;
             flex-direction: row;
+            align-self: center;
 
             .time-value-input {
                 width: inherit;
@@ -248,6 +249,34 @@ $main-color: #ffffffd1;
 
                 &::placeholder {
                     color: #ffffff8c;
+                }
+
+                &.readonly, &.miliseconds .readonly {
+                    outline: none;
+                    color:#ffffffaf;
+                    animation: text-shadow-drop-center 0.9s infinite alternate-reverse ;
+
+                    &:hover {
+                        cursor: auto;
+                    }
+
+                    @-webkit-keyframes text-shadow-drop-center {
+                        0% {
+                          text-shadow: 0 0 0 rgba(0, 0, 0, 0.2);
+                        }
+                        100% {
+                          text-shadow: 0 0 5px rgba(0, 0, 0, 0.55);
+                        }
+                      }
+                      @keyframes text-shadow-drop-center {
+                        0% {
+                          text-shadow: 0 0 0 rgba(0, 0, 0, 0.2);
+                        }
+                        100% {
+                          text-shadow: 0 0 5px rgba(255, 255, 255, 0.65);
+                        }
+                      }
+                      
                 }
             }
 

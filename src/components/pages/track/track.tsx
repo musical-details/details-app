@@ -207,10 +207,7 @@ class TrackComponent extends React.Component<TrackProps, TrackState> {
           ></Timeline>
         </div>
         <div className="track-moment-editor-wrapper">
-          <MomentEditor
-            newCurrentTime={this.newCurrentTime}
-            currentTime={this.props.isSetInPlayer ? this.props.currentTime : 0}
-          ></MomentEditor>
+          <MomentEditor/>
         </div>
         <div>"Track Description" section</div>
       </div>
