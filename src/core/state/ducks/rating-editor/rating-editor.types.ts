@@ -1,0 +1,7 @@
+enum ActionTypes {
+  SET_AUDIO_RECORDING_MODE = "viewed-track/SET_AUDIO_RECORDING_MODE",
+  SET_AUDIO_RECORDING_TIME_START = "viewed-track/SET_AUDIO_RECORDING_TIME_START",
+  SET_AUDIO_RECORDING_TIME_END = "viewed-track/SET_AUDIO_RECORDING_TIME_END"
+}
+
+export default ActionTypes;

@@ -30,7 +30,7 @@ const randomRatings = (trackDuration: number): Array<Rating> => {
 const randomRating = (trackDuration: number, ratingId: number): Rating => {
   let moments: Array<Moment> = [];
 
-  for (let i = 0; i < random(2, 10); ++i) {
+  for (let i = 0; i < random(8, 18); ++i) {
     moments.push(randomMoment(trackDuration));
   }
 

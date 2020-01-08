@@ -6,8 +6,10 @@ import CSS from "csstype";
 import "./global-player.scss";
 import { AppState } from "../../../core/state/store";
 import trackOperations from "../../../core/state/ducks/track/track.operations";
+import ratingEditorOperations from "../../../core/state/ducks/rating-editor/rating-editor.operations";
 import actions from "../../../core/state/ducks/track/track.actions";
 import { NavLink } from "react-router-dom";
+import { RatingEditorMode } from "../../../core/state/ducks/rating-editor/rating-editor.state";
 
 const mapStateToProps = (state: AppState): GlobalPlayerProps | any => ({
   autoplay: state.track.autoplay,
@@ -17,7 +19,7 @@ const mapStateToProps = (state: AppState): GlobalPlayerProps | any => ({
   title: state.track.title,
   audioSource: state.track.audioSource,
   isPlaying: state.track.isPlaying,
-  isRecording: state.track.isRecording,
+  mode: state.ratingEditor.mode,
   currentTime: state.track.currentTime,
   newTime: state.track.newTime,
   duration: state.track.duration,
@@ -47,10 +49,10 @@ const mapDispatchToProps = (
     dispatch(actions.setAudioStatus(false));
   },
   onAudioRecordStart: () => {
-    dispatch(trackOperations.startRecording());
+    dispatch(ratingEditorOperations.startRecording());
   },
   onAudioRecordStop: () => {
-    dispatch(trackOperations.stopRecording());
+    dispatch(ratingEditorOperations.stopRecording());
   },
   onAudioVolumeChange: (volume: number) => {
     dispatch(() => {});
@@ -71,7 +73,7 @@ type GlobalPlayerProps = {
   title: string;
   audioSource: string;
   isPlaying: boolean;
-  isRecording: boolean;
+  mode: RatingEditorMode;
   currentTime: number;
   newTime: number;
   duration: number;
@@ -210,7 +212,7 @@ class GlobalPlayerComponent extends React.Component<
   };
 
   handleRecordButtonClick = (event: React.MouseEvent) => {
-    this.props.isRecording
+    this.props.mode === RatingEditorMode.RECORDING
       ? this.props.onAudioRecordStop()
       : this.props.onAudioRecordStart();
   };
@@ -222,7 +224,7 @@ class GlobalPlayerComponent extends React.Component<
   };
 
   render() {
-    const { currentTime, duration, isPlaying, isRecording } = this.props;
+    const { currentTime, duration, isPlaying, mode } = this.props;
 
     let BarNotFillStyles: CSS.Properties = {
       width: 100 - (currentTime / duration) * 100 + "%"
@@ -234,7 +236,8 @@ class GlobalPlayerComponent extends React.Component<
 
     let playButtonIcon: string = isPlaying ? "icon-pause" : "icon-play";
 
-    let recordButtonActive: string = isRecording ? "active" : "";
+    let recordButtonActive: string =
+      mode === RatingEditorMode.RECORDING ? "active" : "";
 
     return (
       <div className="global-player">

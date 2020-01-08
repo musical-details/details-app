@@ -49,28 +49,7 @@ function transferTrackToPlayer(data: {
   };
 }
 
-function startRecording() {
-  return (dispatch: Dispatch<AnyAction>, getState: () => AppState): any => {
-    const { isPlaying, currentTime } = getState().track;
-    if (!isPlaying) {
-      dispatch(actions.setAudioStatus(true));
-    }
-    dispatch(actions.setAudioRecording(true));
-    dispatch(actions.setAudioRecordingTimeStart(currentTime));
-  };
-}
-
-function stopRecording() {
-  return (dispatch: Dispatch<AnyAction>, getState: () => AppState): any => {
-    const { isPlaying, currentTime } = getState().track;
-    dispatch(actions.setAudioRecording(false));
-    dispatch(actions.setAudioRecordingTimeEnd(currentTime));
-  };
-}
-
 export default {
   fetchTrack,
-  transferTrackToPlayer,
-  startRecording,
-  stopRecording
+  transferTrackToPlayer
 };

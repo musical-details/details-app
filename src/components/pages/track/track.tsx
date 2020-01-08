@@ -200,14 +200,10 @@ class TrackComponent extends React.Component<TrackProps, TrackState> {
           <RatingList />
         </div>
         <div className="track-timeline-wrapper">
-          <Timeline
-            currentTime={this.props.isSetInPlayer ? this.props.currentTime : 0}
-            duration={this.props.isSetInPlayer ? this.props.duration : 1}
-            moment={this.props.selectedMoments}
-          ></Timeline>
+          <Timeline />
         </div>
         <div className="track-moment-editor-wrapper">
-          <MomentEditor/>
+          <MomentEditor />
         </div>
         <div>"Track Description" section</div>
       </div>

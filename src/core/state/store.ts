@@ -1,3 +1,4 @@
+import { AppRatingEditorState } from "./ducks/rating-editor/rating-editor.state";
 import { AppUserState } from "./ducks/user/user.state";
 import { AppViewedTrackState } from "./ducks/viewed-track/viewed-track.state";
 import {
@@ -18,23 +19,19 @@ export type AppState = {
   track: AppTrackState;
   viewedTrack: AppViewedTrackState;
   user: AppUserState;
+  ratingEditor: AppRatingEditorState;
 };
 
 const persistDataMiddleware = (store: any) => (next: any) => (action: any) => {
   if (action.type === ActionTypes.SET_AUDIO_CURRENT_TIME) return next(action);
   next(action);
   localStorage["appState"] = JSON.stringify(store.getState());
-  console.log(JSON.parse(localStorage["appState"]));
-  console.log(action.type);
 };
 
 const getPersistedState = (): AppState | undefined => {
   try {
     const persistedState = localStorage.getItem("appState");
     if (persistedState === null) throw new Error();
-    console.log("###");
-    console.log(JSON.parse(persistedState));
-    console.log("###");
     return JSON.parse(persistedState);
   } catch (error) {
     return undefined;

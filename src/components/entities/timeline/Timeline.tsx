@@ -1,8 +1,36 @@
-import React from "react";
+import React, { Dispatch, ComponentClass } from "react";
 import TimelineMoment from "../timeline-moment/TimelineMoment";
 import CSS from "csstype";
 import "./Timeline.scss";
 import TimelineTimers from "./timeline-timer";
+import { AppState } from "../../../core/state/store";
+import { connect, ConnectedComponent } from "react-redux";
+import viewedTrackSelectors from "../../../core/state/ducks/viewed-track/viewed-track.selectors";
+import { RatingEditorMode } from "../../../core/state/ducks/rating-editor/rating-editor.state";
+
+const mapStateToProps = (state: AppState): TimelineProps | any => ({
+  isSetInPlayer: state.viewedTrack.isSetInPlayer,
+  mode: state.ratingEditor.mode,
+  currentTime: state.track.currentTime,
+  duration: state.track.duration,
+  moments: viewedTrackSelectors.getSelectedMoments(state),
+  recordedTimeStart: state.ratingEditor.recordingTime.start,
+  recordedTimeEnd: state.ratingEditor.recordingTime.end
+});
+
+const mapDispatchToProps = (
+  dispatch: Dispatch<any>
+): TimelineProps | any => ({});
+
+type TimelineProps = {
+  isSetInPlayer: boolean;
+  mode: RatingEditorMode;
+  currentTime: number;
+  duration: number;
+  moments: Array<Moment>;
+  recordedTimeStart: number;
+  recordedTimeEnd: number;
+};
 
 type Moment = {
   name: string;
@@ -10,16 +38,6 @@ type Moment = {
   start: number;
   end: number;
   timelineSection: number;
-};
-
-type Track = {
-  length: number;
-};
-
-type TimelineProps = {
-  duration: number;
-  moment: Array<Moment>;
-  currentTime: number;
 };
 
 class Timeline extends React.Component<TimelineProps> {
@@ -30,34 +48,46 @@ class Timeline extends React.Component<TimelineProps> {
   createMoments = (): Array<JSX.Element> => {
     let moments: Array<JSX.Element> = [];
 
-    for( let i = 0; i<this.props.moment.length; ++i) {
+    for (let moment of this.props.moments) {
       moments.push(
         <TimelineMoment
-          name={this.props.moment[i].name}
-          color={this.props.moment[i].color}
-          start={this.props.moment[i].start}
-          end={this.props.moment[i].end}
-          timelineSection={this.props.moment[i].timelineSection}
+          name={moment.name}
+          color={moment.color}
+          start={moment.start}
+          end={moment.end}
+          timelineSection={moment.timelineSection}
           currentTime={this.props.currentTime}
         />
       );
     }
     return moments;
-  }
+  };
 
   render() {
-    let timelineFullStyles: CSS.Properties = {
+    const timelineFullStyles: CSS.Properties = {
       width: 28 * this.props.duration + "px",
       transform: `translate(${-this.props.currentTime * 28 + 420}px)`
+    };
+
+    const timelineRecordingWrapperStyles: CSS.Properties = {
+      display:
+        this.props.mode === RatingEditorMode.RECORDING ? "block" : "none",
+      width: `${28 * this.props.currentTime -
+        28 * this.props.recordedTimeStart}px`,
+      left: `${28 * this.props.recordedTimeStart}px`
     };
 
     return (
       <div className="timeline">
         <div className="timeline-container">
           <div className="timeline-full" style={timelineFullStyles}>
+            <div
+              className="timeline-recording-wrapper"
+              style={timelineRecordingWrapperStyles}
+            ></div>
             <div className="timeline-sections-wrapper">
               <div className="timeline-sections-container">
-              {this.createMoments()}
+                {this.createMoments()}
               </div>
             </div>
           </div>
@@ -81,4 +111,9 @@ class Timeline extends React.Component<TimelineProps> {
   }
 }
 
-export default Timeline;
+const TimelineContainer: ConnectedComponent<typeof Timeline, any> = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Timeline);
+
+export default TimelineContainer;
