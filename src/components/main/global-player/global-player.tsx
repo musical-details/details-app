@@ -210,6 +210,13 @@ class GlobalPlayerComponent extends React.Component<
               : duration - (currentTime + diffTime);
           this.audio.currentTime = nextTime;
           return;
+        case 82:
+          const { mode, onAudioRecordStart, onAudioRecordStop } = this.props;
+          mode === RatingEditorMode.RECORDING
+            ? onAudioRecordStop()
+            : onAudioRecordStart();
+
+          return;
         default:
           break;
       }
