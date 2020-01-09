@@ -12,16 +12,16 @@ function startRecording() {
     if (!isPlaying) {
       dispatch(trackActions.setAudioStatus(true));
     }
-    dispatch(ratingActions.setAudioRecordingMode(RatingEditorMode.RECORDING));
-    dispatch(ratingActions.setAudioRecordingTimeStart(currentTime));
+    dispatch(ratingActions.setMode(RatingEditorMode.RECORDING));
+    dispatch(ratingActions.setSelectedTimeStart(currentTime));
   };
 }
 
 function stopRecording() {
   return (dispatch: Dispatch<AnyAction>, getState: () => AppState): any => {
     const { isPlaying, currentTime } = getState().track;
-    dispatch(ratingActions.setAudioRecordingMode(RatingEditorMode.MODIFYING));
-    dispatch(ratingActions.setAudioRecordingTimeEnd(currentTime));
+    dispatch(ratingActions.setMode(RatingEditorMode.MODIFYING));
+    dispatch(ratingActions.setSelectedTimeEnd(currentTime));
   };
 }
 

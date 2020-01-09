@@ -7,6 +7,8 @@ import { AppState } from "../../../core/state/store";
 import { connect, ConnectedComponent } from "react-redux";
 import viewedTrackSelectors from "../../../core/state/ducks/viewed-track/viewed-track.selectors";
 import { RatingEditorMode } from "../../../core/state/ducks/rating-editor/rating-editor.state";
+import Draggable from "react-draggable";
+import ratingEditorActions from "../../../core/state/ducks/rating-editor/rating-editor.actions";
 
 const mapStateToProps = (state: AppState): TimelineProps | any => ({
   isSetInPlayer: state.viewedTrack.isSetInPlayer,
@@ -14,13 +16,15 @@ const mapStateToProps = (state: AppState): TimelineProps | any => ({
   currentTime: state.track.currentTime,
   duration: state.track.duration,
   moments: viewedTrackSelectors.getSelectedMoments(state),
-  recordedTimeStart: state.ratingEditor.recordingTime.start,
-  recordedTimeEnd: state.ratingEditor.recordingTime.end
+  selectedTimeStart: state.ratingEditor.selectedTime.start,
+  selectedTimeEnd: state.ratingEditor.selectedTime.end
 });
 
-const mapDispatchToProps = (
-  dispatch: Dispatch<any>
-): TimelineProps | any => ({});
+const mapDispatchToProps = (dispatch: Dispatch<any>): TimelineProps | any => ({
+  onCancelModyfing: () => {
+    dispatch(ratingEditorActions.setMode(RatingEditorMode.DISABLED));
+  }
+});
 
 type TimelineProps = {
   isSetInPlayer: boolean;
@@ -28,8 +32,9 @@ type TimelineProps = {
   currentTime: number;
   duration: number;
   moments: Array<Moment>;
-  recordedTimeStart: number;
-  recordedTimeEnd: number;
+  selectedTimeStart: number;
+  selectedTimeEnd: number;
+  onCancelModyfing: () => void;
 };
 
 type Moment = {
@@ -63,28 +68,81 @@ class Timeline extends React.Component<TimelineProps> {
     return moments;
   };
 
+  getRecordingWrapperStyles = (): CSS.Properties => {
+    const {
+      currentTime,
+      mode,
+      selectedTimeStart,
+      selectedTimeEnd
+    } = this.props;
+
+    switch (mode) {
+      case RatingEditorMode.DISABLED:
+        return {
+          display: "none"
+        };
+
+      case RatingEditorMode.RECORDING:
+        return {
+          display: "block",
+          width: `${28 * currentTime - 28 * selectedTimeStart}px`,
+          left: `${28 * selectedTimeStart}px`
+        };
+
+      case RatingEditorMode.MODIFYING:
+        return {
+          display: "block",
+          width: `${28 * selectedTimeEnd - 28 * selectedTimeStart}px`,
+          left: `${28 * selectedTimeStart}px`
+        };
+    }
+  };
+
+  handleRecordingCancelButton = (event: React.MouseEvent): void => {
+    this.props.onCancelModyfing();
+  };
+
   render() {
-    const timelineFullStyles: CSS.Properties = {
-      width: 28 * this.props.duration + "px",
-      transform: `translate(${-this.props.currentTime * 28 + 420}px)`
+    const { duration, currentTime, mode } = this.props;
+    const fullStyles: CSS.Properties = {
+      width: 28 * duration + "px",
+      transform: `translate(${-currentTime * 28 + 420}px)`
     };
 
-    const timelineRecordingWrapperStyles: CSS.Properties = {
-      display:
-        this.props.mode === RatingEditorMode.RECORDING ? "block" : "none",
-      width: `${28 * this.props.currentTime -
-        28 * this.props.recordedTimeStart}px`,
-      left: `${28 * this.props.recordedTimeStart}px`
+    const recordingWrapperStyles: CSS.Properties = this.getRecordingWrapperStyles();
+
+    const recordingCancelButtonStyles: CSS.Properties = {
+      display: mode === RatingEditorMode.MODIFYING ? "flex" : "none"
     };
 
     return (
       <div className="timeline">
         <div className="timeline-container">
-          <div className="timeline-full" style={timelineFullStyles}>
+          <div className="timeline-full" style={fullStyles}>
             <div
               className="timeline-recording-wrapper"
-              style={timelineRecordingWrapperStyles}
-            ></div>
+              style={recordingWrapperStyles}
+            >
+              <div
+                className="cancel-button"
+                style={recordingCancelButtonStyles}
+                onClick={this.handleRecordingCancelButton}
+              >
+                <i className="icon-cancel"></i>
+              </div>
+              <div id="new-moment">
+                <Draggable axis="x" bounds=".timeline-recording-wrapper">
+                  <TimelineMoment
+                    name={"New"}
+                    color={"#000000"}
+                    start={1}
+                    end={4}
+                    timelineSection={2}
+                    currentTime={this.props.currentTime}
+                  />
+                </Draggable>
+              </div>
+            </div>
             <div className="timeline-sections-wrapper">
               <div className="timeline-sections-container">
                 {this.createMoments()}

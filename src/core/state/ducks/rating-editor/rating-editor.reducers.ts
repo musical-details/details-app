@@ -7,25 +7,25 @@ const ratingEditorReducer = (
   action: Action
 ): AppRatingEditorState => {
   switch (action.type) {
-    case ActionTypes.SET_AUDIO_RECORDING_MODE:
+    case ActionTypes.SET_MODE:
       return {
         ...state,
         mode: action.payload.mode
       };
-    case ActionTypes.SET_AUDIO_RECORDING_TIME_START:
+    case ActionTypes.SET_SELECTED_TIME_START:
       return {
         ...state,
-        recordingTime: {
-          ...state.recordingTime,
-          start: action.payload.recordingTimeStart
+        selectedTime: {
+          ...state.selectedTime,
+          start: action.payload.selectedTimeStart
         }
       };
-    case ActionTypes.SET_AUDIO_RECORDING_TIME_END:
+    case ActionTypes.SET_SELECTED_TIME_END:
       return {
         ...state,
-        recordingTime: {
-          ...state.recordingTime,
-          end: action.payload.recordingTimeEnd
+        selectedTime: {
+          ...state.selectedTime,
+          end: action.payload.selectedTimeEnd
         }
       };
     default:

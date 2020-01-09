@@ -20,6 +20,8 @@ const mapStateToProps = (state: AppState): GlobalPlayerProps | any => ({
   audioSource: state.track.audioSource,
   isPlaying: state.track.isPlaying,
   mode: state.ratingEditor.mode,
+  selectedTimeStart: state.ratingEditor.selectedTime.start,
+  selectedTimeEnd: state.ratingEditor.selectedTime.end,
   currentTime: state.track.currentTime,
   newTime: state.track.newTime,
   duration: state.track.duration,
@@ -74,6 +76,8 @@ type GlobalPlayerProps = {
   audioSource: string;
   isPlaying: boolean;
   mode: RatingEditorMode;
+  selectedTimeStart: number;
+  selectedTimeEnd: number;
   currentTime: number;
   newTime: number;
   duration: number;
@@ -147,6 +151,11 @@ class GlobalPlayerComponent extends React.Component<
   };
 
   handleAudioTimeUpdate = () => {
+    if (this.props.mode === RatingEditorMode.MODIFYING) {
+      if (this.audio.currentTime >= this.props.selectedTimeEnd) {
+        this.audio.currentTime = this.props.selectedTimeStart;
+      }
+    }
     this.props.onAudioTimeUpdate(this.audio.currentTime);
   };
 
@@ -226,19 +235,18 @@ class GlobalPlayerComponent extends React.Component<
   render() {
     const { currentTime, duration, isPlaying, mode } = this.props;
 
-    let BarNotFillStyles: CSS.Properties = {
+    const BarNotFillStyles: CSS.Properties = {
       width: 100 - (currentTime / duration) * 100 + "%"
     };
 
-    let TrackCoverStyles: CSS.Properties = {
+    const TrackCoverStyles: CSS.Properties = {
       backgroundImage: `url(${this.props.cover})`
     };
 
-    let playButtonIcon: string = isPlaying ? "icon-pause" : "icon-play";
+    const playButtonIcon: string = isPlaying ? "icon-pause" : "icon-play";
 
-    let recordButtonActive: string =
+    const recordButtonActive: string =
       mode === RatingEditorMode.RECORDING ? "active" : "";
-
     return (
       <div className="global-player">
         <div>

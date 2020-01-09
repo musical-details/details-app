@@ -19,8 +19,8 @@ import { RatingEditorMode } from "../../../core/state/ducks/rating-editor/rating
 const mapStateToProps = (state: AppState): MomentEditorProps | any => ({
   currentTime: state.track.currentTime,
   mode: state.ratingEditor.mode,
-  recordedTimeStart: state.ratingEditor.recordingTime.start,
-  recordedTimeEnd: state.ratingEditor.recordingTime.end
+  selectedTimeStart: state.ratingEditor.selectedTime.start,
+  selectedTimeEnd: state.ratingEditor.selectedTime.end
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
@@ -28,18 +28,18 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     dispatch(trackActions.setAudioNewTime(time));
   },
   newRecordingTimeStart: (time: number) => {
-    dispatch(ratingEditorActions.setAudioRecordingTimeStart(time));
+    dispatch(ratingEditorActions.setSelectedTimeStart(time));
   },
   newRecordingTimeEnd: (time: number) => {
-    dispatch(ratingEditorActions.setAudioRecordingTimeEnd(time));
+    dispatch(ratingEditorActions.setSelectedTimeEnd(time));
   }
 });
 
 type MomentEditorProps = {
   currentTime: number;
   mode: RatingEditorMode;
-  recordedTimeStart: number;
-  recordedTimeEnd: number;
+  selectedTimeStart: number;
+  selectedTimeEnd: number;
   newCurrentTime: (time: number) => void;
   newRecordingTimeStart: (time: number) => void;
   newRecordingTimeEnd: (time: number) => void;
@@ -164,13 +164,12 @@ class MomentEditor extends React.Component<
   };
 
   getTimeValueInputArgs = (isStart: boolean): timeValueInputProps => {
-    const recordingValueArg: number = isStart
-      ? this.props.recordedTimeStart
-      : this.props.currentTime;
+    const { currentTime, selectedTimeStart, selectedTimeEnd } = this.props;
+    const recordingValueArg: number = isStart ? selectedTimeStart : currentTime;
 
     const editingValueArg: number = isStart
-      ? this.props.recordedTimeStart
-      : this.props.recordedTimeEnd;
+      ? selectedTimeStart
+      : selectedTimeEnd;
 
     const handleTypeArg: (event: React.KeyboardEvent) => void = isStart
       ? this.handleStartChangeTime

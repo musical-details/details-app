@@ -19,7 +19,7 @@ export type MomentSection = 1 | 2 | 3 | 4 | 5;
 
 export interface AppRatingEditorState {
   readonly mode: RatingEditorMode;
-  readonly recordingTime: { start: number; end: number };
+  readonly selectedTime: { start: number; end: number };
   readonly newMomentTime: { start: number; end: number };
   readonly selectedMomentColor: string;
   readonly selectedMomentReaction: MomentReaction;
@@ -28,7 +28,7 @@ export interface AppRatingEditorState {
 
 export const initialState: AppRatingEditorState = {
   mode: RatingEditorMode.DISABLED,
-  recordingTime: { start: 0, end: 0 },
+  selectedTime: { start: 0, end: 0 },
   newMomentTime: { start: 0, end: 0 },
   selectedMomentColor: "",
   selectedMomentReaction: MomentReaction.NONE,
