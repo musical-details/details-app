@@ -97,7 +97,7 @@ const randomMoment = (trackDuration: number): Moment => {
     color: momentsColors[random(0, momentsColors.length)],
     start: momentStart,
     end: momentEnd,
-    timelineSection: random(1, 5)
+    timelineSection: random(0, 4)
   };
 };
 

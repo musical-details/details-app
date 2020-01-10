@@ -143,6 +143,7 @@ class Timeline extends React.Component<TimelineProps> {
                 </Draggable>
               </div>
             </div>
+            <div className="timeline-new-moment-section"></div>
             <div className="timeline-sections-wrapper">
               <div className="timeline-sections-container">
                 {this.createMoments()}
