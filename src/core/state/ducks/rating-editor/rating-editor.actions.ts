@@ -1,7 +1,7 @@
 import ActionTypes from "./rating-editor.types";
 import { RatingEditorMode } from "./rating-editor.state";
 import { Action } from "../../models";
-import { MomentReaction, MomentColor, MomentSection } from "../../../shared";
+import { MomentReaction, MomentColor, MomentSection, Seconds } from "../../../shared";
 
 const setMode = (mode: RatingEditorMode): Action => ({
   type: ActionTypes.SET_MODE,
@@ -10,28 +10,28 @@ const setMode = (mode: RatingEditorMode): Action => ({
   }
 });
 
-const setSelectedTimeStart = (timeStart: number): Action => ({
+const setSelectedTimeStart = (start: Seconds): Action => ({
   type: ActionTypes.SET_SELECTED_TIME_START,
   payload: {
-    selectedTimeStart: timeStart
+    selectedTimeStart: start
   }
 });
 
-const setSelectedTimeEnd = (timeEnd: number): Action => ({
+const setSelectedTimeEnd = (end: Seconds): Action => ({
   type: ActionTypes.SET_SELECTED_TIME_END,
   payload: {
-    selectedTimeEnd: timeEnd
+    selectedTimeEnd: end
   }
 });
 
-const setNewMomentTimeStart = (start: number): Action => ({
+const setNewMomentTimeStart = (start: Seconds): Action => ({
   type: ActionTypes.SET_NEW_MOMENT_TIME_START,
   payload: {
     start: start
   }
 });
 
-const setNewMomentTimeEnd = (end: number): Action => ({
+const setNewMomentTimeEnd = (end: Seconds): Action => ({
   type: ActionTypes.SET_NEW_MOMENT_TIME_START,
   payload: {
     end: end

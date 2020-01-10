@@ -1,4 +1,4 @@
-import { Moment, MomentReaction, MomentSection } from "../../../shared/index";
+import { Moment, MomentReaction, MomentSection, Seconds } from "../../../shared/index";
 
 export enum RatingEditorMode {
   DISABLED = "DISABLED",
@@ -8,7 +8,7 @@ export enum RatingEditorMode {
 
 export interface AppRatingEditorState {
   readonly mode: RatingEditorMode;
-  readonly selectedTime: { start: number; end: number };
+  readonly selectedTime: { start: Seconds; end: Seconds };
   readonly newMoment: Moment,
 }
 
