@@ -1,36 +1,27 @@
+import { Moment, MomentReaction, MomentSection } from "../../../shared/index";
+
 export enum RatingEditorMode {
   DISABLED = "DISABLED",
   RECORDING = "RECORDING",
   MODIFYING = "MODIFYING"
 }
 
-export enum MomentReaction {
-  NONE = "None",
-  SUPRRISED_FACE = "SuprisedFace",
-  CRYING_FACE = "CryingFace",
-  POUTING_FACE = "PoutingFace",
-  LOVE = "Love",
-  LAUGHING_FACE = "LaughingFace",
-  THUMB_DOWN = "ThumbDown",
-  THUMB_UP = "ThumbUp"
-}
-
-export type MomentSection = 1 | 2 | 3 | 4 | 5;
-
 export interface AppRatingEditorState {
   readonly mode: RatingEditorMode;
   readonly selectedTime: { start: number; end: number };
-  readonly newMomentTime: { start: number; end: number };
-  readonly selectedMomentColor: string;
-  readonly selectedMomentReaction: MomentReaction;
-  readonly selectedMomentSection: MomentSection;
+  readonly newMoment: Moment,
 }
 
 export const initialState: AppRatingEditorState = {
   mode: RatingEditorMode.DISABLED,
   selectedTime: { start: 0, end: 0 },
-  newMomentTime: { start: 0, end: 0 },
-  selectedMomentColor: "",
-  selectedMomentReaction: MomentReaction.NONE,
-  selectedMomentSection: 3
+  newMoment: {
+    name: "",
+    description: "",
+    color: "DEFAULT",
+    reaction: MomentReaction.NONE,
+    start: 0,
+    end: 0,
+    section: 2,
+  },
 };

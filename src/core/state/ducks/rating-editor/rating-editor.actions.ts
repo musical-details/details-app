@@ -1,6 +1,7 @@
 import ActionTypes from "./rating-editor.types";
 import { RatingEditorMode } from "./rating-editor.state";
 import { Action } from "../../models";
+import { MomentReaction, MomentColor, MomentSection } from "../../../shared";
 
 const setMode = (mode: RatingEditorMode): Action => ({
   type: ActionTypes.SET_MODE,
@@ -23,24 +24,67 @@ const setSelectedTimeEnd = (timeEnd: number): Action => ({
   }
 });
 
-const setNewMomentTimeStart = (timeStart: number): Action => ({
+const setNewMomentTimeStart = (start: number): Action => ({
   type: ActionTypes.SET_NEW_MOMENT_TIME_START,
   payload: {
-    newMomentTimeStart: timeStart
+    start: start
   }
 });
 
-const setNewMomentTimeEnd = (timeEnd: number): Action => ({
-  type: ActionTypes.SET_NEW_MOMENT_TIME_END,
+const setNewMomentTimeEnd = (end: number): Action => ({
+  type: ActionTypes.SET_NEW_MOMENT_TIME_START,
   payload: {
-    newMomentTimeEnd: timeEnd
+    end: end
   }
 });
+
+const setNewMomentName = (name: string): Action => ({
+  type: ActionTypes.SET_NEW_MOMENT_NAME,
+  payload: {
+    name: name
+  }
+});
+
+const setNewMomentDescription = (description: string): Action => ({
+  type: ActionTypes.SET_NEW_MOMENT_DESCRIPTION,
+  payload: {
+    description: description
+  }
+});
+
+const setNewMomentColor = (color: MomentColor): Action => ({
+  type: ActionTypes.SET_NEW_MOMENT_COLOR,
+  payload: {
+    color: color
+  }
+});
+
+
+const setNewMomentReaction = (reaction: MomentReaction): Action => ({
+  type: ActionTypes.SET_NEW_MOMENT_REACTION,
+  payload: {
+    reaction: reaction
+  }
+});
+
+
+const setNewMomentSection = (section: MomentSection): Action => ({
+  type: ActionTypes.SET_NEW_MOMENT_SECTION,
+  payload: {
+    section: section
+  }
+});
+
 
 export default {
   setMode,
   setSelectedTimeStart,
   setSelectedTimeEnd,
   setNewMomentTimeStart,
-  setNewMomentTimeEnd
+  setNewMomentTimeEnd,
+  setNewMomentName,
+  setNewMomentDescription,
+  setNewMomentColor,
+  setNewMomentReaction,
+  setNewMomentSection
 };

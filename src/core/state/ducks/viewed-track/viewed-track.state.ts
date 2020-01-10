@@ -1,12 +1,21 @@
+/**
+ * @deprecated
+ */
+
 export type Moment = {
   name: string;
   description: string;
   color: string;
+  reaction?: any;
+
   start: number;
   end: number;
   timelineSection: number;
 };
 
+/**
+ * @deprecated
+ */
 export type Rating = {
   ratingId: number;
   user: {

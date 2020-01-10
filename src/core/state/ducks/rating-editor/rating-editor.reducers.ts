@@ -28,6 +28,66 @@ const ratingEditorReducer = (
           end: action.payload.selectedTimeEnd
         }
       };
+
+    case ActionTypes.SET_NEW_MOMENT_NAME:
+      return {
+        ...state,
+        newMoment: {
+          ...state.newMoment,
+          name: action.payload.name
+        }
+      };
+
+    case ActionTypes.SET_NEW_MOMENT_DESCRIPTION:
+      return {
+        ...state,
+        newMoment: {
+          ...state.newMoment,
+          description: action.payload.description
+        }
+      };
+
+    case ActionTypes.SET_NEW_MOMENT_COLOR:
+      return {
+        ...state,
+        newMoment: {
+          ...state.newMoment,
+          color: action.payload.color
+        }
+      };
+
+    case ActionTypes.SET_NEW_MOMENT_REACTION:
+      return {
+        ...state,
+        newMoment: {
+          ...state.newMoment,
+          reaction: action.payload.reaction
+        }
+      };
+    case ActionTypes.SET_NEW_MOMENT_TIME_START:
+      return {
+        ...state,
+        newMoment: {
+          ...state.newMoment,
+          start: action.payload.start
+        }
+      };
+    case ActionTypes.SET_NEW_MOMENT_TIME_END:
+      return {
+        ...state,
+        newMoment: {
+          ...state.newMoment,
+          end: action.payload.end
+        }
+      };
+    case ActionTypes.SET_NEW_MOMENT_SECTION:
+      return {
+        ...state,
+        newMoment: {
+          ...state.newMoment,
+          section: action.payload.section
+        }
+      };
     default:
       return state;
   }
