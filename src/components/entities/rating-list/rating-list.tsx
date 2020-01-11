@@ -3,25 +3,27 @@ import React, { Dispatch, ComponentClass } from "react";
 import "./rating-list.scss";
 import { AppState } from "../../../core/state/store";
 
-import viewedTrackSelectors from "../../../core/state/ducks/viewed-track/viewed-track.selectors";
+import * as tasks from "../../../core/state/ducks/tasks";
 
 import { connect, ConnectedComponent } from "react-redux";
 import { withRouter } from "react-router";
 import CSS from "csstype";
-import viewedTrackActions from "../../../core/state/ducks/viewed-track/viewed-track.actions";
 import { Rating } from "../../../core/shared";
+import { scrollTo } from "../../../utils/";
+import { RatingEditorMode } from "../../../core/state/ducks/rating-editor/rating-editor.state";
 
 const mapStateToProps = (state: AppState): RatingListProps | any => ({
-  userRating: viewedTrackSelectors.getUserRating(state),
-  otherRatings: viewedTrackSelectors.getOtherRatings(state),
-  selectedRatingId: state.viewedTrack.selectedRatingId
+  userRating: tasks.viewedTrackSelectors.getUserRating(state),
+  otherRatings: tasks.viewedTrackSelectors.getOtherRatings(state),
+  selectedRatingId: state.viewedTrack.selectedRatingId,
+  mode: state.ratingEditor.mode
 });
 
 const mapDispatchToProps = (
   dispatch: Dispatch<any>
 ): RatingListProps | any => ({
   onChangeRating: (ratingId: number): void => {
-    dispatch(viewedTrackActions.setSelectedRatingId(ratingId));
+    dispatch(tasks.viewedTrackActions.setSelectedRatingId(ratingId));
   }
 });
 
@@ -29,6 +31,7 @@ type RatingListProps = {
   userRating: Rating;
   otherRatings: Array<Rating>;
   selectedRatingId: number;
+  mode: RatingEditorMode;
   onChangeRating: (ratingId: number) => void;
   match?: any;
 };
@@ -36,11 +39,23 @@ type RatingListProps = {
 type RatingListState = {};
 
 class RatingList extends React.Component<RatingListProps, RatingListState> {
+  ratingListRef: React.RefObject<HTMLDivElement>;
+
   constructor(props: RatingListProps) {
     super(props);
+    this.ratingListRef = React.createRef();
   }
 
   componentDidMount() {}
+
+  componentDidUpdate(prevProps: RatingListProps) {
+    if (
+      this.props.mode !== prevProps.mode &&
+      this.props.mode === RatingEditorMode.RECORDING
+    ) {
+      scrollTo(this.ratingListRef);
+    }
+  }
 
   renderButtons(): Array<JSX.Element> {
     const { userRating, otherRatings } = this.props;
@@ -128,7 +143,7 @@ class RatingList extends React.Component<RatingListProps, RatingListState> {
 
   render() {
     return (
-      <div className="rating-list">
+      <div ref={this.ratingListRef} className="rating-list">
         <div>{this.renderButtons()}</div>
       </div>
     );

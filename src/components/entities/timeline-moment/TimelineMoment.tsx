@@ -1,16 +1,16 @@
 import React from "react";
 
-import Timeline from "../timeline/Timeline";
 import "./TimeLineMoment.scss";
 import CSS from "csstype";
+import { MomentColor, Seconds, MomentSection } from "../../../core/shared";
 
 type TimelineMomentProps = {
   name: string;
-  color: string;
-  start: number;
-  end: number;
-  currentTime: number;
-  timelineSection: number;
+  color: MomentColor;
+  start: Seconds;
+  end: Seconds;
+  currentTime: Seconds;
+  section: MomentSection;
 };
 
 class TimelineMoment extends React.Component<TimelineMomentProps> {
@@ -20,17 +20,6 @@ class TimelineMoment extends React.Component<TimelineMomentProps> {
 
   countWidth = () => {
     return (this.props.end - this.props.start) * 28;
-  };
-
-  momentWrapperStyleNormal: CSS.Properties = {
-    width: `${this.countWidth()}px`,
-    transform: `translate(${this.props.start * 28}px)`,
-    display: "flex",
-    top: `${this.props.timelineSection * 20}%`
-  };
-
-  momentBackgroundStyle: CSS.Properties = {
-    backgroundColor: this.props.color
   };
 
   getMomentBackgroundClass = (): string => {
@@ -54,18 +43,31 @@ class TimelineMoment extends React.Component<TimelineMomentProps> {
   };
 
   render() {
+    const momentWrapperStyleNormal: CSS.Properties = {
+      width: `${this.countWidth()}px`,
+      transform: `translate(${this.props.start * 28}px)`,
+      display: "flex",
+      top: `${this.props.section * 20}%`
+    };
+
+    const momentBackgroundStyle: CSS.Properties = {
+      backgroundColor: this.props.color
+    };
+
     return (
-      <div className="moment-wrapper" style={this.momentWrapperStyleNormal}>
+      <div className="moment-wrapper" style={momentWrapperStyleNormal}>
         <div className="moment-container">
           <div
             className="moment-name-container"
             style={{ color: this.props.color }}
           >
-            <div className={this.getMomentNameClass()}>{this.props.name}</div>
+            <div className={this.getMomentNameClass()}>
+              <span>{this.props.name}</span>
+            </div>
           </div>
           <div
             className={this.getMomentBackgroundClass()}
-            style={this.momentBackgroundStyle}
+            style={momentBackgroundStyle}
           ></div>
           <div
             className="moment-bottom-stripe"

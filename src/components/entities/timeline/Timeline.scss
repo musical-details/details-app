@@ -65,6 +65,15 @@
   }
 }
 
+.new-moment-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 200;
+  width: 0;
+  height: 100%;
+}
+
 .timeline-sections-wrapper {
   box-sizing: border-box;
   position: relative;

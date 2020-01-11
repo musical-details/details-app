@@ -29,19 +29,24 @@
   top: 50%;
   left: 8px;
   transform: translate(0, -50%);
-  font-family: Roboto;
-  font-weight: 600;
   text-align: left;
-  font-size: 13px;
-  letter-spacing: 0.9px;
-  text-transform: uppercase;
-  font-variant: small-caps;
-}
 
-.moment-name {
   &.slide {
     left: 75%;
     transition: 5.25s linear;
+  }
+
+  & > span {
+    font-family: Roboto;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.9px;
+    text-transform: uppercase;
+    font-variant: small-caps;
+
+    &::selection {
+      background: transparent;
+    }
   }
 }
 
@@ -60,8 +65,8 @@
   }
 }
 
-.moment-container :hover,
-.moment-background :hover {
+.moment-container:hover,
+.moment-background:hover {
   opacity: 0.55;
   cursor: pointer;
 }

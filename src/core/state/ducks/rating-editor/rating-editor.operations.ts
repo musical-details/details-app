@@ -20,9 +20,13 @@ function startRecording() {
 
 function stopRecording() {
   return (dispatch: Dispatch<AnyAction>, getState: () => AppState): any => {
-    const { isPlaying, currentTime } = getState().track;
+    const { currentTime } = getState().track;
+    const { selectedTime } = getState().ratingEditor;
+
     dispatch(ratingActions.setMode(RatingEditorMode.MODIFYING));
     dispatch(ratingActions.setSelectedTimeEnd(currentTime));
+    dispatch(ratingActions.setNewMomentTimeStart(selectedTime.start));
+    dispatch(ratingActions.setNewMomentTimeEnd(currentTime));
   };
 }
 

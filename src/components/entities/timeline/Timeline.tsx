@@ -5,25 +5,25 @@ import "./Timeline.scss";
 import TimelineTimers from "./timeline-timer";
 import { AppState } from "../../../core/state/store";
 import { connect, ConnectedComponent } from "react-redux";
-import viewedTrackSelectors from "../../../core/state/ducks/viewed-track/viewed-track.selectors";
 import { RatingEditorMode } from "../../../core/state/ducks/rating-editor/rating-editor.state";
 import Draggable from "react-draggable";
-import ratingEditorActions from "../../../core/state/ducks/rating-editor/rating-editor.actions";
 import { Moment } from "../../../core/shared";
+import * as tasks from "../../../core/state/ducks/tasks";
 
 const mapStateToProps = (state: AppState): TimelineProps | any => ({
   isSetInPlayer: state.viewedTrack.isSetInPlayer,
   mode: state.ratingEditor.mode,
   currentTime: state.track.currentTime,
   duration: state.track.duration,
-  moments: viewedTrackSelectors.getSelectedMoments(state),
+  moments: tasks.viewedTrackSelectors.getSelectedMoments(state),
   selectedTimeStart: state.ratingEditor.selectedTime.start,
-  selectedTimeEnd: state.ratingEditor.selectedTime.end
+  selectedTimeEnd: state.ratingEditor.selectedTime.end,
+  newMoment: state.ratingEditor.newMoment
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): TimelineProps | any => ({
   onCancelModyfing: () => {
-    dispatch(ratingEditorActions.setMode(RatingEditorMode.DISABLED));
+    dispatch(tasks.ratingEditorActions.setMode(RatingEditorMode.DISABLED));
   }
 });
 
@@ -35,6 +35,7 @@ type TimelineProps = {
   moments: Array<Moment>;
   selectedTimeStart: number;
   selectedTimeEnd: number;
+  newMoment: Moment;
   onCancelModyfing: () => void;
 };
 
@@ -53,7 +54,7 @@ class Timeline extends React.Component<TimelineProps> {
           color={moment.color}
           start={moment.start}
           end={moment.end}
-          timelineSection={moment.section}
+          section={moment.section}
           currentTime={this.props.currentTime}
         />
       );
@@ -108,6 +109,10 @@ class Timeline extends React.Component<TimelineProps> {
       display: mode === RatingEditorMode.MODIFYING ? "flex" : "none"
     };
 
+    const newMomentWrapperStyles: CSS.Properties = {
+      display: mode === RatingEditorMode.MODIFYING ? "block" : "none"
+    };
+
     return (
       <div className="timeline">
         <div className="timeline-container">
@@ -123,20 +128,19 @@ class Timeline extends React.Component<TimelineProps> {
               >
                 <i className="icon-cancel"></i>
               </div>
-              <div id="new-moment">
-                <Draggable axis="x" bounds=".timeline-recording-wrapper">
-                  <TimelineMoment
-                    name={"New"}
-                    color={"#000000"}
-                    start={1}
-                    end={4}
-                    timelineSection={2}
-                    currentTime={this.props.currentTime}
-                  />
-                </Draggable>
-              </div>
             </div>
-            <div className="timeline-new-moment-section"></div>
+            <div className="new-moment-wrapper" style={newMomentWrapperStyles}>
+              <Draggable axis="x" bounds=".timeline-recording-wrapper">
+                <TimelineMoment
+                  name={this.props.newMoment.name}
+                  color={this.props.newMoment.color}
+                  start={this.props.newMoment.start}
+                  end={this.props.newMoment.end}
+                  section={this.props.newMoment.section}
+                  currentTime={this.props.currentTime}
+                />
+              </Draggable>
+            </div>
             <div className="timeline-sections-wrapper">
               <div className="timeline-sections-container">
                 {this.createMoments()}
