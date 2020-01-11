@@ -16,15 +16,38 @@ import {
   convertToSeconds,
   scrollTo
 } from "../../../utils/index";
+import {
+  Moment,
+  MomentColor,
+  MomentSection,
+  MomentReaction
+} from "../../../core/shared";
 
 const mapStateToProps = (state: AppState): MomentEditorProps | any => ({
   currentTime: state.track.currentTime,
   mode: state.ratingEditor.mode,
   selectedTimeStart: state.ratingEditor.selectedTime.start,
-  selectedTimeEnd: state.ratingEditor.selectedTime.end
+  selectedTimeEnd: state.ratingEditor.selectedTime.end,
+  newMoment: state.ratingEditor.newMoment
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
+  onNameChange: (name: string) => {
+    dispatch(tasks.ratingEditorActions.setNewMomentName(name));
+  },
+  onDescriptionChange: (description: string) => {
+    dispatch(tasks.ratingEditorActions.setNewMomentDescription(description));
+  },
+  onColorChange: (newColor: MomentColor) => {
+    dispatch(tasks.ratingEditorActions.setNewMomentColor(newColor));
+  },
+  onReactionChange: (newReaction: MomentReaction) => {
+    dispatch(tasks.ratingEditorActions.setNewMomentReaction(newReaction));
+  },
+  onSectionChange: (newSection: MomentSection) => {
+    dispatch(tasks.ratingEditorActions.setNewMomentSection(newSection));
+  },
+
   newCurrentTime: (time: number) => {
     dispatch(tasks.trackActions.setAudioNewTime(time));
   },
@@ -41,6 +64,12 @@ type MomentEditorProps = {
   mode: RatingEditorMode;
   selectedTimeStart: number;
   selectedTimeEnd: number;
+  newMoment: Moment;
+  onNameChange: (name: string) => void;
+  onDescriptionChange: (description: string) => void;
+  onColorChange: (newColor: MomentColor) => void;
+  onReactionChange: (newReaction: MomentReaction) => void;
+  onSectionChange: (newSection: MomentSection) => void;
   newCurrentTime: (time: number) => void;
   newRecordingTimeStart: (time: number) => void;
   newRecordingTimeEnd: (time: number) => void;
@@ -72,14 +101,14 @@ class MomentEditor extends React.Component<
   defaultColor: string;
 
   state: MomentEditorState = {
-    selectedColor: "#222",
+    selectedColor: "#202020",
     selectedReaction: "",
     section: 0
   };
 
   constructor(props: MomentEditorProps) {
     super(props);
-    this.defaultColor = "#222";
+    this.defaultColor = "#202020";
     this.startMinutesRef = React.createRef();
     this.startSecondsRef = React.createRef();
     this.startMilisecondsRef = React.createRef();
@@ -101,9 +130,7 @@ class MomentEditor extends React.Component<
       event.currentTarget.getAttribute("data-color") !== null
         ? (event.currentTarget.getAttribute("data-color") as string)
         : this.defaultColor;
-    this.setState({
-      selectedColor: selectedColor
-    });
+    this.props.onColorChange(selectedColor);
   };
 
   handleReactionClick = (event: React.MouseEvent<HTMLSpanElement>): void => {
@@ -117,11 +144,12 @@ class MomentEditor extends React.Component<
   };
 
   handleSectionClick = (event: React.MouseEvent<HTMLDivElement>): void => {
-    const el: Element | null = event.currentTarget.children.item(0);
-    const section: string = el !== null ? el.innerHTML : "";
-    this.setState({
-      section: parseInt(section)
-    });
+    const dataSection: string | null = event.currentTarget.getAttribute(
+      "data-section"
+    );
+    const section: MomentSection =
+      dataSection !== null ? (parseInt(dataSection) as MomentSection) : 2;
+    this.props.onSectionChange(section);
   };
 
   handleStartChangeTime = (event: React.KeyboardEvent): void => {
@@ -185,11 +213,9 @@ class MomentEditor extends React.Component<
 
   mmInput = (isStart: boolean): JSX.Element => {
     let input: JSX.Element;
-    let refTypeArg: React.RefObject<HTMLInputElement>;
-
-    isStart
-      ? (refTypeArg = this.startMinutesRef)
-      : (refTypeArg = this.endMinutesRef);
+    const refTypeArg: React.RefObject<HTMLInputElement> = isStart
+      ? this.startMinutesRef
+      : this.endMinutesRef;
 
     input =
       this.props.mode === RatingEditorMode.RECORDING ? (
@@ -226,11 +252,9 @@ class MomentEditor extends React.Component<
 
   ssInput = (isStart: boolean): JSX.Element => {
     let input: JSX.Element;
-    let refTypeArg: React.RefObject<HTMLInputElement>;
-
-    isStart
-      ? (refTypeArg = this.startSecondsRef)
-      : (refTypeArg = this.endSecondsRef);
+    const refTypeArg: React.RefObject<HTMLInputElement> = isStart
+      ? this.startSecondsRef
+      : this.endSecondsRef;
 
     input =
       this.props.mode === RatingEditorMode.RECORDING ? (
@@ -267,11 +291,9 @@ class MomentEditor extends React.Component<
 
   msInput = (isStart: boolean): JSX.Element => {
     let input: JSX.Element;
-    let refTypeArg: React.RefObject<HTMLInputElement>;
-
-    isStart
-      ? (refTypeArg = this.startMilisecondsRef)
-      : (refTypeArg = this.endMilisecondsRef);
+    const refTypeArg: React.RefObject<HTMLInputElement> = isStart
+      ? this.startMilisecondsRef
+      : this.endMilisecondsRef;
 
     input =
       this.props.mode === RatingEditorMode.RECORDING ? (
@@ -307,76 +329,92 @@ class MomentEditor extends React.Component<
   };
 
   createMomentReactions = (): Array<JSX.Element> => {
-    let reactionsArr: Array<JSX.Element> = [];
+    let reactions: Array<JSX.Element> = [];
 
-    for (let i = 0; i < momentReactionsJSON.reactions.length; ++i) {
-      let reactionClass: string;
-      momentReactionsJSON.reactions[i].name == this.state.selectedReaction
-        ? (reactionClass = "moment-reaction active")
-        : (reactionClass = "moment-reaction");
+    for (const reaction of momentReactionsJSON.reactions) {
+      const reactionClass: string =
+        reaction.name == this.state.selectedReaction
+          ? "moment-reaction active"
+          : "moment-reaction";
 
-      reactionsArr.push(
+      reactions.push(
         <span className={reactionClass}>
           <img
             className="reaction-img"
-            src={momentReactionsJSON.reactions[i].path}
+            src={reaction.path}
             onClick={this.handleReactionClick}
-            alt={momentReactionsJSON.reactions[i].name}
+            alt={reaction.name}
           />
         </span>
       );
     }
-    return reactionsArr;
+    return reactions;
   };
 
   createMomentColorButtons = (): Array<JSX.Element> => {
-    let buttonsArr: Array<JSX.Element> = [];
+    let buttons: Array<JSX.Element> = [];
 
-    for (let i = 0; i < momentColorsJSON.colors.length; ++i) {
-      let buttonClass: string;
-      momentColorsJSON.colors[i].color == this.state.selectedColor
-        ? (buttonClass = "color-button active")
-        : (buttonClass = "color-button");
+    for (const moment of momentColorsJSON.colors) {
+      const buttonClass: string =
+        moment.color === this.props.newMoment.color
+          ? "color-button active"
+          : "color-button";
 
-      buttonsArr.push(
+      buttons.push(
         <input
           type="button"
           className={buttonClass}
-          data-color={momentColorsJSON.colors[i].color}
-          style={this.setMomentColorButtonStyle(
-            momentColorsJSON.colors[i].color
-          )}
+          data-color={moment.color}
+          style={this.setMomentColorButtonStyle(moment.color)}
           onClick={this.handleColorButtonClick}
         />
       );
     }
-    return buttonsArr;
+    return buttons;
   };
 
   createSectionButtons = (): Array<JSX.Element> => {
-    let sectionButtonsArr: Array<JSX.Element> = [];
+    let sectionButtons: Array<JSX.Element> = [];
 
-    for (let i = 1; i < 6; ++i) {
-      let sectionButtonClass: string;
-      i == this.state.section
-        ? (sectionButtonClass = "section-button active")
-        : (sectionButtonClass = "section-button");
+    for (let section = 0; section <= 4; ++section) {
+      const sectionButtonClass: string =
+        section == this.props.newMoment.section
+          ? "section-button active"
+          : "section-button";
 
-      sectionButtonsArr.push(
-        <div className={sectionButtonClass} onClick={this.handleSectionClick}>
-          <span>{i}</span>
+      sectionButtons.push(
+        <div
+          className={sectionButtonClass}
+          data-section={section}
+          onClick={this.handleSectionClick}
+        >
+          <span>{section + 1}</span>
         </div>
       );
     }
-    return sectionButtonsArr;
+    return sectionButtons;
+  };
+
+  handleMomentNameInputKeyUp = (
+    event: React.KeyboardEvent<HTMLInputElement>
+  ): void => {
+    this.props.onNameChange(event.currentTarget.value);
+  };
+
+  handleMomentDescriptionAreaKeyUp = (
+    event: React.KeyboardEvent<HTMLTextAreaElement>
+  ): void => {
+    this.props.onDescriptionChange(event.currentTarget.value);
   };
 
   render() {
-    convertToMMSSMS(this.props.currentTime);
+    const { currentTime, newMoment } = this.props;
+
+    convertToMMSSMS(currentTime);
     return (
       <div
         className="moment-editor-container"
-        style={{ backgroundColor: this.countShade(this.state.selectedColor) }}
+        style={{ backgroundColor: this.countShade(newMoment.color) }}
       >
         <div className="moment-editor left">
           <div className="moment-name-input-container">
@@ -384,12 +422,14 @@ class MomentEditor extends React.Component<
               type="text"
               className="moment-name-input"
               placeholder="moment-name"
+              onKeyUp={this.handleMomentNameInputKeyUp}
             />
           </div>
           <div className="moment-description-container">
             <textarea
               className="moment-description-input"
               placeholder="Add description of your moment... "
+              onKeyUp={this.handleMomentDescriptionAreaKeyUp}
             />
           </div>
           <div className="moment-colors-container">

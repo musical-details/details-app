@@ -2,6 +2,7 @@ import { AppRatingEdtiorActions } from "./rating-editor.actions";
 import { AppRatingEditorState, initialState } from "./rating-editor.state";
 import ActionTypes from "./rating-editor.types";
 import { Reducer } from "react";
+import { MomentReaction } from "../../../shared";
 
 const ratingEditorReducer: Reducer<
   AppRatingEditorState | undefined,
@@ -90,6 +91,18 @@ const ratingEditorReducer: Reducer<
         newMoment: {
           ...state.newMoment,
           section: action.payload.section
+        }
+      };
+    case ActionTypes.RESET_MOMENT_EDITOR:
+      return {
+        ...state,
+        newMoment: {
+          ...state.newMoment,
+          name: "moment-name",
+          description: "",
+          color: "#202020",
+          reaction: MomentReaction.NONE,
+          section: 2
         }
       };
     default:

@@ -31,6 +31,7 @@ function stopRecording() {
     dispatch(ratingActions.setSelectedTimeEnd(currentTime));
     dispatch(ratingActions.setNewMomentTimeStart(selectedTime.start));
     dispatch(ratingActions.setNewMomentTimeEnd(currentTime));
+    dispatch(ratingActions.resetMomentEditor());
   };
 }
 

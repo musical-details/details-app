@@ -14,7 +14,7 @@ export enum MomentReaction {
 export type MomentSection = 0 | 1 | 2 | 3 | 4;
 
 export type MomentColor =
-  | "DEFAULT"
+  | "#202020"
   | "#5d238a"
   | "#283dc3"
   | "#38adae"

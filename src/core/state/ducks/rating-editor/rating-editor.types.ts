@@ -9,7 +9,7 @@ enum ActionTypes {
   SET_NEW_MOMENT_TIME_START = "rating-editor/SET_NEW_MOMENT_TIME_START",
   SET_NEW_MOMENT_TIME_END = "rating-editor/SET_NEW_MOMENT_TIME_END",
   SET_NEW_MOMENT_SECTION = "rating-editor/SET_NEW_MOMENT_SECTION",
-
+  RESET_MOMENT_EDITOR = "rating-editor/RESET_MOMENT_EDITOR"
 }
 
 export default ActionTypes;

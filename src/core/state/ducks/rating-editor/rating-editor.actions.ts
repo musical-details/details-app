@@ -77,6 +77,9 @@ export interface setNewMomentSectionAction
   };
 }
 
+export interface ResetMomentEditorAction
+  extends Action<ActionTypes.RESET_MOMENT_EDITOR> {}
+
 /**
  *
  * @param {RatingEditorMode} mode
@@ -159,6 +162,10 @@ const setNewMomentSection = (
   }
 });
 
+const resetMomentEditor = (): ResetMomentEditorAction => ({
+  type: ActionTypes.RESET_MOMENT_EDITOR
+});
+
 export type AppRatingEdtiorActions =
   | setModeAction
   | setSelectedTimeStartAction
@@ -169,7 +176,8 @@ export type AppRatingEdtiorActions =
   | setNewMomentDescriptionAction
   | setNewMomentColorAction
   | setNewMomentReactionAction
-  | setNewMomentSectionAction;
+  | setNewMomentSectionAction
+  | ResetMomentEditorAction;
 
 export default {
   setMode,
@@ -181,5 +189,6 @@ export default {
   setNewMomentDescription,
   setNewMomentColor,
   setNewMomentReaction,
-  setNewMomentSection
+  setNewMomentSection,
+  resetMomentEditor
 };

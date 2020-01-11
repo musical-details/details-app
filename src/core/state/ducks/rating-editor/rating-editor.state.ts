@@ -23,7 +23,7 @@ export const initialState: AppRatingEditorState = {
   newMoment: {
     name: "Moment-name",
     description: "",
-    color: "#000000",
+    color: "#202020",
     reaction: MomentReaction.NONE,
     start: 0,
     end: 0,
