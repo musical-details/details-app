@@ -1,1 +1,5 @@
-export const selector = () => {};
+const selector = () => {};
+
+export default {
+  selector
+};
