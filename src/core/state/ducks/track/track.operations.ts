@@ -3,6 +3,7 @@ import actions from "./track.actions";
 import { API_KEY, SoundCloud } from "../../../soundcloud";
 import { AnyAction } from "redux";
 import { AppState } from "../../store";
+import viewedTrackActions from "../viewed-track/viewed-track.actions";
 
 function fetchTrack(trackId: number = 0) {
   return async (
@@ -49,7 +50,26 @@ function transferTrackToPlayer(data: {
   };
 }
 
+function transferViewedTrackToPlayer(autoplay: boolean) {
+  return (dispatch: Dispatch<AnyAction>, getState: () => AppState): void => {
+    const { trackId, cover, author, title } = getState().viewedTrack;
+    const audioUrl: string = `https://api.soundcloud.com/tracks/${trackId}/stream?client_id=${API_KEY}`;
+    dispatch(actions.setTrackId(trackId));
+    dispatch(
+      actions.transferMetaSuccess({
+        cover: cover,
+        author: author,
+        title: title
+      })
+    );
+    dispatch(actions.setAudioSource(audioUrl));
+    dispatch(actions.setAudioAutoplay(autoplay));
+    dispatch(viewedTrackActions.setInPlayer());
+  };
+}
+
 export default {
   fetchTrack,
-  transferTrackToPlayer
+  transferTrackToPlayer,
+  transferViewedTrackToPlayer
 };

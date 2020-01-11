@@ -10,32 +10,16 @@ import "./track.scss";
 
 import { AppState } from "../../../core/state/store";
 
-import trackActions from "../../../core/state/ducks/track/track.actions";
-import trackOperations from "../../../core/state/ducks/track/track.operations";
-
 import viewedTrackActions from "../../../core/state/ducks/viewed-track/viewed-track.actions";
 import viewedTrackOperations from "../../../core/state/ducks/viewed-track/viewed-track.operations";
-import viewedTrackSelectors from "../../../core/state/ducks/viewed-track/viewed-track.selectors";
 import RatingList from "../../entities/rating-list/rating-list";
-import { Rating } from "../../../core/shared";
 import { scrollTo } from "../../../utils";
 
 const mapStateToProps = (state: AppState): TrackProps | any => ({
   playerTrackId: state.track.trackId,
-  trackId: state.viewedTrack.trackId,
+  viewedTrackId: state.viewedTrack.trackId,
   isSetInPlayer: state.viewedTrack.isSetInPlayer,
-  cover: state.viewedTrack.cover,
-  author: state.viewedTrack.author,
-  title: state.viewedTrack.title,
-  audio: state.track.audioSource,
-  wave: state.viewedTrack.wave,
-  isPlaying: state.track.isPlaying,
-  currentTime: state.track.currentTime,
-  duration: state.track.duration,
-  volume: state.track.volume,
-  ratings: state.viewedTrack.ratings,
-  selectedRating: viewedTrackSelectors.getSelectedRating(state),
-  selectedMoments: viewedTrackSelectors.getSelectedMoments(state)
+  isPlaying: state.track.isPlaying
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): TrackProps | any => ({
@@ -47,64 +31,18 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): TrackProps | any => ({
   },
   fetchTrack: async (trackId: number, ratingId?: number) => {
     await dispatch(viewedTrackOperations.fetchViewedTrack(trackId, ratingId));
-  },
-  transferTrackToPlayer: (data: {
-    trackId: number;
-    cover: string;
-    author: string;
-    title: string;
-  }) => {
-    dispatch(
-      trackOperations.transferTrackToPlayer({
-        autoplay: true,
-        trackId: data.trackId,
-        cover: data.cover,
-        author: data.author,
-        title: data.title
-      })
-    );
-    dispatch(viewedTrackActions.setInPlayer());
-  },
-  toogleAudioStatus: () => {
-    dispatch(trackActions.toogleAudioStatus());
-  },
-  changeTime: (newTime: number) => {
-    dispatch(trackActions.setAudioNewTime(newTime));
-  },
-  changeVolume: (newVolume: number) => {
-    dispatch(trackActions.setAudioVolume(newVolume));
   }
 });
 
 type TrackProps = {
   playerTrackId: number;
-  trackId: number;
+  viewedTrackId: number;
   isSetInPlayer: boolean;
-  cover: string;
-  author: string;
-  title: string;
-  audio: string;
-  wave: Array<number>;
   isPlaying: boolean;
-  currentTime: number;
-  duration: number;
-  volume: number;
-  ratings: Array<Rating>;
-  selectedRating: Rating | undefined;
-  selectedMoments: [];
   match?: any;
   unsetPlayer: () => void;
   setPlayer: () => void;
   fetchTrack: (trackId: number, ratingId: number) => void;
-  transferTrackToPlayer: (data: {
-    trackId: number;
-    cover: string;
-    author: string;
-    title: string;
-  }) => void;
-  toogleAudioStatus: () => void;
-  changeTime: (newTime: number) => void;
-  changeVolume: (newVolume: number) => void;
 };
 
 type TrackState = any;
@@ -146,46 +84,12 @@ class TrackComponent extends React.Component<TrackProps, TrackState> {
   }
 
   readParams(trackId: number) {
-    if (this.props.trackId != trackId) {
+    if (this.props.viewedTrackId != trackId) {
       this.props.unsetPlayer();
     } else {
       this.props.setPlayer();
     }
   }
-
-  handleChangeTime = (newTime: number): void => {
-    if (!this.props.isSetInPlayer) {
-      this.props.transferTrackToPlayer({
-        trackId: this.props.trackId,
-        cover: this.props.cover,
-        title: this.props.title,
-        author: this.props.author
-      });
-    }
-
-    this.props.changeTime(newTime);
-  };
-
-  handlePlayButtonClick = (isPlaying: boolean): void => {
-    if (!this.props.isSetInPlayer) {
-      this.props.transferTrackToPlayer({
-        trackId: this.props.trackId,
-        cover: this.props.cover,
-        title: this.props.title,
-        author: this.props.author
-      });
-    }
-
-    this.props.toogleAudioStatus();
-  };
-
-  handleVolumeSliderDrag = (volume: number): void => {};
-
-  handleVolumeSliderDragStop = (volume: number): void => {
-    this.props.changeVolume(volume);
-  };
-
-  newCurrentTime = (newTime: number): void => {};
 
   render() {
     return (
@@ -194,12 +98,7 @@ class TrackComponent extends React.Component<TrackProps, TrackState> {
           <TrackInfo />
         </div>
         <div ref={this.trackWaverWrapperRef} className="track-waver-wrapper">
-          <TrackWaver
-            wave={this.props.wave}
-            currentTime={this.props.isSetInPlayer ? this.props.currentTime : 0}
-            duration={this.props.isSetInPlayer ? this.props.duration : 1}
-            onChangeTime={this.handleChangeTime}
-          ></TrackWaver>
+          <TrackWaver />
         </div>
         <div ref={this.trackRatingWrapperRef} className="track-rating-list">
           <RatingList />
