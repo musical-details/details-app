@@ -6,7 +6,7 @@ import TimelineTimers from "./timeline-timer";
 import { AppState } from "../../../core/state/store";
 import { connect, ConnectedComponent } from "react-redux";
 import { RatingEditorMode } from "../../../core/state/ducks/rating-editor/rating-editor.state";
-import Draggable from "react-draggable";
+import Draggable, { DraggableEvent, DraggableData } from "react-draggable";
 import { Moment, Seconds } from "../../../core/shared";
 import * as tasks from "../../../core/state/ducks/tasks";
 
@@ -123,11 +123,20 @@ class Timeline extends React.Component<TimelineProps> {
               </div>
             </div>
             <div className="new-moment-wrapper" style={newMomentWrapperStyles}>
-              <Draggable axis="x" bounds=".timeline-recording-wrapper">
-                <TimelineMoment
-                  moment={this.props.newMoment}
-                  currentTime={this.props.currentTime}
-                />
+              <Draggable
+                axis="both"
+                bounds=".timeline-full"
+                grid={[14, 70]}
+                position={{ x: 0, y: 0 }}
+                onDrag={(event: DraggableEvent, data: DraggableData) => {}}
+                onStop={(event: DraggableEvent, data: DraggableData) => {}}
+              >
+                <div className="new-moment">
+                  <TimelineMoment
+                    moment={this.props.newMoment}
+                    currentTime={this.props.currentTime}
+                  />
+                </div>
               </Draggable>
             </div>
             <div className="timeline-sections-wrapper">

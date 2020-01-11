@@ -1,7 +1,9 @@
+$timelineHeight: 350px;
+
 .moment-wrapper {
   position: absolute;
   box-sizing: border-box;
-  height: 20%;
+  height: ($timelineHeight / 5);
   display: flex;
   flex-direction: row;
   justify-content: flex-start;

@@ -8,8 +8,8 @@ import { AppState } from "../../../core/state/store";
 import { RatingEditorMode } from "../../../core/state/ducks/rating-editor/rating-editor.state";
 import * as tasks from "../../../core/state/ducks/tasks";
 
-import momentColorsJSON from "../../../assets/data/moment-colors.json";
-import momentReactionsJSON from "../../../assets/data/moment-reactions.json";
+import colorsData from "../../../assets/data/moment-colors.json";
+import reactionsData from "../../../assets/data/moment-reactions.json";
 
 import {
   convertToMMSSMS,
@@ -75,11 +75,7 @@ type MomentEditorProps = {
   newRecordingTimeEnd: (time: number) => void;
 };
 
-type MomentEditorState = {
-  selectedColor: string;
-  selectedReaction: string;
-  section: number;
-};
+type MomentEditorState = {};
 
 type timeValueInputProps = {
   recordingValueArg: number;
@@ -99,16 +95,15 @@ class MomentEditor extends React.Component<
   endMilisecondsRef: React.RefObject<HTMLInputElement>;
 
   defaultColor: string;
-
-  state: MomentEditorState = {
-    selectedColor: "#202020",
-    selectedReaction: "",
-    section: 0
-  };
+  defaultReaction: MomentReaction;
+  defaultSection: MomentSection;
 
   constructor(props: MomentEditorProps) {
     super(props);
     this.defaultColor = "#202020";
+    this.defaultReaction = MomentReaction.NONE;
+    this.defaultSection = 2;
+
     this.startMinutesRef = React.createRef();
     this.startSecondsRef = React.createRef();
     this.startMilisecondsRef = React.createRef();
@@ -126,29 +121,33 @@ class MomentEditor extends React.Component<
   };
 
   handleColorButtonClick = (event: React.MouseEvent<HTMLSpanElement>): void => {
-    const selectedColor: string =
-      event.currentTarget.getAttribute("data-color") !== null
-        ? (event.currentTarget.getAttribute("data-color") as string)
-        : this.defaultColor;
-    this.props.onColorChange(selectedColor);
+    const colorData: string | null = event.currentTarget.getAttribute(
+      "data-color"
+    );
+    const color: MomentColor =
+      colorData !== null ? (colorData as MomentColor) : this.defaultColor;
+    this.props.onColorChange(color);
   };
 
   handleReactionClick = (event: React.MouseEvent<HTMLSpanElement>): void => {
-    const selectedReaction: string =
-      event.currentTarget.getAttribute("alt") !== null
-        ? (event.currentTarget.getAttribute("alt") as string)
-        : "";
-    this.setState({
-      selectedReaction: selectedReaction
-    });
+    const reactionData: string | null = event.currentTarget.getAttribute(
+      "data-reaction"
+    );
+    const reaction: MomentReaction =
+      reactionData !== null
+        ? (reactionData as MomentReaction)
+        : this.defaultReaction;
+    this.props.onReactionChange(reaction);
   };
 
   handleSectionClick = (event: React.MouseEvent<HTMLDivElement>): void => {
-    const dataSection: string | null = event.currentTarget.getAttribute(
+    const sectionData: string | null = event.currentTarget.getAttribute(
       "data-section"
     );
     const section: MomentSection =
-      dataSection !== null ? (parseInt(dataSection) as MomentSection) : 2;
+      sectionData !== null
+        ? (parseInt(sectionData) as MomentSection)
+        : this.defaultSection;
     this.props.onSectionChange(section);
   };
 
@@ -331,9 +330,9 @@ class MomentEditor extends React.Component<
   createMomentReactions = (): Array<JSX.Element> => {
     let reactions: Array<JSX.Element> = [];
 
-    for (const reaction of momentReactionsJSON.reactions) {
+    for (const reaction of reactionsData) {
       const reactionClass: string =
-        reaction.name == this.state.selectedReaction
+        reaction.name === this.props.newMoment.reaction
           ? "moment-reaction active"
           : "moment-reaction";
 
@@ -343,6 +342,7 @@ class MomentEditor extends React.Component<
             className="reaction-img"
             src={reaction.path}
             onClick={this.handleReactionClick}
+            data-reaction={reaction.name}
             alt={reaction.name}
           />
         </span>
@@ -354,9 +354,9 @@ class MomentEditor extends React.Component<
   createMomentColorButtons = (): Array<JSX.Element> => {
     let buttons: Array<JSX.Element> = [];
 
-    for (const moment of momentColorsJSON.colors) {
+    for (const color of colorsData) {
       const buttonClass: string =
-        moment.color === this.props.newMoment.color
+        color.color === this.props.newMoment.color
           ? "color-button active"
           : "color-button";
 
@@ -364,8 +364,8 @@ class MomentEditor extends React.Component<
         <input
           type="button"
           className={buttonClass}
-          data-color={moment.color}
-          style={this.setMomentColorButtonStyle(moment.color)}
+          data-color={color.color}
+          style={this.setMomentColorButtonStyle(color.color)}
           onClick={this.handleColorButtonClick}
         />
       );
