@@ -1,10 +1,14 @@
+import { AppRatingEdtiorActions } from "./rating-editor.actions";
 import { AppRatingEditorState, initialState } from "./rating-editor.state";
 import ActionTypes from "./rating-editor.types";
-import { Action } from "../../models";
+import { Reducer } from "react";
 
-const ratingEditorReducer = (
+const ratingEditorReducer: Reducer<
+  AppRatingEditorState | undefined,
+  AppRatingEdtiorActions
+> = (
   state: AppRatingEditorState = initialState,
-  action: Action
+  action: AppRatingEdtiorActions
 ): AppRatingEditorState => {
   switch (action.type) {
     case ActionTypes.SET_MODE:
@@ -17,7 +21,7 @@ const ratingEditorReducer = (
         ...state,
         selectedTime: {
           ...state.selectedTime,
-          start: action.payload.selectedTimeStart
+          start: action.payload.start
         }
       };
     case ActionTypes.SET_SELECTED_TIME_END:
@@ -25,7 +29,7 @@ const ratingEditorReducer = (
         ...state,
         selectedTime: {
           ...state.selectedTime,
-          end: action.payload.selectedTimeEnd
+          end: action.payload.end
         }
       };
 

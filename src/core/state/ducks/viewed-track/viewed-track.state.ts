@@ -1,30 +1,4 @@
-/**
- * @deprecated
- */
-
-export type Moment = {
-  name: string;
-  description: string;
-  color: string;
-  reaction?: any;
-
-  start: number;
-  end: number;
-  timelineSection: number;
-};
-
-/**
- * @deprecated
- */
-export type Rating = {
-  ratingId: number;
-  user: {
-    userId: number;
-    nickname: string;
-    avatar: string;
-  };
-  moments: Array<Moment>;
-};
+import { Rating } from "../../../shared";
 
 export interface AppViewedTrackState {
   readonly trackId: number;

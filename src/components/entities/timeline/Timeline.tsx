@@ -9,6 +9,7 @@ import viewedTrackSelectors from "../../../core/state/ducks/viewed-track/viewed-
 import { RatingEditorMode } from "../../../core/state/ducks/rating-editor/rating-editor.state";
 import Draggable from "react-draggable";
 import ratingEditorActions from "../../../core/state/ducks/rating-editor/rating-editor.actions";
+import { Moment } from "../../../core/shared";
 
 const mapStateToProps = (state: AppState): TimelineProps | any => ({
   isSetInPlayer: state.viewedTrack.isSetInPlayer,
@@ -37,14 +38,6 @@ type TimelineProps = {
   onCancelModyfing: () => void;
 };
 
-type Moment = {
-  name: string;
-  color: string;
-  start: number;
-  end: number;
-  timelineSection: number;
-};
-
 class Timeline extends React.Component<TimelineProps> {
   constructor(props: TimelineProps) {
     super(props);
@@ -60,7 +53,7 @@ class Timeline extends React.Component<TimelineProps> {
           color={moment.color}
           start={moment.start}
           end={moment.end}
-          timelineSection={moment.timelineSection}
+          timelineSection={moment.section}
           currentTime={this.props.currentTime}
         />
       );

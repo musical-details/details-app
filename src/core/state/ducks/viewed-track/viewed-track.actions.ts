@@ -1,6 +1,6 @@
-import { Rating } from "./viewed-track.state";
 import ActionTypes from "./viewed-track.types";
 import { SoundCloud } from "../../../soundcloud";
+import { Rating } from "../../../shared";
 
 type Action = {
   type: string;

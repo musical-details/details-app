@@ -4,11 +4,12 @@ import "./rating-list.scss";
 import { AppState } from "../../../core/state/store";
 
 import viewedTrackSelectors from "../../../core/state/ducks/viewed-track/viewed-track.selectors";
-import { Rating } from "../../../core/state/ducks/viewed-track/viewed-track.state";
+
 import { connect, ConnectedComponent } from "react-redux";
 import { withRouter } from "react-router";
 import CSS from "csstype";
 import viewedTrackActions from "../../../core/state/ducks/viewed-track/viewed-track.actions";
+import { Rating } from "../../../core/shared";
 
 const mapStateToProps = (state: AppState): RatingListProps | any => ({
   userRating: viewedTrackSelectors.getUserRating(state),

@@ -9,7 +9,6 @@ import MomentEditor from "../../entities/moment-editor/moment-editor";
 import "./track.scss";
 
 import { AppState } from "../../../core/state/store";
-import { Rating } from "../../../core/state/ducks/viewed-track/viewed-track.state";
 
 import trackActions from "../../../core/state/ducks/track/track.actions";
 import trackOperations from "../../../core/state/ducks/track/track.operations";
@@ -18,6 +17,7 @@ import viewedTrackActions from "../../../core/state/ducks/viewed-track/viewed-tr
 import viewedTrackOperations from "../../../core/state/ducks/viewed-track/viewed-track.operations";
 import viewedTrackSelectors from "../../../core/state/ducks/viewed-track/viewed-track.selectors";
 import RatingList from "../../entities/rating-list/rating-list";
+import { Rating } from "../../../core/shared";
 
 const mapStateToProps = (state: AppState): TrackProps | any => ({
   playerTrackId: state.track.trackId,

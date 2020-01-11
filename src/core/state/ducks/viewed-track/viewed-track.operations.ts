@@ -4,7 +4,7 @@ import actions from "./viewed-track.actions";
 import { API_KEY, SoundCloud } from "../../../soundcloud";
 import { AnyAction } from "redux";
 import mocks from "../../../../mocks";
-import { Rating } from "./viewed-track.state";
+import { Rating } from "../../../shared";
 
 function fetchViewedTrack(trackId: number, selectedRatingId: number = -1) {
   return async (
