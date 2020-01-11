@@ -4,6 +4,9 @@ import { withRouter } from "react-router-dom";
 
 import TrackInfo from "../../entities/track-info/track-info";
 import TrackWaver from "../../entities/track-waver/track-waver";
+
+import RatingList from "../../entities/rating-list/rating-list";
+import MiniTimeline from "../../entities/mini-timeline/mini-timeline";
 import Timeline from "../../entities/timeline/Timeline";
 import MomentEditor from "../../entities/moment-editor/moment-editor";
 import "./track.scss";
@@ -17,7 +20,7 @@ import trackOperations from "../../../core/state/ducks/track/track.operations";
 import viewedTrackActions from "../../../core/state/ducks/viewed-track/viewed-track.actions";
 import viewedTrackOperations from "../../../core/state/ducks/viewed-track/viewed-track.operations";
 import viewedTrackSelectors from "../../../core/state/ducks/viewed-track/viewed-track.selectors";
-import RatingList from "../../entities/rating-list/rating-list";
+
 
 const mapStateToProps = (state: AppState): TrackProps | any => ({
   playerTrackId: state.track.trackId,
@@ -198,6 +201,9 @@ class TrackComponent extends React.Component<TrackProps, TrackState> {
         </div>
         <div className="track-rating-list">
           <RatingList />
+        </div>
+        <div className="track-mini-timeline-wrapper">
+          <MiniTimeline />
         </div>
         <div className="track-timeline-wrapper">
           <Timeline

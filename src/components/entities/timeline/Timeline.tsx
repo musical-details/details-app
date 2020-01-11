@@ -1,8 +1,9 @@
 import React from "react";
-import TimelineMoment from "../timeline-moment/TimelineMoment";
 import CSS from "csstype";
 import "./Timeline.scss";
+
 import TimelineTimers from "./timeline-timer";
+import TimelineMoment from "../timeline-moment/TimelineMoment";
 
 type Moment = {
   name: string;
