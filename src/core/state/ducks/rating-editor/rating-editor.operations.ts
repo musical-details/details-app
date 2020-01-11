@@ -7,7 +7,7 @@ import { AppState } from "../../store";
 import { RatingEditorMode } from "./rating-editor.state";
 
 function startRecording() {
-  return (dispatch: Dispatch<AnyAction>, getState: () => AppState): any => {
+  return (dispatch: Dispatch<AnyAction>, getState: () => AppState): void => {
     const { currentTime } = getState().track;
     const { selectedRatingId, userRatingId } = getState().viewedTrack;
     if (userRatingId !== selectedRatingId) {
@@ -19,9 +19,13 @@ function startRecording() {
 }
 
 function stopRecording() {
-  return (dispatch: Dispatch<AnyAction>, getState: () => AppState): any => {
+  return (dispatch: Dispatch<AnyAction>, getState: () => AppState): void => {
     const { currentTime } = getState().track;
     const { selectedTime } = getState().ratingEditor;
+    if (currentTime === selectedTime.start) {
+      dispatch(ratingActions.setMode(RatingEditorMode.DISABLED));
+      return;
+    }
 
     dispatch(ratingActions.setMode(RatingEditorMode.MODIFYING));
     dispatch(ratingActions.setSelectedTimeEnd(currentTime));

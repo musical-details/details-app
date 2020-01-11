@@ -62,7 +62,6 @@ class MomentEditor extends React.Component<
   MomentEditorProps,
   MomentEditorState
 > {
-  momentEditorContainerRef: React.RefObject<HTMLDivElement>;
   startMinutesRef: React.RefObject<HTMLInputElement>;
   startSecondsRef: React.RefObject<HTMLInputElement>;
   startMilisecondsRef: React.RefObject<HTMLInputElement>;
@@ -81,22 +80,12 @@ class MomentEditor extends React.Component<
   constructor(props: MomentEditorProps) {
     super(props);
     this.defaultColor = "#222";
-    this.momentEditorContainerRef = React.createRef();
     this.startMinutesRef = React.createRef();
     this.startSecondsRef = React.createRef();
     this.startMilisecondsRef = React.createRef();
     this.endMinutesRef = React.createRef();
     this.endSecondsRef = React.createRef();
     this.endMilisecondsRef = React.createRef();
-  }
-
-  componentDidUpdate(prevProps: MomentEditorProps) {
-    if (
-      this.props.mode !== prevProps.mode &&
-      this.props.mode === RatingEditorMode.MODIFYING
-    ) {
-      scrollTo(this.momentEditorContainerRef);
-    }
   }
 
   countShade = (color: string): string => {
@@ -386,7 +375,6 @@ class MomentEditor extends React.Component<
     convertToMMSSMS(this.props.currentTime);
     return (
       <div
-        ref={this.momentEditorContainerRef}
         className="moment-editor-container"
         style={{ backgroundColor: this.countShade(this.state.selectedColor) }}
       >

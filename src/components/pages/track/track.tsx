@@ -10,27 +10,30 @@ import "./track.scss";
 
 import { AppState } from "../../../core/state/store";
 
-import viewedTrackActions from "../../../core/state/ducks/viewed-track/viewed-track.actions";
-import viewedTrackOperations from "../../../core/state/ducks/viewed-track/viewed-track.operations";
+import * as tasks from "../../../core/state/ducks/tasks";
 import RatingList from "../../entities/rating-list/rating-list";
 import { scrollTo } from "../../../utils";
+import { RatingEditorMode } from "../../../core/state/ducks/rating-editor/rating-editor.state";
 
 const mapStateToProps = (state: AppState): TrackProps | any => ({
   playerTrackId: state.track.trackId,
   viewedTrackId: state.viewedTrack.trackId,
   isSetInPlayer: state.viewedTrack.isSetInPlayer,
-  isPlaying: state.track.isPlaying
+  isPlaying: state.track.isPlaying,
+  mode: state.ratingEditor.mode
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): TrackProps | any => ({
   unsetPlayer: () => {
-    dispatch(viewedTrackActions.unsetInPlayer());
+    dispatch(tasks.viewedTrackActions.unsetInPlayer());
   },
   setPlayer: () => {
-    dispatch(viewedTrackActions.setInPlayer());
+    dispatch(tasks.viewedTrackActions.setInPlayer());
   },
   fetchTrack: async (trackId: number, ratingId?: number) => {
-    await dispatch(viewedTrackOperations.fetchViewedTrack(trackId, ratingId));
+    await dispatch(
+      tasks.viewedTrackOperations.fetchViewedTrack(trackId, ratingId)
+    );
   }
 });
 
@@ -39,6 +42,7 @@ type TrackProps = {
   viewedTrackId: number;
   isSetInPlayer: boolean;
   isPlaying: boolean;
+  mode: RatingEditorMode;
   match?: any;
   unsetPlayer: () => void;
   setPlayer: () => void;
@@ -48,21 +52,21 @@ type TrackProps = {
 type TrackState = any;
 
 class TrackComponent extends React.Component<TrackProps, TrackState> {
-  trackInfoWrapperRef: React.RefObject<HTMLDivElement>;
-  trackWaverWrapperRef: React.RefObject<HTMLDivElement>;
-  trackRatingWrapperRef: React.RefObject<HTMLDivElement>;
-  trackTimelineWrapperRef: React.RefObject<HTMLDivElement>;
-  trackMomentEditorWrapperRef: React.RefObject<HTMLDivElement>;
-  trackMomentsDescriptionWrapperRef: React.RefObject<HTMLDivElement>;
+  infoWrapperRef: React.RefObject<HTMLDivElement>;
+  waverWrapperRef: React.RefObject<HTMLDivElement>;
+  ratingsWrapperRef: React.RefObject<HTMLDivElement>;
+  timelineWrapperRef: React.RefObject<HTMLDivElement>;
+  momentEditorWrapperRef: React.RefObject<HTMLDivElement>;
+  momentsDescriptionWrapperRef: React.RefObject<HTMLDivElement>;
 
   constructor(props: TrackProps) {
     super(props);
-    this.trackInfoWrapperRef = React.createRef();
-    this.trackRatingWrapperRef = React.createRef();
-    this.trackWaverWrapperRef = React.createRef();
-    this.trackTimelineWrapperRef = React.createRef();
-    this.trackMomentEditorWrapperRef = React.createRef();
-    this.trackMomentsDescriptionWrapperRef = React.createRef();
+    this.infoWrapperRef = React.createRef();
+    this.ratingsWrapperRef = React.createRef();
+    this.waverWrapperRef = React.createRef();
+    this.timelineWrapperRef = React.createRef();
+    this.momentEditorWrapperRef = React.createRef();
+    this.momentsDescriptionWrapperRef = React.createRef();
   }
 
   componentDidMount() {
@@ -70,8 +74,18 @@ class TrackComponent extends React.Component<TrackProps, TrackState> {
   }
 
   componentDidUpdate(oldProps: TrackProps) {
-    if (this.props.match.params.trackId != oldProps.match.params.trackId) {
+    const { match, mode } = this.props;
+
+    if (match.params.trackId != oldProps.match.params.trackId) {
       this.loadTrack();
+    }
+    if (mode !== oldProps.mode) {
+      if (mode === RatingEditorMode.RECORDING) {
+        scrollTo(this.ratingsWrapperRef);
+      }
+      if (mode === RatingEditorMode.MODIFYING) {
+        scrollTo(this.momentEditorWrapperRef);
+      }
     }
   }
 
@@ -93,31 +107,25 @@ class TrackComponent extends React.Component<TrackProps, TrackState> {
 
   render() {
     return (
-      <div>
-        <div ref={this.trackInfoWrapperRef} className="track-info-wrapper">
+      <div className="track-page">
+        <div ref={this.infoWrapperRef} id="info-wrapper">
           <TrackInfo />
         </div>
-        <div ref={this.trackWaverWrapperRef} className="track-waver-wrapper">
+        <div ref={this.waverWrapperRef} id="waver-wrapper">
           <TrackWaver />
         </div>
-        <div ref={this.trackRatingWrapperRef} className="track-rating-list">
+        <div ref={this.ratingsWrapperRef} id="rating-list-wrapper">
           <RatingList />
         </div>
-        <div
-          ref={this.trackTimelineWrapperRef}
-          className="track-timeline-wrapper"
-        >
+        <div ref={this.timelineWrapperRef} id="timeline-wrapper">
           <Timeline />
         </div>
-        <div
-          ref={this.trackMomentEditorWrapperRef}
-          className="track-moment-editor-wrapper"
-        >
+        <div ref={this.momentEditorWrapperRef} id="moment-editor-wrapper">
           <MomentEditor />
         </div>
         <div
-          ref={this.trackMomentsDescriptionWrapperRef}
-          className="track-moments-description-wrapper"
+          ref={this.momentsDescriptionWrapperRef}
+          id="moments-description-wrapper"
         >
           "Track Description" section
         </div>

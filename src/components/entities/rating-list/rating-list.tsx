@@ -39,22 +39,8 @@ type RatingListProps = {
 type RatingListState = {};
 
 class RatingList extends React.Component<RatingListProps, RatingListState> {
-  ratingListRef: React.RefObject<HTMLDivElement>;
-
   constructor(props: RatingListProps) {
     super(props);
-    this.ratingListRef = React.createRef();
-  }
-
-  componentDidMount() {}
-
-  componentDidUpdate(prevProps: RatingListProps) {
-    if (
-      this.props.mode !== prevProps.mode &&
-      this.props.mode === RatingEditorMode.RECORDING
-    ) {
-      scrollTo(this.ratingListRef);
-    }
   }
 
   renderButtons(): Array<JSX.Element> {
@@ -143,7 +129,7 @@ class RatingList extends React.Component<RatingListProps, RatingListState> {
 
   render() {
     return (
-      <div ref={this.ratingListRef} className="rating-list">
+      <div className="rating-list">
         <div>{this.renderButtons()}</div>
       </div>
     );

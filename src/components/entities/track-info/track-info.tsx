@@ -19,22 +19,8 @@ const mapStateToProps = (state: AppState): TrackInfoProps | any => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): TrackInfoProps | any => ({
-  onTransferTrackToPlayer: (data: {
-    trackId: number;
-    cover: string;
-    author: string;
-    title: string;
-  }) => {
-    dispatch(
-      tasks.trackOperations.transferTrackToPlayer({
-        autoplay: true,
-        trackId: data.trackId,
-        cover: data.cover,
-        author: data.author,
-        title: data.title
-      })
-    );
-    dispatch(tasks.viewedTrackActions.setInPlayer());
+  onTransferTrackToPlayer: () => {
+    dispatch(tasks.trackOperations.transferViewedTrackToPlayer(true));
   },
   onToogleStatusTrack: () => {
     dispatch(tasks.trackActions.toogleAudioStatus());
@@ -52,12 +38,7 @@ type TrackInfoProps = {
   isPlaying: boolean;
   isSetInPlayer: boolean;
   volume: number;
-  onTransferTrackToPlayer: (data: {
-    trackId: number;
-    cover: string;
-    author: string;
-    title: string;
-  }) => void;
+  onTransferTrackToPlayer: () => void;
   onToogleStatusTrack: () => void;
   onVolumeChange: (newVolume: number) => void;
 };
@@ -71,12 +52,7 @@ class TrackInfo extends React.Component<TrackInfoProps, TrackInfoState> {
 
   handlePlayButtonClick = (event: React.MouseEvent<HTMLDivElement>) => {
     if (!this.props.isSetInPlayer) {
-      this.props.onTransferTrackToPlayer({
-        trackId: this.props.trackId,
-        cover: this.props.cover,
-        title: this.props.title,
-        author: this.props.author
-      });
+      this.props.onTransferTrackToPlayer();
     }
     this.props.onToogleStatusTrack();
   };
