@@ -77,6 +77,10 @@ export interface setNewMomentSectionAction
   };
 }
 
+/**
+ *
+ * @param {RatingEditorMode} mode
+ */
 const setMode = (mode: RatingEditorMode): setModeAction => ({
   type: ActionTypes.SET_MODE,
   payload: {

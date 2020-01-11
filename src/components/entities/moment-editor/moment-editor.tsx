@@ -1,20 +1,17 @@
 import React, { Dispatch } from "react";
-import trackActions from "../../../core/state/ducks/track/track.actions";
-import trackOperations from "../../../core/state/ducks/track/track.operations";
-import viewedTrackActions from "../../../core/state/ducks/viewed-track/viewed-track.actions";
-import ratingEditorActions from "../../../core/state/ducks/rating-editor/rating-editor.actions";
 import { connect, ConnectedComponent } from "react-redux";
+import CSS from "csstype";
+
 import "./moment-editor.scss";
 
-import CSS from "csstype";
 import { AppState } from "../../../core/state/store";
+import { RatingEditorMode } from "../../../core/state/ducks/rating-editor/rating-editor.state";
+import * as tasks from "../../../core/state/ducks/tasks";
 
 import momentColorsJSON from "../../../assets/data/moment-colors.json";
 import momentReactionsJSON from "../../../assets/data/moment-reactions.json";
 
-import { convertToMMSSMS } from "../../../utils/index";
-import { convertToSeconds } from "../../../utils/index";
-import { RatingEditorMode } from "../../../core/state/ducks/rating-editor/rating-editor.state";
+import { convertToMMSSMS, convertToSeconds } from "../../../utils/index";
 
 const mapStateToProps = (state: AppState): MomentEditorProps | any => ({
   currentTime: state.track.currentTime,
@@ -25,13 +22,13 @@ const mapStateToProps = (state: AppState): MomentEditorProps | any => ({
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
   newCurrentTime: (time: number) => {
-    dispatch(trackActions.setAudioNewTime(time));
+    dispatch(tasks.trackActions.setAudioNewTime(time));
   },
   newRecordingTimeStart: (time: number) => {
-    dispatch(ratingEditorActions.setSelectedTimeStart(time));
+    dispatch(tasks.ratingEditorActions.setSelectedTimeStart(time));
   },
   newRecordingTimeEnd: (time: number) => {
-    dispatch(ratingEditorActions.setSelectedTimeEnd(time));
+    dispatch(tasks.ratingEditorActions.setSelectedTimeEnd(time));
   }
 });
 

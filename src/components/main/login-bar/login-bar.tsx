@@ -5,8 +5,7 @@ import { withRouter } from "react-router";
 import { connect } from "react-redux";
 import { ConnectedComponent } from "react-redux";
 
-import userActions from "../../../core/state/ducks/user/user.actions";
-import userOperations from "../../../core/state/ducks/user/user.operations";
+import * as tasks from "../../../core/state/ducks/tasks";
 
 const mapStateToProps = (state: AppState): LoginBarProps | any => ({
   isLogged: state.user.isLogged
@@ -14,7 +13,7 @@ const mapStateToProps = (state: AppState): LoginBarProps | any => ({
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): LoginBarProps | any => ({
   signIn: (login: string, password: string) => {
-    dispatch(userOperations.signIn(login, password));
+    dispatch(tasks.userOperations.signIn(login, password));
   }
 });
 

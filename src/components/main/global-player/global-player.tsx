@@ -1,15 +1,13 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 import { connect, ConnectedComponent } from "react-redux";
 import { Dispatch } from "redux";
 import CSS from "csstype";
 
 import "./global-player.scss";
 import { AppState } from "../../../core/state/store";
-import trackOperations from "../../../core/state/ducks/track/track.operations";
-import ratingEditorOperations from "../../../core/state/ducks/rating-editor/rating-editor.operations";
-import actions from "../../../core/state/ducks/track/track.actions";
-import { NavLink } from "react-router-dom";
 import { RatingEditorMode } from "../../../core/state/ducks/rating-editor/rating-editor.state";
+import * as tasks from "../../../core/state/ducks/tasks";
 
 const mapStateToProps = (state: AppState): GlobalPlayerProps | any => ({
   autoplay: state.track.autoplay,
@@ -32,38 +30,38 @@ const mapDispatchToProps = (
   dispatch: Dispatch<any>
 ): GlobalPlayerProps | any => ({
   fetchTrack: async () => {
-    await dispatch(trackOperations.fetchTrack());
+    await dispatch(tasks.trackOperations.fetchTrack());
   },
   onAudioCanPlay: (duration: number) => {
-    dispatch(actions.setAudioDuration(duration));
+    dispatch(tasks.trackActions.setAudioDuration(duration));
   },
   toogleAudioPlay: () => {
-    dispatch(actions.toogleAudioStatus());
+    dispatch(tasks.trackActions.toogleAudioStatus());
   },
   onAudioAutoplay: () => {
-    dispatch(actions.setAudioStatus(true));
-    dispatch(actions.setAudioAutoplay(false));
+    dispatch(tasks.trackActions.setAudioStatus(true));
+    dispatch(tasks.trackActions.setAudioAutoplay(false));
   },
   onAudioPlay: () => {
-    dispatch(actions.setAudioStatus(true));
+    dispatch(tasks.trackActions.setAudioStatus(true));
   },
   onAudioPause: () => {
-    dispatch(actions.setAudioStatus(false));
+    dispatch(tasks.trackActions.setAudioStatus(false));
   },
   onAudioRecordStart: () => {
-    dispatch(ratingEditorOperations.startRecording());
+    dispatch(tasks.ratingEditorOperations.startRecording());
   },
   onAudioRecordStop: () => {
-    dispatch(ratingEditorOperations.stopRecording());
+    dispatch(tasks.ratingEditorOperations.stopRecording());
   },
   onAudioVolumeChange: (volume: number) => {
     dispatch(() => {});
   },
   onAudioTimeUpdate: (currentTime: number) => {
-    dispatch(actions.setAudioCurrentTime(currentTime));
+    dispatch(tasks.trackActions.setAudioCurrentTime(currentTime));
   },
   onAudioTimeChange: (newTime: number) => {
-    dispatch(actions.setAudioNewTime(newTime));
+    dispatch(tasks.trackActions.setAudioNewTime(newTime));
   }
 });
 
