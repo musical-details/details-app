@@ -7,7 +7,7 @@ import { AppState } from "../../../core/state/store";
 import { connect, ConnectedComponent } from "react-redux";
 import { RatingEditorMode } from "../../../core/state/ducks/rating-editor/rating-editor.state";
 import Draggable from "react-draggable";
-import { Moment } from "../../../core/shared";
+import { Moment, Seconds } from "../../../core/shared";
 import * as tasks from "../../../core/state/ducks/tasks";
 
 const mapStateToProps = (state: AppState): TimelineProps | any => ({
@@ -30,11 +30,11 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): TimelineProps | any => ({
 type TimelineProps = {
   isSetInPlayer: boolean;
   mode: RatingEditorMode;
-  currentTime: number;
-  duration: number;
+  currentTime: Seconds;
+  duration: Seconds;
   moments: Array<Moment>;
-  selectedTimeStart: number;
-  selectedTimeEnd: number;
+  selectedTimeStart: Seconds;
+  selectedTimeEnd: Seconds;
   newMoment: Moment;
   onCancelModyfing: () => void;
 };
@@ -49,14 +49,7 @@ class Timeline extends React.Component<TimelineProps> {
 
     for (let moment of this.props.moments) {
       moments.push(
-        <TimelineMoment
-          name={moment.name}
-          color={moment.color}
-          start={moment.start}
-          end={moment.end}
-          section={moment.section}
-          currentTime={this.props.currentTime}
-        />
+        <TimelineMoment moment={moment} currentTime={this.props.currentTime} />
       );
     }
     return moments;
@@ -132,11 +125,7 @@ class Timeline extends React.Component<TimelineProps> {
             <div className="new-moment-wrapper" style={newMomentWrapperStyles}>
               <Draggable axis="x" bounds=".timeline-recording-wrapper">
                 <TimelineMoment
-                  name={this.props.newMoment.name}
-                  color={this.props.newMoment.color}
-                  start={this.props.newMoment.start}
-                  end={this.props.newMoment.end}
-                  section={this.props.newMoment.section}
+                  moment={this.props.newMoment}
                   currentTime={this.props.currentTime}
                 />
               </Draggable>

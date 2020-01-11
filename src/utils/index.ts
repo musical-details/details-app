@@ -6,8 +6,11 @@ type Time = {
   ms: string;
 };
 
-export const scrollTo = (ref: React.RefObject<any>): void =>
+export const scrollTo = (ref: React.RefObject<any>): void => {
   window.scrollTo(0, ref.current.offsetTop);
+  console.clear();
+  console.log(ref);
+};
 
 export const convertToMMSSMS = (seconds: number): Time => {
   let m: number = Math.floor(Math.abs(seconds) / 60);

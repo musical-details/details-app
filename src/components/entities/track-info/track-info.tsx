@@ -1,49 +1,102 @@
 import React from "react";
 import Draggable, { DraggableEvent, DraggableData } from "react-draggable";
+import { Dispatch } from "redux";
+import { connect, ConnectedComponent } from "react-redux";
 
 import "./track-info.scss";
 import VolumeIcon from "../../../assets/svg/volume-icon.svg";
+import { AppState } from "../../../core/state/store";
+import * as tasks from "../../../core/state/ducks/tasks";
+
+const mapStateToProps = (state: AppState): TrackInfoProps | any => ({
+  trackId: state.viewedTrack.trackId,
+  cover: state.viewedTrack.cover,
+  author: state.viewedTrack.author,
+  title: state.viewedTrack.title,
+  isSetInPlayer: state.viewedTrack.isSetInPlayer,
+  isPlaying: state.track.isPlaying,
+  volume: state.track.volume
+});
+
+const mapDispatchToProps = (dispatch: Dispatch<any>): TrackInfoProps | any => ({
+  onTransferTrackToPlayer: (data: {
+    trackId: number;
+    cover: string;
+    author: string;
+    title: string;
+  }) => {
+    dispatch(
+      tasks.trackOperations.transferTrackToPlayer({
+        autoplay: true,
+        trackId: data.trackId,
+        cover: data.cover,
+        author: data.author,
+        title: data.title
+      })
+    );
+    dispatch(tasks.viewedTrackActions.setInPlayer());
+  },
+  onToogleStatusTrack: () => {
+    dispatch(tasks.trackActions.toogleAudioStatus());
+  },
+  onVolumeChange: (newVolume: number) => {
+    dispatch(tasks.trackActions.setAudioVolume(newVolume));
+  }
+});
 
 type TrackInfoProps = {
+  trackId: number;
   cover: string;
   author: string;
   title: string;
   isPlaying: boolean;
+  isSetInPlayer: boolean;
   volume: number;
-  onPlayButtonClick: (isPlaying: boolean) => void;
-  onVolumeSliderDrag: (volume: number) => void;
-  onVolumeSliderDragStop: (volume: number) => void;
+  onTransferTrackToPlayer: (data: {
+    trackId: number;
+    cover: string;
+    author: string;
+    title: string;
+  }) => void;
+  onToogleStatusTrack: () => void;
+  onVolumeChange: (newVolume: number) => void;
 };
 
-class TrackInfo extends React.Component<TrackInfoProps> {
+type TrackInfoState = {};
+
+class TrackInfo extends React.Component<TrackInfoProps, TrackInfoState> {
   constructor(props: TrackInfoProps) {
     super(props);
   }
 
-  handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    this.props.onPlayButtonClick(this.props.isPlaying);
+  handlePlayButtonClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (!this.props.isSetInPlayer) {
+      this.props.onTransferTrackToPlayer({
+        trackId: this.props.trackId,
+        cover: this.props.cover,
+        title: this.props.title,
+        author: this.props.author
+      });
+    }
+    this.props.onToogleStatusTrack();
   };
 
   handleVolumeClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    this.props.onVolumeSliderDrag(event.nativeEvent.offsetX / 143);
-    this.props.onVolumeSliderDragStop(event.nativeEvent.offsetX / 143);
+    this.props.onVolumeChange(event.nativeEvent.offsetX / 143);
   };
 
-  handleDrag = (event: DraggableEvent, data: DraggableData) => {
-    this.props.onVolumeSliderDrag(data.x / 143);
+  handleVolumeDrag = (event: DraggableEvent, data: DraggableData) => {
+    // this.props.onVolumeChange(data.x / 143);
   };
 
-  handleDragStop = (event: DraggableEvent, data: DraggableData) => {
-    this.props.onVolumeSliderDragStop(data.x / 143);
+  handleVolumeDragStop = (event: DraggableEvent, data: DraggableData) => {
+    this.props.onVolumeChange(data.x / 143);
   };
 
   render() {
-    let playButtonClassName: string = this.props.isPlaying
-      ? "button active"
-      : "button";
-    let playButtonIcon: string = this.props.isPlaying
-      ? "icon-pause"
-      : "icon-play";
+    const status: boolean = this.props.isSetInPlayer && this.props.isPlaying;
+    let playButtonClassName: string = status ? "button active" : "button";
+    let playButtonIcon: string = status ? "icon-pause" : "icon-play";
     let volume: number = this.props.volume * 143;
     return (
       <div className="track-info">
@@ -72,7 +125,7 @@ class TrackInfo extends React.Component<TrackInfoProps> {
                 <div className="button-box">
                   <div
                     className={playButtonClassName}
-                    onClick={this.handleClick}
+                    onClick={this.handlePlayButtonClick}
                   >
                     <i className={playButtonIcon}></i>
                   </div>
@@ -101,8 +154,8 @@ class TrackInfo extends React.Component<TrackInfoProps> {
                           <Draggable
                             axis="x"
                             bounds=".volume-area"
-                            onDrag={this.handleDrag}
-                            onStop={this.handleDragStop}
+                            onDrag={this.handleVolumeDrag}
+                            onStop={this.handleVolumeDragStop}
                             position={{ x: volume, y: 0 }}
                           >
                             <div className="volume-knob-area">
@@ -125,4 +178,9 @@ class TrackInfo extends React.Component<TrackInfoProps> {
   }
 }
 
-export default TrackInfo;
+const TrackInfoContainer: ConnectedComponent<typeof TrackInfo, any> = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TrackInfo);
+
+export default TrackInfoContainer;

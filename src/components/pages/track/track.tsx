@@ -18,6 +18,7 @@ import viewedTrackOperations from "../../../core/state/ducks/viewed-track/viewed
 import viewedTrackSelectors from "../../../core/state/ducks/viewed-track/viewed-track.selectors";
 import RatingList from "../../entities/rating-list/rating-list";
 import { Rating } from "../../../core/shared";
+import { scrollTo } from "../../../utils";
 
 const mapStateToProps = (state: AppState): TrackProps | any => ({
   playerTrackId: state.track.trackId,
@@ -109,8 +110,21 @@ type TrackProps = {
 type TrackState = any;
 
 class TrackComponent extends React.Component<TrackProps, TrackState> {
+  trackInfoWrapperRef: React.RefObject<HTMLDivElement>;
+  trackWaverWrapperRef: React.RefObject<HTMLDivElement>;
+  trackRatingWrapperRef: React.RefObject<HTMLDivElement>;
+  trackTimelineWrapperRef: React.RefObject<HTMLDivElement>;
+  trackMomentEditorWrapperRef: React.RefObject<HTMLDivElement>;
+  trackMomentsDescriptionWrapperRef: React.RefObject<HTMLDivElement>;
+
   constructor(props: TrackProps) {
     super(props);
+    this.trackInfoWrapperRef = React.createRef();
+    this.trackRatingWrapperRef = React.createRef();
+    this.trackWaverWrapperRef = React.createRef();
+    this.trackTimelineWrapperRef = React.createRef();
+    this.trackMomentEditorWrapperRef = React.createRef();
+    this.trackMomentsDescriptionWrapperRef = React.createRef();
   }
 
   componentDidMount() {
@@ -176,19 +190,10 @@ class TrackComponent extends React.Component<TrackProps, TrackState> {
   render() {
     return (
       <div>
-        <div className="track-info-wrapper">
-          <TrackInfo
-            cover={this.props.cover}
-            author={this.props.author}
-            title={this.props.title}
-            volume={this.props.volume}
-            isPlaying={this.props.isSetInPlayer && this.props.isPlaying}
-            onPlayButtonClick={this.handlePlayButtonClick}
-            onVolumeSliderDrag={this.handleVolumeSliderDrag}
-            onVolumeSliderDragStop={this.handleVolumeSliderDragStop}
-          ></TrackInfo>
+        <div ref={this.trackInfoWrapperRef} className="track-info-wrapper">
+          <TrackInfo />
         </div>
-        <div className="track-waver-wrapper">
+        <div ref={this.trackWaverWrapperRef} className="track-waver-wrapper">
           <TrackWaver
             wave={this.props.wave}
             currentTime={this.props.isSetInPlayer ? this.props.currentTime : 0}
@@ -196,16 +201,27 @@ class TrackComponent extends React.Component<TrackProps, TrackState> {
             onChangeTime={this.handleChangeTime}
           ></TrackWaver>
         </div>
-        <div className="track-rating-list">
+        <div ref={this.trackRatingWrapperRef} className="track-rating-list">
           <RatingList />
         </div>
-        <div className="track-timeline-wrapper">
+        <div
+          ref={this.trackTimelineWrapperRef}
+          className="track-timeline-wrapper"
+        >
           <Timeline />
         </div>
-        <div className="track-moment-editor-wrapper">
+        <div
+          ref={this.trackMomentEditorWrapperRef}
+          className="track-moment-editor-wrapper"
+        >
           <MomentEditor />
         </div>
-        <div>"Track Description" section</div>
+        <div
+          ref={this.trackMomentsDescriptionWrapperRef}
+          className="track-moments-description-wrapper"
+        >
+          "Track Description" section
+        </div>
       </div>
     );
   }
