@@ -6,6 +6,10 @@ type Time = {
   ms: string;
 };
 
+export const random = (min: number, max: number): number => {
+  return Math.floor(Math.random() * (max - min)) + min;
+};
+
 export const scrollTo = (ref: React.RefObject<any>): void => {
   window.scrollTo(0, ref.current.offsetTop);
   console.clear();

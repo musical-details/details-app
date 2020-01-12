@@ -41,4 +41,8 @@
       }
     }
   }
+
+  .spinner-wrapper {
+    @extend .middle;
+  }
 }

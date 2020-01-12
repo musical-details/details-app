@@ -7,6 +7,7 @@ import CSS from "csstype";
 import * as tasks from "../../../core/state/ducks/tasks";
 import { AppState } from "../../../core/state/store";
 import { connect, ConnectedComponent } from "react-redux";
+import SpinnerComponent from "../../shared/spinner/spinner";
 
 const mapStateToProps = (state: AppState): RateComponentProps | any => ({
   isLogged: state.user.isLogged,
@@ -25,15 +26,20 @@ type RateComponentProps = {
 };
 
 type RateComponentState = {
+  isUserFavourtiesLoaded: boolean;
   userFavourites: Array<SoundCloud.UserFavouritesData>;
+  progress: number;
 };
 
 class RateComponent extends React.Component<
   RateComponentProps,
   RateComponentState
 > {
+  interval: any;
   state: RateComponentState = {
-    userFavourites: []
+    isUserFavourtiesLoaded: false,
+    userFavourites: [],
+    progress: 0
   };
 
   constructor(props: RateComponentProps) {
@@ -42,6 +48,14 @@ class RateComponent extends React.Component<
 
   componentWillMount() {
     this.fetchUserFavourites();
+
+    this.interval = setInterval(() => {
+      if (this.state.progress > 100) {
+        clearInterval(this.interval);
+        return;
+      }
+      this.setState({ progress: this.state.progress + 1 });
+    }, 100);
   }
 
   async fetchTrackInfo(url: string): Promise<any> {
@@ -57,6 +71,8 @@ class RateComponent extends React.Component<
 
   async fetchUserFavourites(): Promise<void> {
     const { isLogged, soundcloudId } = this.props;
+    this.setState({ isUserFavourtiesLoaded: false });
+
     if (!isLogged) return;
 
     const apiUrl: string = `https://api.soundcloud.com/users/${soundcloudId}/favorites?client_id=${API_KEY}`;
@@ -64,7 +80,8 @@ class RateComponent extends React.Component<
       const response: Response = await fetch(apiUrl);
       const data: Array<SoundCloud.UserFavouritesData> = await response.json();
       this.setState({
-        userFavourites: data
+        userFavourites: data,
+        isUserFavourtiesLoaded: true
       });
     } catch (error) {
       console.error(error);
@@ -86,13 +103,10 @@ class RateComponent extends React.Component<
 
   createBox = (trackId: number, artwork_url: string | null): JSX.Element => {
     const url: string = `/track/${trackId}`;
-    let artUrl: string = "";
-    try {
-      if (artwork_url === null) throw new Error("Field 'artwork_url' is empty");
-      artUrl = artwork_url.toString().replace("large", "t500x500");
-    } catch (error) {
-      console.error(error);
-    }
+    const artUrl: string =
+      artwork_url === null
+        ? ""
+        : artwork_url.toString().replace("large", "t500x500");
 
     const coverStyles: CSS.Properties = {
       backgroundImage: `url(${artUrl})`
@@ -124,7 +138,12 @@ class RateComponent extends React.Component<
         <div>
           <div className="search-wrapper">
             <div>
-              <input type="text" autoFocus onKeyDown={this.handleKeyDown} />
+              <input
+                type="text"
+                autoFocus
+                onKeyDown={this.handleKeyDown}
+                placeholder="Type url to track on SoundCloud..."
+              />
             </div>
           </div>
           <div className="favourites-wrapper" style={favouritesWrapperStyles}>
@@ -135,6 +154,11 @@ class RateComponent extends React.Component<
               <div className="box-list">{this.createBoxes()}</div>
             </div>
           </div>
+          {this.props.isLogged && !this.state.isUserFavourtiesLoaded && (
+            <div className="spinner-wrapper">
+              <SpinnerComponent progress={this.state.progress} />
+            </div>
+          )}
         </div>
       </div>
     );
