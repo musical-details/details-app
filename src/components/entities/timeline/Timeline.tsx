@@ -127,7 +127,7 @@ class Timeline extends React.Component<TimelineProps> {
                 axis="both"
                 bounds=".timeline-full"
                 grid={[14, 70]}
-                position={{ x: 0, y: 0 }}
+                position={{ x: 0, y: this.props.newMoment.section * 70 }}
                 onDrag={(event: DraggableEvent, data: DraggableData) => {}}
                 onStop={(event: DraggableEvent, data: DraggableData) => {}}
               >
