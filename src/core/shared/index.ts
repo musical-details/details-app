@@ -44,3 +44,12 @@ export type Rating = {
   };
   moments: Array<Moment>;
 };
+
+export type User = {
+  nickname: string;
+  login: string;
+  avatar: string;
+  soundcloudUri: string;
+  soundcloudId: number;
+  createdAt: Date;
+};

@@ -25,6 +25,7 @@ export interface AppUserState {
   readonly registerError: undefined | FeedbackError;
   readonly token: string;
   readonly userId: number;
+  readonly soundcloudId: number;
   readonly nickname: string;
   readonly avatar: string;
 }
@@ -37,6 +38,7 @@ export const initialState: AppUserState = {
   registerError: undefined,
   token: "",
   userId: 0,
+  soundcloudId: 0,
   nickname: "",
   avatar: ""
 };
