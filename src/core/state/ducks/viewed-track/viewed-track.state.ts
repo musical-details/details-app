@@ -3,7 +3,6 @@ import { Rating } from "../../../shared";
 export interface AppViewedTrackState {
   readonly trackId: number;
   readonly isSetInPlayer: boolean;
-  readonly currentTime: number;
   readonly duration: number;
   readonly cover: string;
   readonly author: string;
@@ -17,7 +16,6 @@ export interface AppViewedTrackState {
 export const initialState: AppViewedTrackState = {
   trackId: 0,
   isSetInPlayer: false,
-  currentTime: 0,
   duration: 0,
   cover: "",
   author: "",

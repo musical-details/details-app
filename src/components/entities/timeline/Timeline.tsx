@@ -15,6 +15,7 @@ const mapStateToProps = (state: AppState): TimelineProps | any => ({
   mode: state.ratingEditor.mode,
   currentTime: state.track.currentTime,
   duration: state.track.duration,
+  soundcloudDuration: state.viewedTrack.duration,
   moments: tasks.viewedTrackSelectors.getSelectedMoments(state),
   selectedTimeStart: state.ratingEditor.selectedTime.start,
   selectedTimeEnd: state.ratingEditor.selectedTime.end,
@@ -32,6 +33,7 @@ type TimelineProps = {
   mode: RatingEditorMode;
   currentTime: Seconds;
   duration: Seconds;
+  soundclouDuration: Seconds;
   moments: Array<Moment>;
   selectedTimeStart: Seconds;
   selectedTimeEnd: Seconds;

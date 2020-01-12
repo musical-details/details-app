@@ -83,6 +83,7 @@ class RateComponent extends React.Component<
         userFavourites: data,
         isUserFavourtiesLoaded: true
       });
+      console.log(data);
     } catch (error) {
       console.error(error);
     }

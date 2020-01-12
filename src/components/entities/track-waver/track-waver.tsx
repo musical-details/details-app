@@ -6,12 +6,14 @@ import { AppState } from "../../../core/state/store";
 
 import * as tasks from "../../../core/state/ducks/tasks";
 import { ConnectedComponent, connect } from "react-redux";
+import { Seconds } from "../../../core/shared";
 
 const mapStateToProps = (state: AppState): TrackWaverProps | any => ({
   isSetInPlayer: state.viewedTrack.isSetInPlayer,
   wave: state.viewedTrack.wave,
   currentTime: state.track.currentTime,
-  duration: state.track.duration
+  duration: state.track.duration,
+  soundcloudDuration: state.viewedTrack.duration
 });
 
 const mapDispatchToProps = (
@@ -29,7 +31,8 @@ type TrackWaverProps = {
   isSetInPlayer: boolean;
   wave: Array<number>;
   currentTime: number;
-  duration: number;
+  duration: Seconds;
+  soundcloudDuration: Seconds;
   onTransferTrackToPlayer: () => void;
   onChangeTime: (newTime: number) => void;
 };
@@ -52,9 +55,9 @@ class TrackWaverStick extends React.Component<TrackWaverStickProps> {
   render() {
     const { isActive, index, value } = this.props;
 
-    const fill = isActive ? "url(#active)" : "#5e5e5e";
-    const x = index * stickSpace;
-    const y = (svgHeight - value) / 2;
+    const fill: string = isActive ? "url(#active)" : "#5e5e5e";
+    const x: number = index * stickSpace;
+    const y: number = (svgHeight - value) / 2;
     return (
       <g transform={`translate(${x}, 0)`}>
         <path

@@ -20,7 +20,8 @@ const viewedTrackReducer = (
         ...state,
         cover: action.payload.cover,
         title: action.payload.title,
-        author: action.payload.author
+        author: action.payload.author,
+        duration: action.payload.duration
       };
     case ActionTypes.FETCH_META_ERROR:
       return {
