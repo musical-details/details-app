@@ -12,17 +12,17 @@
 
       .react-resizable-handle {
         position: absolute;
-        width: 2px;
+        width: 8px;
         height: 100%;
         box-sizing: border-box;
 
         &.react-resizable-handle-w {
-          left: 0;
+          left: -4px;
           cursor: w-resize;
         }
 
         &.react-resizable-handle-e {
-          right: 0;
+          right: -4px;
           cursor: e-resize;
         }
       }

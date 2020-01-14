@@ -32,8 +32,14 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): TimelineProps | any => ({
   onNewMomentSectionChange: (newSection: MomentSection) => {
     dispatch(tasks.ratingEditorActions.setNewMomentSection(newSection));
   },
-  onNewMomentStartChange: (start: Seconds) => {
-    dispatch(tasks.ratingEditorActions.setNewMomentTimeStart(start));
+  onNewMomentPositionChange: (newStart: Seconds) => {
+    dispatch(tasks.ratingEditorOperations.moveMoment(newStart));
+  },
+  onNewMomentStartChange: (newStart: Seconds) => {
+    dispatch(tasks.ratingEditorActions.setNewMomentTimeStart(newStart));
+  },
+  onNewMomentEndChange: (newEnd: Seconds) => {
+    dispatch(tasks.ratingEditorActions.setNewMomentTimeEnd(newEnd));
   }
 });
 
@@ -49,7 +55,9 @@ type TimelineProps = {
   newMoment: Moment;
   onCancelModyfing: () => void;
   onNewMomentSectionChange: (newSection: MomentSection) => void;
-  onNewMomentStartChange: (start: Seconds) => void;
+  onNewMomentPositionChange: (newStart: Seconds) => void;
+  onNewMomentStartChange: (newStart: Seconds) => void;
+  onNewMomentEndChange: (newEnd: Seconds) => void;
 };
 
 class Timeline extends React.Component<TimelineProps> {
@@ -107,6 +115,22 @@ class Timeline extends React.Component<TimelineProps> {
     this.props.onCancelModyfing();
   };
 
+  handleVerticalPositionChange = (newSection: MomentSection): void => {
+    this.props.onNewMomentSectionChange(newSection);
+  };
+
+  handleHorizontalPositionChange = (newStart: Seconds): void => {
+    this.props.onNewMomentPositionChange(newStart);
+  };
+
+  handleLeftSideResize = (newStart: Seconds): void => {
+    this.props.onNewMomentStartChange(newStart);
+  };
+
+  handleRightSideResize = (newEnd: Seconds): void => {
+    this.props.onNewMomentEndChange(newEnd);
+  };
+
   render() {
     const { duration, currentTime, mode, newMoment } = this.props;
     const { secondWidth } = this;
@@ -145,10 +169,10 @@ class Timeline extends React.Component<TimelineProps> {
               <TimelineMomentEditable
                 moment={newMoment}
                 currentTime={currentTime}
-                onVerticalPositionChange={() => {}}
-                onHorizontalPositionChange={() => {}}
-                onLeftSideResize={() => {}}
-                onRightSideResize={() => {}}
+                onVerticalPositionChange={this.handleVerticalPositionChange}
+                onHorizontalPositionChange={this.handleHorizontalPositionChange}
+                onLeftSideResize={this.handleLeftSideResize}
+                onRightSideResize={this.handleRightSideResize}
               />
             </div>
             <div className="timeline-sections-wrapper">

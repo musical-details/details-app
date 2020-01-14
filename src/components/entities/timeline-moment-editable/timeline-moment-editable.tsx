@@ -10,9 +10,9 @@ type TimelineMomentEditableProps = {
   moment: Moment;
   currentTime: Seconds;
   onVerticalPositionChange: (newSection: MomentSection) => void;
-  onHorizontalPositionChange: (start: Seconds) => void;
-  onLeftSideResize: () => void;
-  onRightSideResize: () => void;
+  onHorizontalPositionChange: (newStart: Seconds) => void;
+  onLeftSideResize: (newStart: Seconds) => void;
+  onRightSideResize: (newEnd: Seconds) => void;
 };
 
 type TimelineMomentEditableState = {};
@@ -59,21 +59,40 @@ class TimelineMomentEditable extends React.Component<
     data: ResizeCallbackData
   ): void => {
     console.clear();
-    console.log(data);
+    console.log(data.size.width);
   };
 
   handleNewMomentResize = (
     event: SyntheticEvent,
     data: ResizeCallbackData
   ): void => {
-    console.log(data);
+    event.stopPropagation();
+    const { handle, size } = data;
+    const { secondWidth } = this;
+    if (handle === "w") {
+      const { start, end } = this.props.moment;
+      const newStart: Seconds = -(size.width / secondWidth) + end;
+      this.props.onLeftSideResize(newStart);
+      console.log(start, "=> ", newStart);
+      return;
+    }
+    if (handle === "e") {
+      const { start, end } = this.props.moment;
+      const newEnd: Seconds = size.width / secondWidth + start;
+      this.props.onRightSideResize(newEnd);
+      console.log(end, "=>", newEnd);
+      return;
+    }
   };
 
   handleNewMomentResizeStop = (
     event: SyntheticEvent,
     data: ResizeCallbackData
-  ) => {
-    console.log(data);
+  ) => {};
+
+  handleSelect = (event: SyntheticEvent): void => {
+    event.preventDefault();
+    return;
   };
 
   render() {
@@ -85,7 +104,8 @@ class TimelineMomentEditable extends React.Component<
       handleNewMomentDragStop,
       handleNewMomentResizeStart,
       handleNewMomentResize,
-      handleNewMomentResizeStop
+      handleNewMomentResizeStop,
+      handleSelect
     } = this;
     const { start, end, section } = this.props.moment;
 
@@ -114,9 +134,9 @@ class TimelineMomentEditable extends React.Component<
               onResizeStart={handleNewMomentResizeStart}
               onResize={handleNewMomentResize}
               onResizeStop={handleNewMomentResizeStop}
-              draggableOpts={{ grid: [5, 5] }}
+              draggableOpts={{ grid: [28, 5] }}
             >
-              <div className="resizable-zone">
+              <div className="resizable-zone" onSelect={handleSelect}>
                 <TimelineMoment
                   moment={{
                     ...this.props.moment,
