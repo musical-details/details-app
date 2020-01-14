@@ -4,6 +4,7 @@ import { random } from "../../../utils";
 
 type SpinnerComponentProps = {
   progress: number;
+  onLoaded?: () => any;
 };
 
 type SpinnerComponentState = {};

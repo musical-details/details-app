@@ -8,6 +8,7 @@ import * as tasks from "../../../core/state/ducks/tasks";
 import { AppState } from "../../../core/state/store";
 import { connect, ConnectedComponent } from "react-redux";
 import SpinnerComponent from "../../shared/spinner/spinner";
+import { ResizableBox, Resizable } from "react-resizable";
 
 const mapStateToProps = (state: AppState): RateComponentProps | any => ({
   isLogged: state.user.isLogged,

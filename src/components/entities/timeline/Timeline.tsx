@@ -1,14 +1,17 @@
-import React, { Dispatch, ComponentClass } from "react";
-import TimelineMoment from "../timeline-moment/TimelineMoment";
-import CSS from "csstype";
-import "./Timeline.scss";
-import TimelineTimers from "./timeline-timer";
-import { AppState } from "../../../core/state/store";
+import React, { Dispatch, SyntheticEvent } from "react";
 import { connect, ConnectedComponent } from "react-redux";
+
+import CSS from "csstype";
+
+import "./Timeline.scss";
+import TimelineMoment from "../timeline-moment/TimelineMoment";
+import TimelineTimers from "./timeline-timer";
+
+import { AppState } from "../../../core/state/store";
 import { RatingEditorMode } from "../../../core/state/ducks/rating-editor/rating-editor.state";
-import Draggable, { DraggableEvent, DraggableData } from "react-draggable";
-import { Moment, Seconds } from "../../../core/shared";
+import { Moment, Seconds, MomentSection, Pixels } from "../../../core/shared";
 import * as tasks from "../../../core/state/ducks/tasks";
+import TimelineMomentEditable from "../timeline-moment-editable/timeline-moment-editable";
 
 const mapStateToProps = (state: AppState): TimelineProps | any => ({
   isSetInPlayer: state.viewedTrack.isSetInPlayer,
@@ -25,6 +28,12 @@ const mapStateToProps = (state: AppState): TimelineProps | any => ({
 const mapDispatchToProps = (dispatch: Dispatch<any>): TimelineProps | any => ({
   onCancelModyfing: () => {
     dispatch(tasks.ratingEditorActions.setMode(RatingEditorMode.DISABLED));
+  },
+  onNewMomentSectionChange: (newSection: MomentSection) => {
+    dispatch(tasks.ratingEditorActions.setNewMomentSection(newSection));
+  },
+  onNewMomentStartChange: (start: Seconds) => {
+    dispatch(tasks.ratingEditorActions.setNewMomentTimeStart(start));
   }
 });
 
@@ -39,9 +48,13 @@ type TimelineProps = {
   selectedTimeEnd: Seconds;
   newMoment: Moment;
   onCancelModyfing: () => void;
+  onNewMomentSectionChange: (newSection: MomentSection) => void;
+  onNewMomentStartChange: (start: Seconds) => void;
 };
 
 class Timeline extends React.Component<TimelineProps> {
+  sectionHeight: Pixels = 70;
+  secondWidth: Pixels = 28;
   constructor(props: TimelineProps) {
     super(props);
   }
@@ -64,6 +77,7 @@ class Timeline extends React.Component<TimelineProps> {
       selectedTimeStart,
       selectedTimeEnd
     } = this.props;
+    const { secondWidth } = this;
 
     switch (mode) {
       case RatingEditorMode.DISABLED:
@@ -74,15 +88,17 @@ class Timeline extends React.Component<TimelineProps> {
       case RatingEditorMode.RECORDING:
         return {
           display: "block",
-          width: `${28 * currentTime - 28 * selectedTimeStart}px`,
-          left: `${28 * selectedTimeStart}px`
+          width: `${secondWidth * currentTime -
+            secondWidth * selectedTimeStart}px`,
+          left: `${secondWidth * selectedTimeStart}px`
         };
 
       case RatingEditorMode.MODIFYING:
         return {
           display: "block",
-          width: `${28 * selectedTimeEnd - 28 * selectedTimeStart}px`,
-          left: `${28 * selectedTimeStart}px`
+          width: `${secondWidth * selectedTimeEnd -
+            secondWidth * selectedTimeStart}px`,
+          left: `${secondWidth * selectedTimeStart}px`
         };
     }
   };
@@ -92,10 +108,11 @@ class Timeline extends React.Component<TimelineProps> {
   };
 
   render() {
-    const { duration, currentTime, mode } = this.props;
+    const { duration, currentTime, mode, newMoment } = this.props;
+    const { secondWidth } = this;
     const fullStyles: CSS.Properties = {
-      width: 28 * duration + "px",
-      transform: `translate(${-currentTime * 28 + 420}px)`
+      width: secondWidth * duration + "px",
+      transform: `translate(${-currentTime * secondWidth + 420}px)`
     };
 
     const recordingWrapperStyles: CSS.Properties = this.getRecordingWrapperStyles();
@@ -125,21 +142,14 @@ class Timeline extends React.Component<TimelineProps> {
               </div>
             </div>
             <div className="new-moment-wrapper" style={newMomentWrapperStyles}>
-              <Draggable
-                axis="both"
-                bounds=".timeline-full"
-                grid={[14, 70]}
-                position={{ x: 0, y: this.props.newMoment.section * 70 }}
-                onDrag={(event: DraggableEvent, data: DraggableData) => {}}
-                onStop={(event: DraggableEvent, data: DraggableData) => {}}
-              >
-                <div className="new-moment">
-                  <TimelineMoment
-                    moment={this.props.newMoment}
-                    currentTime={this.props.currentTime}
-                  />
-                </div>
-              </Draggable>
+              <TimelineMomentEditable
+                moment={newMoment}
+                currentTime={currentTime}
+                onVerticalPositionChange={() => {}}
+                onHorizontalPositionChange={() => {}}
+                onLeftSideResize={() => {}}
+                onRightSideResize={() => {}}
+              />
             </div>
             <div className="timeline-sections-wrapper">
               <div className="timeline-sections-container">

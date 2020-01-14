@@ -7,6 +7,7 @@ import { Seconds, Moment } from "../../../core/shared";
 type TimelineMomentProps = {
   moment: Moment;
   currentTime: Seconds;
+  isFullWidth?: boolean;
 };
 
 class TimelineMoment extends React.Component<TimelineMomentProps> {
@@ -14,9 +15,10 @@ class TimelineMoment extends React.Component<TimelineMomentProps> {
     super(props);
   }
 
-  countWidth = () => {
+  countWidth = (): string => {
+    const { isFullWidth } = this.props;
     const { start, end } = this.props.moment;
-    return (end - start) * 28;
+    return isFullWidth === true ? `100%` : `${(end - start) * 28}px`;
   };
 
   getMomentBackgroundClass = (): string => {
@@ -43,7 +45,7 @@ class TimelineMoment extends React.Component<TimelineMomentProps> {
   render() {
     const { name, start, section, color } = this.props.moment;
     const momentWrapperStyleNormal: CSS.Properties = {
-      width: `${this.countWidth()}px`,
+      width: `${this.countWidth()}`,
       transform: `translate(${start * 28}px)`,
       display: "flex",
       top: `${section * 20}%`
