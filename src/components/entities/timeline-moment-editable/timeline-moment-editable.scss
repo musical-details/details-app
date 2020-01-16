@@ -2,6 +2,7 @@
   .draggable-zone {
     min-width: 4px;
     height: 70px;
+    position: relative;
 
     .resizable-zone {
       width: 100%;

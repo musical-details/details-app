@@ -153,7 +153,7 @@ class Timeline extends React.Component<TimelineProps> {
       <div className="timeline">
         <div className="timeline-container">
           <div className="timeline-full" style={fullStyles}>
-            <div
+            <div 
               className="timeline-recording-wrapper"
               style={recordingWrapperStyles}
             >

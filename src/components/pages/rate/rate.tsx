@@ -8,7 +8,6 @@ import * as tasks from "../../../core/state/ducks/tasks";
 import { AppState } from "../../../core/state/store";
 import { connect, ConnectedComponent } from "react-redux";
 import SpinnerComponent from "../../shared/spinner/spinner";
-import { ResizableBox, Resizable } from "react-resizable";
 
 const mapStateToProps = (state: AppState): RateComponentProps | any => ({
   isLogged: state.user.isLogged,
@@ -47,7 +46,7 @@ class RateComponent extends React.Component<
     super(props);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.fetchUserFavourites();
 
     this.interval = setInterval(() => {
@@ -84,7 +83,6 @@ class RateComponent extends React.Component<
         userFavourites: data,
         isUserFavourtiesLoaded: true
       });
-      console.log(data);
     } catch (error) {
       console.error(error);
     }
@@ -92,7 +90,6 @@ class RateComponent extends React.Component<
 
   createBoxes = (): Array<JSX.Element> => {
     try {
-      console.log(this.state);
       return this.state.userFavourites
         .filter(userFavourite => userFavourite.streamable === true)
         .slice(0, 6)
@@ -156,6 +153,7 @@ class RateComponent extends React.Component<
               <div className="box-list">{this.createBoxes()}</div>
             </div>
           </div>
+
           {this.props.isLogged && !this.state.isUserFavourtiesLoaded && (
             <div className="spinner-wrapper">
               <SpinnerComponent progress={this.state.progress} />

@@ -3,8 +3,11 @@ import React, { SyntheticEvent } from "react";
 import "./timeline-moment-editable.scss";
 import TimelineMoment from "../timeline-moment/TimelineMoment";
 import Draggable, { DraggableEvent, DraggableData } from "react-draggable";
-import { Resizable, ResizableBox, ResizeCallbackData } from "react-resizable";
+
 import { Moment, Seconds, Pixels, MomentSection } from "../../../core/shared";
+import Resizable, {
+  ResizeCallbackData
+} from "../../shared/resizable/resizable";
 
 type TimelineMomentEditableProps = {
   moment: Moment;
@@ -23,9 +26,16 @@ class TimelineMomentEditable extends React.Component<
 > {
   sectionHeight: Pixels = 70;
   secondWidth: Pixels = 28;
+  timeout: NodeJS.Timeout = setTimeout(() => {}, 0);
+
+  state: TimelineMomentEditableState = {};
 
   constructor(props: TimelineMomentEditableProps) {
     super(props);
+  }
+
+  componentDidMount() {
+    const { start, end } = this.props.moment;
   }
 
   handleNewMomentDragStart = (
@@ -55,7 +65,7 @@ class TimelineMomentEditable extends React.Component<
   };
 
   handleNewMomentResizeStart = (
-    event: SyntheticEvent,
+    event: DraggableEvent,
     data: ResizeCallbackData
   ): void => {
     console.clear();
@@ -63,35 +73,39 @@ class TimelineMomentEditable extends React.Component<
   };
 
   handleNewMomentResize = (
-    event: SyntheticEvent,
+    event: DraggableEvent,
     data: ResizeCallbackData
   ): void => {
-    event.stopPropagation();
-    const { handle, size } = data;
+    const { handler, size } = data;
     const { secondWidth } = this;
-    if (handle === "w") {
+
+    if (handler === "w") {
       const { start, end } = this.props.moment;
       const newStart: Seconds = -(size.width / secondWidth) + end;
       this.props.onLeftSideResize(newStart);
-      console.log(start, "=> ", newStart);
+      //console.log(start, "=>", newStart);
       return;
     }
-    if (handle === "e") {
+    if (handler === "e") {
       const { start, end } = this.props.moment;
       const newEnd: Seconds = size.width / secondWidth + start;
       this.props.onRightSideResize(newEnd);
-      console.log(end, "=>", newEnd);
       return;
     }
   };
 
   handleNewMomentResizeStop = (
-    event: SyntheticEvent,
+    event: DraggableEvent,
     data: ResizeCallbackData
   ) => {};
 
   handleSelect = (event: SyntheticEvent): void => {
     event.preventDefault();
+    return;
+  };
+
+  handleContextMenu = (event: any): void => {
+    console.error("!!!");
     return;
   };
 
@@ -105,7 +119,8 @@ class TimelineMomentEditable extends React.Component<
       handleNewMomentResizeStart,
       handleNewMomentResize,
       handleNewMomentResizeStop,
-      handleSelect
+      handleSelect,
+      handleContextMenu
     } = this;
     const { start, end, section } = this.props.moment;
 
@@ -123,30 +138,36 @@ class TimelineMomentEditable extends React.Component<
           onStart={handleNewMomentDragStart}
           onDrag={handleNewMomentDrag}
           onStop={handleNewMomentDragStop}
-          cancel=".react-resizable-handle-w, .react-resizable-handle-e"
+          cancel=".resizable-handle"
         >
           <div className="draggable-zone" style={{ width: `${width}px` }}>
             <Resizable
               className="resizable-zone"
-              width={width}
-              height={sectionHeight}
-              resizeHandles={["w", "e"]}
+              realWidth={width}
+              realHeight={sectionHeight}
+              directions={["w", "e"]}
               onResizeStart={handleNewMomentResizeStart}
               onResize={handleNewMomentResize}
               onResizeStop={handleNewMomentResizeStop}
-              draggableOpts={{ grid: [28, 5] }}
+              draggableOpts={{ bounds: ".timeline-full" }}
             >
-              <div className="resizable-zone" onSelect={handleSelect}>
-                <TimelineMoment
-                  moment={{
-                    ...this.props.moment,
-                    start: 0,
-                    end: 0,
-                    section: 0
-                  }}
-                  isFullWidth={true}
-                  currentTime={this.props.currentTime}
-                />
+              <div
+                className="resizable-zone"
+                onSelect={handleSelect}
+                onContextMenu={handleContextMenu}
+              >
+                <>
+                  <TimelineMoment
+                    moment={{
+                      ...this.props.moment,
+                      start: 0,
+                      end: 0,
+                      section: 0
+                    }}
+                    isFullWidth={true}
+                    currentTime={this.props.currentTime}
+                  />
+                </>
               </div>
             </Resizable>
           </div>
