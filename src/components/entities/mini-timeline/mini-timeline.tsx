@@ -105,6 +105,30 @@ const momentsTmp: Array<momentsArrProps> = [
         start:0,
         end:3,
         timelineSection:5
+    },
+    {
+        name:"Hi-Hats",
+        description:"",
+        color:"#c36fea",
+        start:350,
+        end:380,
+        timelineSection:2
+    },
+    {
+        name:"Hi-Hats",
+        description:"",
+        color:"#c36fda",
+        start:250,
+        end:260,
+        timelineSection:5
+    },
+    {
+        name:"Hi-Hats",
+        description:"",
+        color:"#c36fea",
+        start:400,
+        end:420,
+        timelineSection:3
     }
 ]
 
@@ -134,13 +158,14 @@ type MiniTimelineMomentProps = {
 
 type MiniTimelineState = {
     dragStartPosition: number;
-   
+    fullOffset: number;
 }
 
 class MiniTimeline extends React.Component <MiniTimelineProps, MiniTimelineState>{
 
     state: MiniTimelineState = {
-        dragStartPosition: 0
+        dragStartPosition: 0,
+        fullOffset: 0
     }
         
     constructor(props: MiniTimelineProps) {
@@ -178,14 +203,20 @@ class MiniTimeline extends React.Component <MiniTimelineProps, MiniTimelineState
     }
 
     handleActiveBoxDrag = (event: DraggableEvent, data: DraggableData): void =>{
-        console.log(event);
-        console.log(data);
-        const value = this.props.duration * 7 / 840;
+       // console.log(event);
+       // console.log(data);
+        const value = this.props.duration * 7 / 840;  
+
+        let direction: number = 0;
+
+        data.x < this.state.dragStartPosition
+        ? direction = 1
+        : direction = -1
         
+        this.setActiveBoxLeftProperty(data.x, direction)
     }
 
     handleActiveBoxStart = (event: DraggableEvent, data: DraggableData): void => {
-        //console.log(data)
         this.setState({
             dragStartPosition: data.x
         })
@@ -193,12 +224,15 @@ class MiniTimeline extends React.Component <MiniTimelineProps, MiniTimelineState
 
     handleActiveBoxEnd = (event: DraggableEvent, data: DraggableData): void => {
         const delta = data.x - this.state.dragStartPosition;
-        const newTime = this.props.currentTime + (delta / 7)*(this.props.duration * 7 / 840);
-        this.props.onNewCurrentTime(newTime);
+        const newTime = this.props.currentTime + (delta / 7) * (this.props.duration * 7 / 840);
+        this.props.onNewCurrentTime(newTime);     
     }
 
-    countNewCurrentTime = (): void => {
-
+    setActiveBoxLeftProperty = (positionX: number, direction: number): void => {
+        let offset = positionX *(this.props.duration * 7 / 840) * direction;
+        this.setState({
+            fullOffset: offset
+        })
     }
 
     render() {
@@ -207,7 +241,8 @@ class MiniTimeline extends React.Component <MiniTimelineProps, MiniTimelineState
         console.log(value);
 
         let fullStyle: CSS.Properties = {
-            width: this.props.duration * 7 + "px"
+            width: this.props.duration * 7 + "px",
+            left: this.state.fullOffset+ "px"
         }
 
         // let draggableContainerStyle: CSS.Properties = {
@@ -220,11 +255,8 @@ class MiniTimeline extends React.Component <MiniTimelineProps, MiniTimelineState
                     <Draggable
                         axis="x"
                         bounds=".draggable-container"
-                        
-                        //grid={[secondWidth / 2, sectionHeight]}
-                        //position={{ x: xPosition, y: yPosition }}
                         onStart={this.handleActiveBoxStart}
-                        //onDrag={this.handleActiveBoxDrag}
+                        onDrag={this.handleActiveBoxDrag}
                         onStop={this.handleActiveBoxEnd}
                         cancel=".react-resizable-handle-w, .react-resizable-handle-e"
                     >
