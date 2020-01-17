@@ -10,10 +10,11 @@
 
 .track-mini-timeline-wrapper {
   width: 840px;
-  height: 60px;
+  height: 50px;
   margin-bottom: 15px;
   position: relative;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 .track-timeline-wrapper {
@@ -29,7 +30,7 @@
 
 .track-timeline-timer-wrapper {
   width: 840px;
-  height: 50px;
+  height: 40px;
   box-sizing: border-box;
   position: relative;
   display: flex;

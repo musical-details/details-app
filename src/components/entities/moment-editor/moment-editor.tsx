@@ -12,9 +12,6 @@ import momentReactionsJSON from "../../../assets/data/moment-reactions.json"
 
 import { convertToMMSSMS } from "../../../utils/index";
 import { convertToSeconds } from "../../../utils/index";
-import { stringify } from "querystring";
-import { NONAME } from "dns";
-import { NULL } from "node-sass";
 
 const mapStateToProps = (state: AppState): MomentEditorProps | any => ({
   currentTime: state.track.currentTime,
