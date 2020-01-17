@@ -7,10 +7,14 @@ import GlobalPlayer from "../global-player/global-player";
 import MyProfileComponent from "../../pages/my-profile/my-profile";
 import RateComponent from "../../pages/rate/rate";
 import AccessContainer from "../../pages/access/access";
+import ViewContainer from "../view/view";
 
 const Content: React.FC = () => {
   return (
     <div className="content">
+      <div className="view-wrapper">
+        <ViewContainer />
+      </div>
       <div className="global-player-wrapper">
         <GlobalPlayer />
       </div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { SyntheticEvent } from "react";
 
 import "./TimeLineMoment.scss";
 import CSS from "csstype";
@@ -42,6 +42,10 @@ class TimelineMoment extends React.Component<TimelineMomentProps> {
       : { color: color };
   };
 
+  handleContextMenu = (event: SyntheticEvent) => {
+    event.preventDefault();
+  };
+
   render() {
     const { name, start, section, color } = this.props.moment;
     const momentWrapperStyleNormal: CSS.Properties = {
@@ -56,7 +60,11 @@ class TimelineMoment extends React.Component<TimelineMomentProps> {
     };
 
     return (
-      <div className="moment-wrapper" style={momentWrapperStyleNormal}>
+      <div
+        className="moment-wrapper"
+        style={momentWrapperStyleNormal}
+        onContextMenu={this.handleContextMenu}
+      >
         <div className="moment-container">
           <div className="moment-name-container" style={{ color: color }}>
             <div className={this.getMomentNameClass()}>
@@ -66,11 +74,11 @@ class TimelineMoment extends React.Component<TimelineMomentProps> {
           <div
             className={this.getMomentBackgroundClass()}
             style={momentBackgroundStyle}
-          ></div>
+          />
           <div
             className="moment-bottom-stripe"
             style={{ backgroundColor: color }}
-          ></div>
+          />
         </div>
       </div>
     );

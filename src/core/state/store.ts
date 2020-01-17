@@ -1,3 +1,4 @@
+import { AppViewState } from "./ducks/view/view.state";
 import { AppRatingEditorState } from "./ducks/rating-editor/rating-editor.state";
 import { AppUserState } from "./ducks/user/user.state";
 import { AppViewedTrackState } from "./ducks/viewed-track/viewed-track.state";
@@ -16,6 +17,7 @@ import { AppTrackState } from "./ducks/track/track.state";
 import ActionTypes from "./ducks/track/track.types";
 
 export type AppState = {
+  view: AppViewState;
   track: AppTrackState;
   viewedTrack: AppViewedTrackState;
   user: AppUserState;

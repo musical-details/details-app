@@ -1,0 +1,8 @@
+[
+  { "icon": "icon-pencil", "name": "Edit moment" },
+  { "icon": "icon-trash", "name": "Remove moment" },
+  { "icon": "icon-level-down", "name": "Skip to moment" },
+  { "icon": "icon-level-down", "name": "Skip and loop moment" },
+  { "icon": "icon-note", "name": "Show details" },
+  { "icon": "icon-share", "name": "Copy link do moment" }
+]

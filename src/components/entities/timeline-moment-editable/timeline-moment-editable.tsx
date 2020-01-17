@@ -128,7 +128,7 @@ class TimelineMomentEditable extends React.Component<
       <div className="timeline-moment-editable">
         <Draggable
           axis="both"
-          bounds=".timeline-full"
+          bounds=".tape"
           grid={[secondWidth / 2, sectionHeight]}
           position={{ x: xPosition, y: yPosition }}
           onStart={handleNewMomentDragStart}
@@ -145,7 +145,7 @@ class TimelineMomentEditable extends React.Component<
               onResizeStart={handleNewMomentResizeStart}
               onResize={handleNewMomentResize}
               onResizeStop={handleNewMomentResizeStop}
-              draggableOpts={{ bounds: ".timeline-full" }}
+              draggableOpts={{ bounds: ".tape" }}
             >
               <div
                 className="resizable-zone"

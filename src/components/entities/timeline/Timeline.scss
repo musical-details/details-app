@@ -13,10 +13,8 @@
     overflow: hidden;
 
     &:hover {
-      .arrow-box {
-        display: flex;
-        justify-content: center;
-        transition: opacity 2s ease-out;
+      .arrows-wrapper {
+        opacity: 1;
       }
     }
 
@@ -89,13 +87,16 @@
     }
   }
   .arrows-wrapper {
+    opacity: 0;
+    transition: opacity 0.3s ease-out;
+
     .arrow-box {
+      display: flex;
+      position: absolute;
+      top: 0;
       height: 100%;
       width: 50px;
       background-color: #00000030;
-      position: absolute;
-      top: 0;
-      display: none;
 
       &.left {
         left: 0;
@@ -108,8 +109,6 @@
       .arrow {
         @extend .full;
         @extend .middle;
-        position: absolute;
-        opacity: 1;
 
         i {
           color: white;
@@ -118,7 +117,7 @@
 
       &:hover {
         cursor: pointer;
-        background-color: #65197252;
+        background-color: #aa267e52;
       }
     }
   }
