@@ -132,9 +132,17 @@ class Timeline extends React.Component<TimelineProps> {
   };
 
   render() {
+    const {
+      secondWidth,
+      handleHorizontalPositionChange,
+      handleVerticalPositionChange,
+      handleLeftSideResize,
+      handleRightSideResize,
+      handleRecordingCancelButton
+    } = this;
     const { duration, currentTime, mode, newMoment } = this.props;
-    const { secondWidth } = this;
-    const fullStyles: CSS.Properties = {
+
+    const tapeStyles: CSS.Properties = {
       width: secondWidth * duration + "px",
       transform: `translate(${-currentTime * secondWidth + 420}px)`
     };
@@ -152,48 +160,43 @@ class Timeline extends React.Component<TimelineProps> {
     return (
       <div className="timeline">
         <div className="timeline-container">
-          <div className="timeline-full" style={fullStyles}>
-            <div 
-              className="timeline-recording-wrapper"
-              style={recordingWrapperStyles}
-            >
+          <div className="tape" style={tapeStyles}>
+            <div className="recording-wrapper" style={recordingWrapperStyles}>
               <div
                 className="cancel-button"
                 style={recordingCancelButtonStyles}
-                onClick={this.handleRecordingCancelButton}
+                onClick={handleRecordingCancelButton}
               >
-                <i className="icon-cancel"></i>
+                <i className="icon-cancel" />
               </div>
             </div>
             <div className="new-moment-wrapper" style={newMomentWrapperStyles}>
               <TimelineMomentEditable
                 moment={newMoment}
                 currentTime={currentTime}
-                onVerticalPositionChange={this.handleVerticalPositionChange}
-                onHorizontalPositionChange={this.handleHorizontalPositionChange}
-                onLeftSideResize={this.handleLeftSideResize}
-                onRightSideResize={this.handleRightSideResize}
+                onVerticalPositionChange={handleVerticalPositionChange}
+                onHorizontalPositionChange={handleHorizontalPositionChange}
+                onLeftSideResize={handleLeftSideResize}
+                onRightSideResize={handleRightSideResize}
               />
             </div>
-            <div className="timeline-sections-wrapper">
-              <div className="timeline-sections-container">
-                {this.createMoments()}
+            <div className="sections-wrapper">{this.createMoments()}</div>
+          </div>
+          <div className="pointer" />
+          <div className="arrows-wrapper">
+            <div className="arrow-box left">
+              <div className="arrow">
+                <i className="icon-left-open" />
+              </div>
+            </div>
+            <div className="arrow-box right">
+              <div className="arrow">
+                <i className="icon-right-open" />
               </div>
             </div>
           </div>
-          <div className="timeline-pointer"></div>
-          <div className="timeline-arrow left">
-            <div className="timeline-arrow-box">
-              <i className="icon-left-open"></i>
-            </div>
-          </div>
-          <div className="timeline-arrow right">
-            <div className="timeline-arrow-box">
-              <i className="icon-right-open"></i>
-            </div>
-          </div>
         </div>
-        <div className="timeline-timer-box">
+        <div className="timeline-timer-container">
           <TimelineTimers currentTime={this.props.currentTime} />
         </div>
       </div>

@@ -24,8 +24,8 @@ class TimelineMomentEditable extends React.Component<
   TimelineMomentEditableProps,
   TimelineMomentEditableState
 > {
-  sectionHeight: Pixels = 70;
-  secondWidth: Pixels = 28;
+  static sectionHeight: Pixels = 70;
+  static secondWidth: Pixels = 28;
   timeout: NodeJS.Timeout = setTimeout(() => {}, 0);
 
   state: TimelineMomentEditableState = {};
@@ -34,9 +34,7 @@ class TimelineMomentEditable extends React.Component<
     super(props);
   }
 
-  componentDidMount() {
-    const { start, end } = this.props.moment;
-  }
+  componentDidMount() {}
 
   handleNewMomentDragStart = (
     event: DraggableEvent,
@@ -52,13 +50,14 @@ class TimelineMomentEditable extends React.Component<
     event: DraggableEvent,
     data: DraggableData
   ): void => {
-    const sectionNumber: number = data.lastY / this.sectionHeight;
+    const { secondWidth, sectionHeight } = TimelineMomentEditable;
+    const sectionNumber: number = data.lastY / sectionHeight;
     const section: MomentSection =
       sectionNumber >= 0 && sectionNumber <= 4
         ? (sectionNumber as MomentSection)
         : 0;
 
-    const start: Seconds = data.lastX / this.secondWidth;
+    const start: Seconds = data.lastX / secondWidth;
 
     this.props.onVerticalPositionChange(section);
     this.props.onHorizontalPositionChange(start);
@@ -77,17 +76,16 @@ class TimelineMomentEditable extends React.Component<
     data: ResizeCallbackData
   ): void => {
     const { handler, size } = data;
-    const { secondWidth } = this;
+    const { secondWidth } = TimelineMomentEditable;
 
     if (handler === "w") {
-      const { start, end } = this.props.moment;
+      const { end } = this.props.moment;
       const newStart: Seconds = -(size.width / secondWidth) + end;
       this.props.onLeftSideResize(newStart);
-      //console.log(start, "=>", newStart);
       return;
     }
     if (handler === "e") {
-      const { start, end } = this.props.moment;
+      const { start } = this.props.moment;
       const newEnd: Seconds = size.width / secondWidth + start;
       this.props.onRightSideResize(newEnd);
       return;
@@ -104,15 +102,13 @@ class TimelineMomentEditable extends React.Component<
     return;
   };
 
-  handleContextMenu = (event: any): void => {
-    console.error("!!!");
+  handleContextMenu = (event: SyntheticEvent): void => {
     return;
   };
 
   render() {
+    const { secondWidth, sectionHeight } = TimelineMomentEditable;
     const {
-      secondWidth,
-      sectionHeight,
       handleNewMomentDragStart,
       handleNewMomentDrag,
       handleNewMomentDragStop,
