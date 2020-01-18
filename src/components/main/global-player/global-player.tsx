@@ -177,8 +177,10 @@ class GlobalPlayerComponent extends React.Component<
 
   loadAudioController() {
     window.onkeypress = (event: Event | any): void => {
+      if (event.target.tagName === "INPUT") return;
+
       switch (event.which) {
-        case 32:
+        case 32: // "Space" key
           if (!this.isAllowToKeyPressOnSpace) return;
           event.preventDefault();
           this.props.toogleAudioPlay();
@@ -191,16 +193,17 @@ class GlobalPlayerComponent extends React.Component<
     };
 
     window.onkeydown = (event: Event | any): void => {
+      if (event.target.tagName === "INPUT") return;
       const { currentTime, duration } = this.props;
-      let diffTime: number = 0.5;
+      const diffTime: number = 0.5;
       switch (event.which) {
-        case 37:
+        case 37: // "Left-arrow" key
           event.preventDefault();
           const prevTime: number =
             currentTime > diffTime ? currentTime - diffTime : 0;
           this.audio.currentTime = prevTime;
           return;
-        case 39:
+        case 39: // "Right-arrow" key
           event.preventDefault();
           const nextTime: number =
             duration > currentTime + diffTime
@@ -208,7 +211,7 @@ class GlobalPlayerComponent extends React.Component<
               : duration - (currentTime + diffTime);
           this.audio.currentTime = nextTime;
           return;
-        case 82:
+        case 82: // "R" key
           const { mode, onAudioRecordStart, onAudioRecordStop } = this.props;
           mode === RatingEditorMode.RECORDING
             ? onAudioRecordStop()
@@ -259,29 +262,29 @@ class GlobalPlayerComponent extends React.Component<
             className="button playing-box"
             onClick={this.handlePlayButtonClick}
           >
-            <i className={playButtonIcon}></i>
+            <i className={playButtonIcon} />
           </div>
           <div
             className={`button recording-box ${recordButtonActive}`}
             onClick={this.handleRecordButtonClick}
           >
-            <div className="background"></div>
-            <i className="icon-note"></i>
+            <div className="background" />
+            <i className="icon-note" />
           </div>
           <div className="bar-box">
             <div className="bar-area" onClick={this.handleBarAreaClick}>
               <div className="bar">
-                <div className="not-fill" style={BarNotFillStyles}></div>
+                <div className="not-fill" style={BarNotFillStyles} />
               </div>
             </div>
           </div>
           <div className="volume-box">
-            <i className="icon-volume"></i>
+            <i className="icon-volume" />
           </div>
           <NavLink to={`/track/${this.props.trackId}`}>
             <div className="track-box">
               <div className="left">
-                <div className="track-cover" style={TrackCoverStyles}></div>
+                <div className="track-cover" style={TrackCoverStyles} />
               </div>
               <div className="right">
                 <div>
