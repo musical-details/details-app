@@ -3,6 +3,13 @@
   height: 100%;
 }
 
+.view-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
 .menu-wrapper,
 .content-wrapper {
   float: left;

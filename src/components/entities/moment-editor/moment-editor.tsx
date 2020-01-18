@@ -11,11 +11,7 @@ import * as tasks from "../../../core/state/ducks/tasks";
 import colorsData from "../../../assets/data/moment-colors.json";
 import reactionsData from "../../../assets/data/moment-reactions.json";
 
-import {
-  convertToMMSSMS,
-  convertToSeconds,
-  scrollTo
-} from "../../../utils/index";
+import { convertToMMSSMS, convertToSeconds } from "../../../utils/index";
 import {
   Moment,
   MomentColor,
@@ -337,7 +333,7 @@ class MomentEditor extends React.Component<
           : "moment-reaction";
 
       reactions.push(
-        <span className={reactionClass}>
+        <span key={reaction.name} className={reactionClass}>
           <img
             className="reaction-img"
             src={reaction.path}
@@ -362,6 +358,7 @@ class MomentEditor extends React.Component<
 
       buttons.push(
         <input
+          key={color.color}
           type="button"
           className={buttonClass}
           data-color={color.color}
@@ -384,6 +381,7 @@ class MomentEditor extends React.Component<
 
       sectionButtons.push(
         <div
+          key={section}
           className={sectionButtonClass}
           data-section={section}
           onClick={this.handleSectionClick}
@@ -442,7 +440,7 @@ class MomentEditor extends React.Component<
           </div>
         </div>
         <div className="moment-editor-divider-container">
-          <div className="moment-editor-divider"></div>
+          <div className="moment-editor-divider" />
         </div>
         <div className="moment-editor right">
           <div className="moment-time-wrapper">
@@ -454,7 +452,7 @@ class MomentEditor extends React.Component<
                 <span>:</span>
                 {this.msInput(true)}
               </div>
-              <div className="time-divider"></div>
+              <div className="time-divider" />
               <div className="time-name-container">
                 <span>start</span>
               </div>
@@ -467,7 +465,7 @@ class MomentEditor extends React.Component<
                 <span>:</span>
                 {this.msInput(false)}
               </div>
-              <div className="time-divider"></div>
+              <div className="time-divider" />
               <div className="time-name-container">
                 <span>end</span>
               </div>
@@ -482,7 +480,7 @@ class MomentEditor extends React.Component<
                 {this.createSectionButtons()}
               </div>
               <div className="section-selector-final-button">
-                <i className="icon-right-open"></i>
+                <i className="icon-right-open" />
               </div>
             </div>
           </div>

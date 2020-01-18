@@ -40,6 +40,9 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): TimelineProps | any => ({
   },
   onNewMomentEndChange: (newEnd: Seconds) => {
     dispatch(tasks.ratingEditorActions.setNewMomentTimeEnd(newEnd));
+  },
+  onMomentContextMenu: (moment: Moment, position: { x: number; y: number }) => {
+    dispatch(tasks.viewActions.showTimelineMomentContextMenu(moment, position));
   }
 });
 
@@ -58,24 +61,29 @@ type TimelineProps = {
   onNewMomentPositionChange: (newStart: Seconds) => void;
   onNewMomentStartChange: (newStart: Seconds) => void;
   onNewMomentEndChange: (newEnd: Seconds) => void;
+  onMomentContextMenu: (
+    moment: Moment,
+    position: { x: number; y: number }
+  ) => void;
 };
 
 class Timeline extends React.Component<TimelineProps> {
   sectionHeight: Pixels = 70;
   secondWidth: Pixels = 28;
+
   constructor(props: TimelineProps) {
     super(props);
   }
 
   createMoments = (): Array<JSX.Element> => {
-    let moments: Array<JSX.Element> = [];
-
-    for (let moment of this.props.moments) {
-      moments.push(
-        <TimelineMoment moment={moment} currentTime={this.props.currentTime} />
-      );
-    }
-    return moments;
+    const { moments, currentTime } = this.props;
+    return moments.map(moment => (
+      <TimelineMoment
+        moment={moment}
+        currentTime={currentTime}
+        onContextMenu={this.handleMomentContextMenu}
+      />
+    ));
   };
 
   getRecordingWrapperStyles = (): CSS.Properties => {
@@ -111,6 +119,10 @@ class Timeline extends React.Component<TimelineProps> {
     }
   };
 
+  handleTimelineContextMenu = (event: SyntheticEvent): void => {
+    event.preventDefault();
+  };
+
   handleRecordingCancelButton = (event: React.MouseEvent): void => {
     this.props.onCancelModyfing();
   };
@@ -131,6 +143,13 @@ class Timeline extends React.Component<TimelineProps> {
     this.props.onNewMomentEndChange(newEnd);
   };
 
+  handleMomentContextMenu = (
+    moment: Moment,
+    position: { x: number; y: number }
+  ) => {
+    this.props.onMomentContextMenu(moment, position);
+  };
+
   render() {
     const {
       secondWidth,
@@ -138,7 +157,8 @@ class Timeline extends React.Component<TimelineProps> {
       handleVerticalPositionChange,
       handleLeftSideResize,
       handleRightSideResize,
-      handleRecordingCancelButton
+      handleRecordingCancelButton,
+      handleMomentContextMenu
     } = this;
     const { duration, currentTime, mode, newMoment } = this.props;
 
@@ -158,7 +178,7 @@ class Timeline extends React.Component<TimelineProps> {
     };
 
     return (
-      <div className="timeline">
+      <div className="timeline" onContextMenu={this.handleTimelineContextMenu}>
         <div className="timeline-container">
           <div className="tape" style={tapeStyles}>
             <div className="recording-wrapper" style={recordingWrapperStyles}>
@@ -178,6 +198,7 @@ class Timeline extends React.Component<TimelineProps> {
                 onHorizontalPositionChange={handleHorizontalPositionChange}
                 onLeftSideResize={handleLeftSideResize}
                 onRightSideResize={handleRightSideResize}
+                onContextMenu={handleMomentContextMenu}
               />
             </div>
             <div className="sections-wrapper">{this.createMoments()}</div>

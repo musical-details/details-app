@@ -60,11 +60,7 @@ class TrackWaverStick extends React.Component<TrackWaverStickProps> {
     const y: number = (svgHeight - value) / 2;
     return (
       <g transform={`translate(${x}, 0)`}>
-        <path
-          data-name={`stick-${index}`}
-          fill={`${fill}`}
-          d={`M0 0h4v${value}H0z`}
-        ></path>
+        <path fill={`${fill}`} d={`M0 0h4v${value}H0z`} />
       </g>
     );
   }
@@ -90,12 +86,12 @@ class TrackWaver extends React.Component<TrackWaverProps> {
 
     for (let i = 0; i < activeArea; ++i) {
       sticks.push(
-        <TrackWaverStick index={i} value={wave[i]} isActive={true} />
+        <TrackWaverStick key={i} index={i} value={wave[i]} isActive={true} />
       );
     }
     for (let i = activeArea; i < this.sticksCount; ++i) {
       sticks.push(
-        <TrackWaverStick index={i} value={wave[i]} isActive={false} />
+        <TrackWaverStick key={i} index={i} value={wave[i]} isActive={false} />
       );
     }
     return sticks;
@@ -126,9 +122,9 @@ class TrackWaver extends React.Component<TrackWaverProps> {
         >
           <defs>
             <linearGradient id="active" x2="1" y2="1">
-              <stop offset="0%" stop-color="#fd7a2c" />
-              <stop offset="80%" stop-color="#ba3a65" />
-              <stop offset="100%" stop-color="#ba3a65" />
+              <stop offset="0%" stopColor="#fd7a2c" />
+              <stop offset="80%" stopColor="#ba3a65" />
+              <stop offset="100%" stopColor="#ba3a65" />
             </linearGradient>
           </defs>
           {this.createSticks()}

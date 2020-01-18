@@ -16,6 +16,7 @@ type TimelineMomentEditableProps = {
   onHorizontalPositionChange: (newStart: Seconds) => void;
   onLeftSideResize: (newStart: Seconds) => void;
   onRightSideResize: (newEnd: Seconds) => void;
+  onContextMenu: (moment: Moment, position: { x: number; y: number }) => void;
 };
 
 type TimelineMomentEditableState = {};
@@ -102,8 +103,11 @@ class TimelineMomentEditable extends React.Component<
     return;
   };
 
-  handleContextMenu = (event: SyntheticEvent): void => {
-    return;
+  handleContextMenu = (
+    moment: Moment,
+    position: { x: number; y: number }
+  ): void => {
+    this.props.onContextMenu(moment, position);
   };
 
   render() {
@@ -147,11 +151,7 @@ class TimelineMomentEditable extends React.Component<
               onResizeStop={handleNewMomentResizeStop}
               draggableOpts={{ bounds: ".tape" }}
             >
-              <div
-                className="resizable-zone"
-                onSelect={handleSelect}
-                onContextMenu={handleContextMenu}
-              >
+              <div className="resizable-zone" onSelect={handleSelect}>
                 <>
                   <TimelineMoment
                     moment={{
@@ -162,6 +162,7 @@ class TimelineMomentEditable extends React.Component<
                     }}
                     isFullWidth={true}
                     currentTime={this.props.currentTime}
+                    onContextMenu={this.handleContextMenu}
                   />
                 </>
               </div>

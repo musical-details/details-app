@@ -8,6 +8,7 @@ type TimelineMomentProps = {
   moment: Moment;
   currentTime: Seconds;
   isFullWidth?: boolean;
+  onContextMenu: (moment: Moment, position: { x: number; y: number }) => void;
 };
 
 class TimelineMoment extends React.Component<TimelineMomentProps> {
@@ -42,8 +43,16 @@ class TimelineMoment extends React.Component<TimelineMomentProps> {
       : { color: color };
   };
 
-  handleContextMenu = (event: SyntheticEvent) => {
+  handleContextMenu = (event: SyntheticEvent | any) => {
     event.preventDefault();
+    try {
+      this.props.onContextMenu(this.props.moment, {
+        x: event.clientX,
+        y: event.clientY
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   render() {

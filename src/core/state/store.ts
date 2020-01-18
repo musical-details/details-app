@@ -1,4 +1,4 @@
-import { AppViewState } from "./ducks/view/view.state";
+import { AppViewState, resetView } from "./ducks/view/view.state";
 import { AppRatingEditorState } from "./ducks/rating-editor/rating-editor.state";
 import { AppUserState } from "./ducks/user/user.state";
 import { AppViewedTrackState } from "./ducks/viewed-track/viewed-track.state";
@@ -34,7 +34,8 @@ const getPersistedState = (): AppState | undefined => {
   try {
     const persistedState = localStorage.getItem("appState");
     if (persistedState === null) throw new Error();
-    return JSON.parse(persistedState);
+    const state: AppState = JSON.parse(persistedState);
+    return resetView(state);
   } catch (error) {
     return undefined;
   }

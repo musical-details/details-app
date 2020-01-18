@@ -13,3 +13,5 @@ export { default as ratingEditorSelectors } from "./rating-editor/rating-editor.
 export { default as userActions } from "./user/user.actions";
 export { default as userOperations } from "./user/user.operations";
 export { default as userSelectors } from "./user/user.selectors";
+
+export { default as viewActions } from "./view/view.actions";

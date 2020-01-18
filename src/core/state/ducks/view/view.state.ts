@@ -1,3 +1,4 @@
+import { AppState } from "./../../store";
 import { Moment } from "./../../../shared/index";
 
 /**
@@ -40,3 +41,8 @@ export const initialState: AppViewState = {
     }
   }
 };
+
+export const resetView = (state: AppState) => ({
+  ...state,
+  view: initialState
+});

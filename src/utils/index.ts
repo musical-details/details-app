@@ -12,8 +12,6 @@ export const random = (min: number, max: number): number => {
 
 export const scrollTo = (ref: React.RefObject<any>): void => {
   window.scrollTo(0, ref.current.offsetTop);
-  console.clear();
-  console.log(ref);
 };
 
 export const convertToMMSSMS = (seconds: number): Time => {
@@ -60,4 +58,12 @@ export const fetchFromApi = async (
     body: JSON.stringify(data.body)
   });
   return await response.json();
+};
+
+export const adjustPositionToScreen = (
+  position: { x: number; y: number },
+  size: { width: number; height: number }
+) => {
+  const { width, height } = window.screen;
+  console.log(width, height);
 };

@@ -1,4 +1,4 @@
-import React, { Dispatch } from "react";
+import React, { Dispatch, RefObject } from "react";
 import CSS from "csstype";
 import "./timeline-moment-contextmenu.scss";
 import options from "./options.json";
@@ -29,15 +29,17 @@ class TimelineMomentContextmenu extends React.Component<
   TimelineMomentContextmenuProps,
   TimelineMomentContextmenuState
 > {
+  contextMenuRef: React.RefObject<HTMLDivElement>;
   constructor(props: TimelineMomentContextmenuProps) {
     super(props);
+    this.contextMenuRef = React.createRef();
   }
 
   render() {
     const { isHidden, x, y } = this.props;
 
     const TimelineMomentContextmenuStyles: CSS.Properties = {
-      display: !isHidden ? "none" : "block",
+      display: isHidden ? "none" : "block",
       transform: `translate(${x}px, ${y}px)`
     };
 
@@ -45,12 +47,16 @@ class TimelineMomentContextmenu extends React.Component<
       <div
         className="timeline-moment-contextmenu"
         style={TimelineMomentContextmenuStyles}
+        ref={this.contextMenuRef}
       >
         <div className="options-wrapper">
           <ul>
-            {options.map(option => (
-              <li>
-                <i className={`${option.icon}`} />
+            {options.map((option, index) => (
+              <li key={index}>
+                <i
+                  className={`${option.icon}`}
+                  style={{ color: option.color }}
+                />
                 <span>{option.name}</span>
               </li>
             ))}
