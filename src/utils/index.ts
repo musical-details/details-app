@@ -1,3 +1,5 @@
+import { Position, Pixels } from "../core/shared";
+
 type Time = {
   signed: string;
   h?: string;
@@ -61,9 +63,18 @@ export const fetchFromApi = async (
 };
 
 export const adjustPositionToScreen = (
-  position: { x: number; y: number },
+  position: Position,
   size: { width: number; height: number }
-) => {
-  const { width, height } = window.screen;
-  console.log(width, height);
+): Position => {
+  const { innerWidth, innerHeight } = window;
+  return {
+    x:
+      position.x + size.width < innerWidth
+        ? position.x
+        : position.x - size.width,
+    y:
+      position.y + size.height < innerHeight
+        ? position.y
+        : position.y - size.height
+  };
 };

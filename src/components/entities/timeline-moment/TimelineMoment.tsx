@@ -3,6 +3,7 @@ import React, { SyntheticEvent } from "react";
 import "./TimeLineMoment.scss";
 import CSS from "csstype";
 import { Seconds, Moment } from "../../../core/shared";
+import { adjustPositionToScreen } from "../../../utils";
 
 type TimelineMomentProps = {
   moment: Moment;
@@ -45,14 +46,16 @@ class TimelineMoment extends React.Component<TimelineMomentProps> {
 
   handleContextMenu = (event: SyntheticEvent | any) => {
     event.preventDefault();
-    try {
-      this.props.onContextMenu(this.props.moment, {
-        x: event.clientX,
-        y: event.clientY
-      });
-    } catch (error) {
-      console.error(error);
-    }
+    this.props.onContextMenu(
+      this.props.moment,
+      adjustPositionToScreen(
+        {
+          x: event.clientX,
+          y: event.clientY
+        },
+        { width: 200, height: 280 }
+      )
+    );
   };
 
   render() {

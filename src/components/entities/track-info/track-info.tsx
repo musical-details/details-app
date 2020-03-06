@@ -58,7 +58,8 @@ class TrackInfo extends React.Component<TrackInfoProps, TrackInfoState> {
   };
 
   handleVolumeClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    this.props.onVolumeChange(event.nativeEvent.offsetX / 143);
+    console.log(event.nativeEvent.offsetX);
+    // this.props.onVolumeChange(event.nativeEvent.offsetX / 143);
   };
 
   handleVolumeDrag = (event: DraggableEvent, data: DraggableData) => {
@@ -82,7 +83,7 @@ class TrackInfo extends React.Component<TrackInfoProps, TrackInfoState> {
               <div
                 className="track-cover"
                 style={{ backgroundImage: `url(${this.props.cover})` }}
-              ></div>
+              />
             </div>
           </div>
           <div className="track-content-box">
@@ -103,29 +104,29 @@ class TrackInfo extends React.Component<TrackInfoProps, TrackInfoState> {
                     className={playButtonClassName}
                     onClick={this.handlePlayButtonClick}
                   >
-                    <i className={playButtonIcon}></i>
+                    <i className={playButtonIcon} />
                   </div>
                 </div>
                 <div className="button-box">
                   <div className="button">
-                    <i className="icon-star-filled"></i>
+                    <i className="icon-star-filled" />
                   </div>
                 </div>
                 <div className="button-box">
                   <div className="button">
-                    <i className="icon-note"></i>
+                    <i className="icon-note" />
                   </div>
                 </div>
                 <div className="wide-button-box">
                   <div className="button">
                     <div className="left">
-                      <i className="icon-volume"></i>
+                      <i className="icon-volume" />
                     </div>
                     <div className="right">
                       <div className="volume-slider-box">
                         <div
                           className="volume-area"
-                          onMouseDown={this.handleVolumeClick}
+                          onClick={this.handleVolumeClick}
                         >
                           <Draggable
                             axis="x"
@@ -135,11 +136,11 @@ class TrackInfo extends React.Component<TrackInfoProps, TrackInfoState> {
                             position={{ x: volume, y: 0 }}
                           >
                             <div className="volume-knob-area">
-                              <div className="volume-gray-bar"></div>
-                              <div className="knob"></div>
+                              <div className="volume-gray-bar" />
+                              <div className="knob" />
                             </div>
                           </Draggable>
-                          <div className="bar"></div>
+                          <div className="bar" />
                         </div>
                       </div>
                     </div>

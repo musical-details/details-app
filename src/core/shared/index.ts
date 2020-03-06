@@ -1,5 +1,6 @@
 export type Seconds = number;
 export type Pixels = number;
+export type Position = { x: Pixels; y: Pixels };
 
 export enum MomentReaction {
   NONE = "None",

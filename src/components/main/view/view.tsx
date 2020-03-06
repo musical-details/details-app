@@ -33,7 +33,7 @@ class View extends React.Component<ViewProps, ViewState> {
       event.preventDefault();
     });
     document.addEventListener("click", event => {
-      event.preventDefault();
+      if (this.props.isContextMenuHidden) return;
       this.props.onCloseContextMenu();
     });
     document.addEventListener("scroll", event => {
