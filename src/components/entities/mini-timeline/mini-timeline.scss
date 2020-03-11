@@ -34,7 +34,6 @@ $active_box_width: 210px;
     height: 100%;
     background-color: rgba(255, 255, 255, 0.08);
     position: absolute;
-    //left: calc(-100% + (100% - #{$active_box_width}/2));
     z-index: 1;
 
     &:hover {
@@ -56,6 +55,7 @@ $active_box_width: 210px;
     position: relative;
     display: flex;
     flex-flow: column;
+    transition: all 0.25s linear 0s;
 }
 
 .mini-moment-container {

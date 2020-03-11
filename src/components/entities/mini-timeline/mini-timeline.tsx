@@ -6,7 +6,7 @@ import { Moment } from "../../../core/state/ducks/viewed-track/viewed-track.stat
 import viewedTrackSelectors from "../../../core/state/ducks/viewed-track/viewed-track.selectors"
 import trackActions from "../../../core/state/ducks/track/track.actions";
 
-import Draggable, { DraggableEvent, DraggableData } from "react-draggable";
+import Draggable, { DraggableEvent, DraggableData, ControlPosition } from "react-draggable";
 
 import CSS from "csstype";
 import "./mini-timeline.scss";
@@ -23,18 +23,22 @@ type momentsArrProps = {
 const mapStateToProps = (state: AppState): MiniTimelineProps | any => ({
     currentTime: state.track.currentTime,
     duration: state.track.duration,
+    isPlaying: state.track.isPlaying,
     moments: viewedTrackSelectors.getSelectedMoments(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): MiniTimelineProps | any => ({
-    onNewCurrentTime: (time: number) => {dispatch(trackActions.setAudioNewTime(time));}
+    onNewCurrentTime: (time: number) => {dispatch(trackActions.setAudioNewTime(time));},
+    onNewAudioStatus: (status: boolean) => {dispatch(trackActions.setAudioStatus(status));}
 })
 
 type MiniTimelineProps = {
     currentTime: number;
     duration: number;
+    isPlaying: boolean;
     moments: Array<Moment>;
     onNewCurrentTime: (time: number) => void;
+    onNewAudioStatus: (status: boolean) => void;
 }
 
 type MiniTimelineMomentProps = {
@@ -46,15 +50,14 @@ type MiniTimelineMomentProps = {
 
 type MiniTimelineState = {
     dragStartPosition: number;
-    fullOffset: number;
-    
+    currentTimeOffset: number;
 }
 
 class MiniTimeline extends React.Component <MiniTimelineProps, MiniTimelineState>{
 
     state: MiniTimelineState = {
         dragStartPosition: 0,
-        fullOffset: 0
+        currentTimeOffset: 0
     }
         
     constructor(props: MiniTimelineProps) {
@@ -68,7 +71,7 @@ class MiniTimeline extends React.Component <MiniTimelineProps, MiniTimelineState
 
         let secondsFactor = 7;
 
-        for(let moment of this.props.moments) {
+        for (let moment of this.props.moments) {
 
             containerStyle = {
                 width: `${((moment.end - moment.start)*secondsFactor)}px`,
@@ -91,10 +94,14 @@ class MiniTimeline extends React.Component <MiniTimelineProps, MiniTimelineState
     }
 
     handleActiveBoxDrag = (event: DraggableEvent, data: DraggableData): void =>{         
-        this.setActiveBoxLeftProperty(data.x)
+        let offset = -( data.x *(this.props.duration * 7 / 840) ) / (this.props.duration * 7 / 840)
+        this.setState({
+            currentTimeOffset: offset * (-1)
+        })
     }
 
     handleActiveBoxStart = (event: DraggableEvent, data: DraggableData): void => {
+        this.props.onNewAudioStatus(false)
         this.setState({
             dragStartPosition: data.x
         })
@@ -104,20 +111,35 @@ class MiniTimeline extends React.Component <MiniTimelineProps, MiniTimelineState
         const delta = data.x - this.state.dragStartPosition;
         const newTime = this.props.currentTime + (delta / 7) * (this.props.duration * 7 / 840);
         this.props.onNewCurrentTime(newTime);     
-    }
+        this.props.onNewAudioStatus(true);
+    }   
 
-    setActiveBoxLeftProperty = (positionX: number): void => {
-        let offset = -( positionX *(this.props.duration * 7 / 840) ) / (this.props.duration * 7 / 840)
-        this.setState({
-            fullOffset: offset
-        })
-    }
+    componentDidUpdate(prevProps: MiniTimelineProps, prevState: MiniTimelineState) {
+        if (this.props.currentTime !== prevProps.currentTime) 
+          this.setState({
+              currentTimeOffset: (this.props.currentTime * 7) / (this.props.duration * 7 / 840)
+          })
+      }
 
     render() {
 
+        let ActiveBoxPosition: ControlPosition = {
+            x: this.state.currentTimeOffset,
+            y: 0
+        }
+
         let fullStyle: CSS.Properties = {
             width: this.props.duration * 7 + "px",
-            transform: `translate(${this.state.fullOffset}px)`
+            transform: `translate(${ -this.state.currentTimeOffset }px)`
+        }
+
+        let setActiveBoxTransition = (): CSS.Properties => {
+            let activeBoxStyle: CSS.Properties
+            (this.props.isPlaying)
+            ? activeBoxStyle = { transition: `all 0.25s linear 0s` }
+            : activeBoxStyle = { transition: `none` }
+            
+            return activeBoxStyle;
         }
 
         return (    
@@ -126,12 +148,13 @@ class MiniTimeline extends React.Component <MiniTimelineProps, MiniTimelineState
                     <Draggable
                         axis="x"
                         bounds=".draggable-container"
+                        position={ActiveBoxPosition}
                         onStart={this.handleActiveBoxStart}
                         onDrag={this.handleActiveBoxDrag}
                         onStop={this.handleActiveBoxEnd}
                         cancel=".react-resizable-handle-w, .react-resizable-handle-e"
                     >
-                    <div className="mini-timeline-active-box"></div>
+                    <div className="mini-timeline-active-box" style={setActiveBoxTransition()}></div>
                     </Draggable>
                 </div>
                 <div className="mini-timeline-full" style={fullStyle}>
