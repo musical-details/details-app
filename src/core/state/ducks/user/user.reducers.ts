@@ -45,7 +45,8 @@ const userReducer = (
         isLogged: true,
         loginStage: action.payload.loginStage,
         token: action.payload.token,
-        userId: -1,
+        userId: -1, // TODO
+        soundcloudId: action.payload.user.soundcloudId,
         nickname: action.payload.user.nickname,
         avatar: action.payload.user.avatar
       };

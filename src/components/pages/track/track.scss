@@ -1,44 +1,41 @@
-.track-waver-wrapper {
-  width: 100%;
-  height: 150px;
-  overflow: hidden;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+.track-page {
+  #info-wrapper {
+    width: 100%;
+  }
 
-.track-mini-timeline-wrapper {
-  width: 840px;
-  height: 50px;
-  margin-bottom: 15px;
-  position: relative;
-  box-sizing: border-box;
-  overflow: hidden;
-}
+  #waver-wrapper {
+    width: 100%;
+    height: 150px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-.track-timeline-wrapper {
-  width: 840px;
-  height: 400px;
-  box-sizing: border-box;
-  overflow: hidden;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+  #rating-list-wrapper {
+    width: 100%;
+  }
 
-.track-timeline-timer-wrapper {
-  width: 840px;
-  height: 40px;
-  box-sizing: border-box;
-  position: relative;
-  display: flex;
-}
+  #timeline-wrapper {
+    width: 840px;
+    height: 400px;
+    box-sizing: border-box;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-.track-moment-editor-wrapper {
-  width: 840px;
-  height: 250px;
-  position: relative;
-  display: flex;
+  #moment-editor-wrapper {
+    width: 840px;
+    height: 250px;
+    position: relative;
+    display: flex;
+  }
+
+  #moments-description-wrapper {
+    width: 100%;
+  }
 }

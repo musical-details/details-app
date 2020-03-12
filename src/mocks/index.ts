@@ -1,7 +1,4 @@
-import {
-  Rating,
-  Moment
-} from "../core/state/ducks/viewed-track/viewed-track.state";
+import { Rating, Moment, MomentReaction } from "../core/shared";
 
 const random = (min: number, max: number): number => {
   return Math.floor(Math.random() * (max - min)) + min;
@@ -30,7 +27,7 @@ const randomRatings = (trackDuration: number): Array<Rating> => {
 const randomRating = (trackDuration: number, ratingId: number): Rating => {
   let moments: Array<Moment> = [];
 
-  for (let i = 0; i < random(2, 10); ++i) {
+  for (let i = 0; i < random(8, 18); ++i) {
     moments.push(randomMoment(trackDuration));
   }
 
@@ -97,7 +94,8 @@ const randomMoment = (trackDuration: number): Moment => {
     color: momentsColors[random(0, momentsColors.length)],
     start: momentStart,
     end: momentEnd,
-    timelineSection: random(1, 5)
+    reaction: MomentReaction.NONE,
+    section: random(0, 4) as 0 | 1 | 2 | 3 | 4
   };
 };
 

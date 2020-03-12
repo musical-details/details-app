@@ -1,13 +1,13 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 import { connect, ConnectedComponent } from "react-redux";
 import { Dispatch } from "redux";
 import CSS from "csstype";
 
 import "./global-player.scss";
 import { AppState } from "../../../core/state/store";
-import trackOperations from "../../../core/state/ducks/track/track.operations";
-import actions from "../../../core/state/ducks/track/track.actions";
-import { NavLink } from "react-router-dom";
+import { RatingEditorMode } from "../../../core/state/ducks/rating-editor/rating-editor.state";
+import * as tasks from "../../../core/state/ducks/tasks";
 
 const mapStateToProps = (state: AppState): GlobalPlayerProps | any => ({
   autoplay: state.track.autoplay,
@@ -17,7 +17,9 @@ const mapStateToProps = (state: AppState): GlobalPlayerProps | any => ({
   title: state.track.title,
   audioSource: state.track.audioSource,
   isPlaying: state.track.isPlaying,
-  isRecording: state.track.isRecording,
+  mode: state.ratingEditor.mode,
+  selectedTimeStart: state.ratingEditor.selectedTime.start,
+  selectedTimeEnd: state.ratingEditor.selectedTime.end,
   currentTime: state.track.currentTime,
   newTime: state.track.newTime,
   duration: state.track.duration,
@@ -28,38 +30,38 @@ const mapDispatchToProps = (
   dispatch: Dispatch<any>
 ): GlobalPlayerProps | any => ({
   fetchTrack: async () => {
-    await dispatch(trackOperations.fetchTrack());
+    await dispatch(tasks.trackOperations.fetchTrack());
   },
   onAudioCanPlay: (duration: number) => {
-    dispatch(actions.setAudioDuration(duration));
+    dispatch(tasks.trackActions.setAudioDuration(duration));
   },
   toogleAudioPlay: () => {
-    dispatch(actions.toogleAudioStatus());
+    dispatch(tasks.trackActions.toogleAudioStatus());
   },
   onAudioAutoplay: () => {
-    dispatch(actions.setAudioStatus(true));
-    dispatch(actions.setAudioAutoplay(false));
+    dispatch(tasks.trackActions.setAudioStatus(true));
+    dispatch(tasks.trackActions.setAudioAutoplay(false));
   },
   onAudioPlay: () => {
-    dispatch(actions.setAudioStatus(true));
+    dispatch(tasks.trackActions.setAudioStatus(true));
   },
   onAudioPause: () => {
-    dispatch(actions.setAudioStatus(false));
+    dispatch(tasks.trackActions.setAudioStatus(false));
   },
   onAudioRecordStart: () => {
-    dispatch(trackOperations.startRecording());
+    dispatch(tasks.ratingEditorOperations.startRecording());
   },
   onAudioRecordStop: () => {
-    dispatch(trackOperations.stopRecording());
+    dispatch(tasks.ratingEditorOperations.stopRecording());
   },
   onAudioVolumeChange: (volume: number) => {
     dispatch(() => {});
   },
   onAudioTimeUpdate: (currentTime: number) => {
-    dispatch(actions.setAudioCurrentTime(currentTime));
+    dispatch(tasks.trackActions.setAudioCurrentTime(currentTime));
   },
   onAudioTimeChange: (newTime: number) => {
-    dispatch(actions.setAudioNewTime(newTime));
+    dispatch(tasks.trackActions.setAudioNewTime(newTime));
   }
 });
 
@@ -71,7 +73,9 @@ type GlobalPlayerProps = {
   title: string;
   audioSource: string;
   isPlaying: boolean;
-  isRecording: boolean;
+  mode: RatingEditorMode;
+  selectedTimeStart: number;
+  selectedTimeEnd: number;
   currentTime: number;
   newTime: number;
   duration: number;
@@ -145,6 +149,11 @@ class GlobalPlayerComponent extends React.Component<
   };
 
   handleAudioTimeUpdate = () => {
+    if (this.props.mode === RatingEditorMode.MODIFYING) {
+      if (this.audio.currentTime >= this.props.selectedTimeEnd) {
+        this.audio.currentTime = this.props.selectedTimeStart;
+      }
+    }
     this.props.onAudioTimeUpdate(this.audio.currentTime);
   };
 
@@ -168,8 +177,10 @@ class GlobalPlayerComponent extends React.Component<
 
   loadAudioController() {
     window.onkeypress = (event: Event | any): void => {
+      if (event.target.tagName === "INPUT") return;
+
       switch (event.which) {
-        case 32:
+        case 32: // "Space" key
           if (!this.isAllowToKeyPressOnSpace) return;
           event.preventDefault();
           this.props.toogleAudioPlay();
@@ -182,22 +193,30 @@ class GlobalPlayerComponent extends React.Component<
     };
 
     window.onkeydown = (event: Event | any): void => {
+      if (event.target.tagName === "INPUT") return;
       const { currentTime, duration } = this.props;
-      let diffTime: number = 0.5;
+      const diffTime: number = 0.5;
       switch (event.which) {
-        case 37:
+        case 37: // "Left-arrow" key
           event.preventDefault();
           const prevTime: number =
             currentTime > diffTime ? currentTime - diffTime : 0;
           this.audio.currentTime = prevTime;
           return;
-        case 39:
+        case 39: // "Right-arrow" key
           event.preventDefault();
           const nextTime: number =
             duration > currentTime + diffTime
               ? currentTime + diffTime
               : duration - (currentTime + diffTime);
           this.audio.currentTime = nextTime;
+          return;
+        case 82: // "R" key
+          const { mode, onAudioRecordStart, onAudioRecordStop } = this.props;
+          mode === RatingEditorMode.RECORDING
+            ? onAudioRecordStop()
+            : onAudioRecordStart();
+
           return;
         default:
           break;
@@ -210,7 +229,7 @@ class GlobalPlayerComponent extends React.Component<
   };
 
   handleRecordButtonClick = (event: React.MouseEvent) => {
-    this.props.isRecording
+    this.props.mode === RatingEditorMode.RECORDING
       ? this.props.onAudioRecordStop()
       : this.props.onAudioRecordStart();
   };
@@ -222,20 +241,20 @@ class GlobalPlayerComponent extends React.Component<
   };
 
   render() {
-    const { currentTime, duration, isPlaying, isRecording } = this.props;
+    const { currentTime, duration, isPlaying, mode } = this.props;
 
-    let BarNotFillStyles: CSS.Properties = {
+    const BarNotFillStyles: CSS.Properties = {
       width: 100 - (currentTime / duration) * 100 + "%"
     };
 
-    let TrackCoverStyles: CSS.Properties = {
+    const TrackCoverStyles: CSS.Properties = {
       backgroundImage: `url(${this.props.cover})`
     };
 
-    let playButtonIcon: string = isPlaying ? "icon-pause" : "icon-play";
+    const playButtonIcon: string = isPlaying ? "icon-pause" : "icon-play";
 
-    let recordButtonActive: string = isRecording ? "active" : "";
-
+    const recordButtonActive: string =
+      mode === RatingEditorMode.RECORDING ? "active" : "";
     return (
       <div className="global-player">
         <div>
@@ -243,29 +262,29 @@ class GlobalPlayerComponent extends React.Component<
             className="button playing-box"
             onClick={this.handlePlayButtonClick}
           >
-            <i className={playButtonIcon}></i>
+            <i className={playButtonIcon} />
           </div>
           <div
             className={`button recording-box ${recordButtonActive}`}
             onClick={this.handleRecordButtonClick}
           >
-            <div className="background"></div>
-            <i className="icon-note"></i>
+            <div className="background" />
+            <i className="icon-note" />
           </div>
           <div className="bar-box">
             <div className="bar-area" onClick={this.handleBarAreaClick}>
               <div className="bar">
-                <div className="not-fill" style={BarNotFillStyles}></div>
+                <div className="not-fill" style={BarNotFillStyles} />
               </div>
             </div>
           </div>
           <div className="volume-box">
-            <i className="icon-volume"></i>
+            <i className="icon-volume" />
           </div>
           <NavLink to={`/track/${this.props.trackId}`}>
             <div className="track-box">
               <div className="left">
-                <div className="track-cover" style={TrackCoverStyles}></div>
+                <div className="track-cover" style={TrackCoverStyles} />
               </div>
               <div className="right">
                 <div>

@@ -1,0 +1,14 @@
+{
+  "defaultSeverity": "error",
+  "extends": ["tslint-react"],
+  "jsRules": {},
+  "rules": {
+    "jsx-boolean-value": false,
+    "jsx-no-multiline-js": false,
+    "no-empty": false,
+    "no-empty-interface": false,
+    "no-useless-constructor": false,
+    "@typescript-eslint/no-useless-constructor": false
+  },
+  "rulesDirectory": []
+}

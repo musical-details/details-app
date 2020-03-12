@@ -1,16 +1,15 @@
-import React from "react";
+import React, { SyntheticEvent } from "react";
 
-import Timeline from "../timeline/Timeline";
 import "./TimeLineMoment.scss";
 import CSS from "csstype";
+import { Seconds, Moment } from "../../../core/shared";
+import { adjustPositionToScreen } from "../../../utils";
 
 type TimelineMomentProps = {
-  name: string;
-  color: string;
-  start: number;
-  end: number;
-  currentTime: number;
-  timelineSection: number;
+  moment: Moment;
+  currentTime: Seconds;
+  isFullWidth?: boolean;
+  onContextMenu: (moment: Moment, position: { x: number; y: number }) => void;
 };
 
 class TimelineMoment extends React.Component<TimelineMomentProps> {
@@ -18,59 +17,80 @@ class TimelineMoment extends React.Component<TimelineMomentProps> {
     super(props);
   }
 
-  countWidth = () => {
-    return (this.props.end - this.props.start) * 28;
-  };
-
-  momentWrapperStyleNormal: CSS.Properties = {
-    width: `${this.countWidth()}px`,
-    transform: `translate(${this.props.start * 28}px)`,
-    display: "flex",
-    top: `${this.props.timelineSection * 20}%`
-  };
-
-  momentBackgroundStyle: CSS.Properties = {
-    backgroundColor: this.props.color
+  countWidth = (): string => {
+    const { isFullWidth } = this.props;
+    const { start, end } = this.props.moment;
+    return isFullWidth === true ? `100%` : `${(end - start) * 28}px`;
   };
 
   getMomentBackgroundClass = (): string => {
-    return this.props.currentTime >= this.props.start &&
-      this.props.currentTime <= this.props.end
+    const { start, end } = this.props.moment;
+    return this.props.currentTime >= start && this.props.currentTime <= end
       ? "moment-background highlight"
       : "moment-background";
   };
 
   getMomentNameClass = (): string => {
-    return this.props.currentTime - 15 <= this.props.start
+    const { start } = this.props.moment;
+    return this.props.currentTime - 15 <= start
       ? "moment-name"
       : "moment-name slide";
   };
 
   getMomentNameStyle = (): CSS.Properties => {
-    return this.props.currentTime >= this.props.start &&
-      this.props.currentTime <= this.props.end
-      ? { color: this.props.color }
-      : { color: this.props.color };
+    const { start, end, color } = this.props.moment;
+    return this.props.currentTime >= start && this.props.currentTime <= end
+      ? { color: color }
+      : { color: color };
+  };
+
+  handleContextMenu = (event: SyntheticEvent | any) => {
+    event.preventDefault();
+    this.props.onContextMenu(
+      this.props.moment,
+      adjustPositionToScreen(
+        {
+          x: event.clientX,
+          y: event.clientY
+        },
+        { width: 200, height: 280 }
+      )
+    );
   };
 
   render() {
+    const { name, start, section, color } = this.props.moment;
+    const momentWrapperStyleNormal: CSS.Properties = {
+      width: `${this.countWidth()}`,
+      transform: `translate(${start * 28}px)`,
+      display: "flex",
+      top: `${section * 20}%`
+    };
+
+    const momentBackgroundStyle: CSS.Properties = {
+      backgroundColor: color
+    };
+
     return (
-      <div className="moment-wrapper" style={this.momentWrapperStyleNormal}>
+      <div
+        className="moment-wrapper"
+        style={momentWrapperStyleNormal}
+        onContextMenu={this.handleContextMenu}
+      >
         <div className="moment-container">
-          <div
-            className="moment-name-container"
-            style={{ color: this.props.color }}
-          >
-            <div className={this.getMomentNameClass()}>{this.props.name}</div>
+          <div className="moment-name-container" style={{ color: color }}>
+            <div className={this.getMomentNameClass()}>
+              <span>{name}</span>
+            </div>
           </div>
           <div
             className={this.getMomentBackgroundClass()}
-            style={this.momentBackgroundStyle}
-          ></div>
+            style={momentBackgroundStyle}
+          />
           <div
             className="moment-bottom-stripe"
-            style={{ backgroundColor: this.props.color }}
-          ></div>
+            style={{ backgroundColor: color }}
+          />
         </div>
       </div>
     );

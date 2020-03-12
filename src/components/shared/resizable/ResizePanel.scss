@@ -1,0 +1,26 @@
+.resizable-wrapper {
+  display: flex;
+  position: relative;
+  align-items: stretch;
+}
+
+.resizable-handle {
+  position: absolute;
+  z-index: 100;
+  display: inline-block;
+  width: 10px;
+  height: 100%;
+  box-sizing: border-box;
+
+  &.e {
+    top: 0;
+    right: -3px;
+    cursor: w-resize;
+  }
+
+  &.w {
+    top: 0;
+    left: -3px;
+    cursor: w-resize;
+  }
+}

@@ -4,6 +4,7 @@ import { Dispatch } from "react";
 import { AnyAction } from "redux";
 import actions from "./user.actions";
 import { FeedbackError } from "./user.state";
+import { User } from "../../../shared";
 
 type Operation = {
   (dispatch: Dispatch<AnyAction>, getState: () => AppState): any;
@@ -18,13 +19,7 @@ function signIn(login: string, password: string) {
     try {
       const data: {
         status: boolean;
-        user?: {
-          nickname: string;
-          login: string;
-          avatar: string;
-          soundcloudUri: string;
-          createdAt: Date;
-        };
+        user?: User;
         token?: string;
       } = await fetchFromApi("users/authenticate", {
         method: "POST",

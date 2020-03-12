@@ -1,5 +1,6 @@
 import { LoginStage, RegisterStage, FeedbackError } from "./user.state";
 import ActionTypes from "./user.types";
+import { User } from "../../../shared";
 
 type Action = {
   type: string;
@@ -43,15 +44,7 @@ const loginPending = (): Action => ({
 });
 
 const loginSuccess = (
-  user:
-    | {
-        nickname: string;
-        login: string;
-        avatar: string;
-        soundcloudUri: string;
-        createdAt: Date;
-      }
-    | undefined,
+  user: User | undefined,
   token: string | undefined
 ): Action => ({
   type: ActionTypes.LOGIN_SUCCESS,

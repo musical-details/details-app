@@ -1,9 +1,19 @@
+import { Position, Pixels } from "../core/shared";
+
 type Time = {
   signed: string;
   h?: string;
   m: string;
   s: string;
   ms: string;
+};
+
+export const random = (min: number, max: number): number => {
+  return Math.floor(Math.random() * (max - min)) + min;
+};
+
+export const scrollTo = (ref: React.RefObject<any>): void => {
+  window.scrollTo(0, ref.current.offsetTop);
 };
 
 export const convertToMMSSMS = (seconds: number): Time => {
@@ -23,7 +33,7 @@ export const convertToMMSSMS = (seconds: number): Time => {
 
 export const convertToSeconds = (m: number, s: number, ms: number): number => {
   let seconds: number = 0;
-  seconds = m*60 + s + (ms / 1000);
+  seconds = m * 60 + s + ms / 1000;
   return seconds;
 };
 
@@ -52,3 +62,19 @@ export const fetchFromApi = async (
   return await response.json();
 };
 
+export const adjustPositionToScreen = (
+  position: Position,
+  size: { width: number; height: number }
+): Position => {
+  const { innerWidth, innerHeight } = window;
+  return {
+    x:
+      position.x + size.width < innerWidth
+        ? position.x
+        : position.x - size.width,
+    y:
+      position.y + size.height < innerHeight
+        ? position.y
+        : position.y - size.height
+  };
+};

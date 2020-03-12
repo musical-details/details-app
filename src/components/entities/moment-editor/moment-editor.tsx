@@ -1,55 +1,88 @@
-import React, { Dispatch }from "react";
-import trackActions from "../../../core/state/ducks/track/track.actions";
-import trackOperations from "../../../core/state/ducks/track/track.operations";
+import React, { Dispatch } from "react";
 import { connect, ConnectedComponent } from "react-redux";
+import CSS from "csstype";
+
 import "./moment-editor.scss";
 
-import CSS from "csstype";
 import { AppState } from "../../../core/state/store";
+import { RatingEditorMode } from "../../../core/state/ducks/rating-editor/rating-editor.state";
+import * as tasks from "../../../core/state/ducks/tasks";
 
-import momentColorsJSON from "../../../assets/data/moment-colors.json"
-import momentReactionsJSON from "../../../assets/data/moment-reactions.json"
+import colorsData from "../../../assets/data/moment-colors.json";
+import reactionsData from "../../../assets/data/moment-reactions.json";
 
-import { convertToMMSSMS } from "../../../utils/index";
-import { convertToSeconds } from "../../../utils/index";
+import { convertToMMSSMS, convertToSeconds } from "../../../utils/index";
+import {
+  Moment,
+  MomentColor,
+  MomentSection,
+  MomentReaction
+} from "../../../core/shared";
 
 const mapStateToProps = (state: AppState): MomentEditorProps | any => ({
   currentTime: state.track.currentTime,
-  isRecording: state.track.isRecording,
-  recordedTimeStart: state.track.recordedTimeStart,
-  recordedTimeEnd: state.track.recordedTimeEnd
-})
+  mode: state.ratingEditor.mode,
+  selectedTimeStart: state.ratingEditor.selectedTime.start,
+  selectedTimeEnd: state.ratingEditor.selectedTime.end,
+  newMoment: state.ratingEditor.newMoment
+});
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-  newCurrentTime: (time: number) => {dispatch(trackActions.setAudioNewTime(time));},
-  newRecordingTimeStart: (time: number) => {dispatch(trackActions.setAudioRecordingTimeStart(time));},
-  newRecordingTimeEnd: (time: number) => {dispatch(trackActions.setAudioRecordingTimeEnd(time));}
-})
+  onNameChange: (name: string) => {
+    dispatch(tasks.ratingEditorActions.setNewMomentName(name));
+  },
+  onDescriptionChange: (description: string) => {
+    dispatch(tasks.ratingEditorActions.setNewMomentDescription(description));
+  },
+  onColorChange: (newColor: MomentColor) => {
+    dispatch(tasks.ratingEditorActions.setNewMomentColor(newColor));
+  },
+  onReactionChange: (newReaction: MomentReaction) => {
+    dispatch(tasks.ratingEditorActions.setNewMomentReaction(newReaction));
+  },
+  onSectionChange: (newSection: MomentSection) => {
+    dispatch(tasks.ratingEditorActions.setNewMomentSection(newSection));
+  },
 
-type MomentEditorState = {
-  mainColor: string;
-  mainReactionName: string;
-  section: number;
-}
+  newCurrentTime: (time: number) => {
+    dispatch(tasks.trackActions.setAudioNewTime(time));
+  },
+  newRecordingTimeStart: (time: number) => {
+    dispatch(tasks.ratingEditorActions.setSelectedTimeStart(time));
+  },
+  newRecordingTimeEnd: (time: number) => {
+    dispatch(tasks.ratingEditorActions.setSelectedTimeEnd(time));
+  }
+});
 
 type MomentEditorProps = {
   currentTime: number;
-  isRecording: boolean;
-  recordedTimeStart: number;
-  recordedTimeEnd: number;
+  mode: RatingEditorMode;
+  selectedTimeStart: number;
+  selectedTimeEnd: number;
+  newMoment: Moment;
+  onNameChange: (name: string) => void;
+  onDescriptionChange: (description: string) => void;
+  onColorChange: (newColor: MomentColor) => void;
+  onReactionChange: (newReaction: MomentReaction) => void;
+  onSectionChange: (newSection: MomentSection) => void;
   newCurrentTime: (time: number) => void;
   newRecordingTimeStart: (time: number) => void;
   newRecordingTimeEnd: (time: number) => void;
-}
+};
+
+type MomentEditorState = {};
 
 type timeValueInputProps = {
   recordingValueArg: number;
   editingValueArg: number;
   handleTypeArg: (event: React.KeyboardEvent) => void;
-}
+};
 
-class MomentEditor extends React.Component<MomentEditorProps> {
-
+class MomentEditor extends React.Component<
+  MomentEditorProps,
+  MomentEditorState
+> {
   startMinutesRef: React.RefObject<HTMLInputElement>;
   startSecondsRef: React.RefObject<HTMLInputElement>;
   startMilisecondsRef: React.RefObject<HTMLInputElement>;
@@ -57,14 +90,15 @@ class MomentEditor extends React.Component<MomentEditorProps> {
   endSecondsRef: React.RefObject<HTMLInputElement>;
   endMilisecondsRef: React.RefObject<HTMLInputElement>;
 
-  state: MomentEditorState = {
-    mainColor: '#222',
-    mainReactionName: '',
-    section: 0,
-  }
+  defaultColor: string;
+  defaultReaction: MomentReaction;
+  defaultSection: MomentSection;
 
   constructor(props: MomentEditorProps) {
     super(props);
+    this.defaultColor = "#202020";
+    this.defaultReaction = MomentReaction.NONE;
+    this.defaultSection = 2;
 
     this.startMinutesRef = React.createRef();
     this.startSecondsRef = React.createRef();
@@ -75,258 +109,325 @@ class MomentEditor extends React.Component<MomentEditorProps> {
   }
 
   countShade = (color: string): string => {
-    return color + '90';
-  }
+    return color + "90";
+  };
 
   setMomentColorButtonStyle = (backgroundColor: string): CSS.Properties => {
     return { backgroundColor: backgroundColor };
   };
 
   handleColorButtonClick = (event: React.MouseEvent<HTMLSpanElement>): void => {
-    this.setState({
-      mainColor: event.currentTarget.getAttribute('data-color')
-    });
+    const colorData: string | null = event.currentTarget.getAttribute(
+      "data-color"
+    );
+    const color: MomentColor =
+      colorData !== null ? (colorData as MomentColor) : this.defaultColor;
+    this.props.onColorChange(color);
   };
 
   handleReactionClick = (event: React.MouseEvent<HTMLSpanElement>): void => {
-    this.setState({
-      mainReactionName: event.currentTarget.getAttribute('alt')
-    });
+    const reactionData: string | null = event.currentTarget.getAttribute(
+      "data-reaction"
+    );
+    const reaction: MomentReaction =
+      reactionData !== null
+        ? (reactionData as MomentReaction)
+        : this.defaultReaction;
+    this.props.onReactionChange(reaction);
   };
 
   handleSectionClick = (event: React.MouseEvent<HTMLDivElement>): void => {
-    this.setState({
-      section: event.currentTarget.children.item(0)?.innerHTML
-    });
-  }
+    const sectionData: string | null = event.currentTarget.getAttribute(
+      "data-section"
+    );
+    const section: MomentSection =
+      sectionData !== null
+        ? (parseInt(sectionData) as MomentSection)
+        : this.defaultSection;
+    this.props.onSectionChange(section);
+  };
 
   handleStartChangeTime = (event: React.KeyboardEvent): void => {
-    let m: number;
-    let s: number;
-    let ms: number;
+    const { startMinutesRef, startSecondsRef, startMilisecondsRef } = this;
 
-    this.startMinutesRef.current?.value 
-    ? m = parseInt(this.startMinutesRef.current.value) 
-    : m = 0;
-    this.startSecondsRef.current?.value 
-    ? s = parseInt(this.startSecondsRef.current.value) 
-    : s = 0;
-    this.startMilisecondsRef.current?.value 
-    ? ms = parseInt(this.startMilisecondsRef.current.value) 
-    : ms = 0;
+    const m: number =
+      startMinutesRef.current !== null
+        ? parseInt(startMinutesRef.current.value)
+        : 0;
+    const s: number =
+      startSecondsRef.current !== null
+        ? parseInt(startSecondsRef.current.value)
+        : 0;
+    const ms: number =
+      startMilisecondsRef.current !== null
+        ? parseInt(startMilisecondsRef.current.value)
+        : 0;
 
     this.props.newCurrentTime(convertToSeconds(m, s, ms));
     this.props.newRecordingTimeStart(convertToSeconds(m, s, ms));
-  }
+  };
 
   handleEndChangeTime = (event: React.KeyboardEvent): void => {
-    let m: number;
-    let s: number;
-    let ms: number;
+    const { endMinutesRef, endSecondsRef, endMilisecondsRef } = this;
 
-    this.endMinutesRef.current?.value 
-    ? m = parseInt(this.endMinutesRef.current.value) 
-    : m = 0;
-    this.endSecondsRef.current?.value 
-    ? s = parseInt(this.endSecondsRef.current.value) 
-    : s = 0;
-    this.endMilisecondsRef.current?.value 
-    ? ms = parseInt(this.endMilisecondsRef.current.value) 
-    : ms = 0;
+    const m: number =
+      endMinutesRef.current !== null
+        ? parseInt(endMinutesRef.current.value)
+        : 0;
+    const s: number =
+      endSecondsRef.current !== null
+        ? parseInt(endSecondsRef.current.value)
+        : 0;
+    const ms: number =
+      endMilisecondsRef.current !== null
+        ? parseInt(endMilisecondsRef.current.value)
+        : 0;
 
     this.props.newCurrentTime(convertToSeconds(m, s, ms));
     this.props.newRecordingTimeEnd(convertToSeconds(m, s, ms));
-  }
+  };
 
   getTimeValueInputArgs = (isStart: boolean): timeValueInputProps => {
-    let recordingValueArg: number;
-    let editingValueArg: number;
-    let handleTypeArg: (event: React.KeyboardEvent) => void;
+    const { currentTime, selectedTimeStart, selectedTimeEnd } = this.props;
+    const recordingValueArg: number = isStart ? selectedTimeStart : currentTime;
 
-    isStart 
-    ? recordingValueArg = this.props.recordedTimeStart
-    : recordingValueArg = this.props.currentTime
+    const editingValueArg: number = isStart
+      ? selectedTimeStart
+      : selectedTimeEnd;
 
-    isStart
-    ? editingValueArg = this.props.recordedTimeStart
-    : editingValueArg = this.props.recordedTimeEnd
-
-    isStart
-    ? handleTypeArg = this.handleStartChangeTime
-    : handleTypeArg = this.handleEndChangeTime
+    const handleTypeArg: (event: React.KeyboardEvent) => void = isStart
+      ? this.handleStartChangeTime
+      : this.handleEndChangeTime;
 
     return {
       recordingValueArg: recordingValueArg,
       editingValueArg: editingValueArg,
-      handleTypeArg: handleTypeArg,
-    }
-  }
-
+      handleTypeArg: handleTypeArg
+    };
+  };
 
   mmInput = (isStart: boolean): JSX.Element => {
     let input: JSX.Element;
-    let refTypeArg: React.RefObject<HTMLInputElement>;
+    const refTypeArg: React.RefObject<HTMLInputElement> = isStart
+      ? this.startMinutesRef
+      : this.endMinutesRef;
 
-    isStart
-    ? refTypeArg = this.startMinutesRef
-    : refTypeArg = this.endMinutesRef
+    input =
+      this.props.mode === RatingEditorMode.RECORDING ? (
+        <input
+          type="number"
+          value={
+            convertToMMSSMS(
+              this.getTimeValueInputArgs(isStart).recordingValueArg
+            ).m
+          }
+          min="0"
+          max="60"
+          className="time-value-input readonly"
+          readOnly
+        />
+      ) : (
+        <input
+          type="number"
+          defaultValue={
+            convertToMMSSMS(this.getTimeValueInputArgs(isStart).editingValueArg)
+              .m
+          }
+          placeholder="00"
+          ref={refTypeArg}
+          min="0"
+          max="60"
+          className="time-value-input"
+          onKeyUp={this.getTimeValueInputArgs(isStart).handleTypeArg}
+        />
+      );
 
-    this.props.isRecording
-    ? input = <input 
-                type="number" 
-                value={convertToMMSSMS(this.getTimeValueInputArgs(isStart).recordingValueArg).m} 
-                min="0" max="60" 
-                className="time-value-input readonly" 
-                readOnly
-              />
-    : input = <input 
-                type="number" 
-                defaultValue={convertToMMSSMS(this.getTimeValueInputArgs(isStart).editingValueArg).m} 
-                placeholder="00"
-                ref={refTypeArg}
-                min="0" max="60" 
-                className="time-value-input" 
-                onKeyUp={this.getTimeValueInputArgs(isStart).handleTypeArg}
-              />
-    return input; 
-  }
+    return input;
+  };
 
   ssInput = (isStart: boolean): JSX.Element => {
     let input: JSX.Element;
-    let refTypeArg: React.RefObject<HTMLInputElement>;
+    const refTypeArg: React.RefObject<HTMLInputElement> = isStart
+      ? this.startSecondsRef
+      : this.endSecondsRef;
 
-    isStart
-    ? refTypeArg = this.startSecondsRef
-    : refTypeArg = this.endSecondsRef
+    input =
+      this.props.mode === RatingEditorMode.RECORDING ? (
+        <input
+          type="number"
+          value={
+            convertToMMSSMS(
+              this.getTimeValueInputArgs(isStart).recordingValueArg
+            ).s
+          }
+          min="0"
+          max="60"
+          className="time-value-input readonly"
+          readOnly
+        />
+      ) : (
+        <input
+          type="number"
+          defaultValue={
+            convertToMMSSMS(this.getTimeValueInputArgs(isStart).editingValueArg)
+              .s
+          }
+          placeholder="00"
+          ref={refTypeArg}
+          min="0"
+          max="60"
+          className="time-value-input"
+          onKeyUp={this.getTimeValueInputArgs(isStart).handleTypeArg}
+        />
+      );
 
-    this.props.isRecording
-    ? input = <input 
-                type="number" 
-                value={convertToMMSSMS(this.getTimeValueInputArgs(isStart).recordingValueArg).s} 
-                min="0" max="60" 
-                className="time-value-input readonly"
-                readOnly
-              />
-    : input = <input 
-                type="number" 
-                defaultValue={convertToMMSSMS(this.getTimeValueInputArgs(isStart).editingValueArg).s} 
-                placeholder="00"
-                ref={refTypeArg}
-                min="0" max="60" 
-                className="time-value-input"
-                onKeyUp={this.getTimeValueInputArgs(isStart).handleTypeArg}
-              />
     return input;
-  }
+  };
 
   msInput = (isStart: boolean): JSX.Element => {
     let input: JSX.Element;
-    let refTypeArg: React.RefObject<HTMLInputElement>;
+    const refTypeArg: React.RefObject<HTMLInputElement> = isStart
+      ? this.startMilisecondsRef
+      : this.endMilisecondsRef;
 
-    isStart
-    ? refTypeArg = this.startMilisecondsRef
-    : refTypeArg = this.endMilisecondsRef
+    input =
+      this.props.mode === RatingEditorMode.RECORDING ? (
+        <input
+          type="number"
+          value={
+            convertToMMSSMS(
+              this.getTimeValueInputArgs(isStart).recordingValueArg
+            ).ms
+          }
+          min="0"
+          max="1000"
+          className="time-value-input miliseconds readonly"
+          readOnly
+        />
+      ) : (
+        <input
+          type="number"
+          defaultValue={
+            convertToMMSSMS(this.getTimeValueInputArgs(isStart).editingValueArg)
+              .ms
+          }
+          placeholder="00"
+          ref={refTypeArg}
+          min="0"
+          max="1000"
+          className="time-value-input miliseconds"
+          onKeyUp={this.getTimeValueInputArgs(isStart).handleTypeArg}
+        />
+      );
 
-    this.props.isRecording
-    ? input = <input 
-                type="number" 
-                value={convertToMMSSMS(this.getTimeValueInputArgs(isStart).recordingValueArg).ms} 
-                min="0" max="1000" 
-                className="time-value-input miliseconds readonly"
-                readOnly
-              />
-    : input = <input 
-                type="number" 
-                defaultValue={convertToMMSSMS(this.getTimeValueInputArgs(isStart).editingValueArg).ms} 
-                placeholder="00"
-                ref={refTypeArg}
-                min="0" max="1000" 
-                className="time-value-input miliseconds"
-                onKeyUp={this.getTimeValueInputArgs(isStart).handleTypeArg}
-              />
     return input;
-  }
+  };
 
   createMomentReactions = (): Array<JSX.Element> => {
-    let reactionsArr: Array<JSX.Element> = [];
+    let reactions: Array<JSX.Element> = [];
 
-    for(let i = 0; i < momentReactionsJSON.reactions.length; ++i) {
-      let reactionClass: string;
-      momentReactionsJSON.reactions[i].name == this.state.mainReactionName 
-      ? reactionClass = "moment-reaction active"
-      : reactionClass = "moment-reaction"
-      
-      reactionsArr.push(
-        <span className={reactionClass}>
-        <img
-          className="reaction-img"
-          src={momentReactionsJSON.reactions[i].path}
-          onClick={this.handleReactionClick}
-          alt={momentReactionsJSON.reactions[i].name}
-        />
-      </span>
+    for (const reaction of reactionsData) {
+      const reactionClass: string =
+        reaction.name === this.props.newMoment.reaction
+          ? "moment-reaction active"
+          : "moment-reaction";
+
+      reactions.push(
+        <span key={reaction.name} className={reactionClass}>
+          <img
+            className="reaction-img"
+            src={reaction.path}
+            onClick={this.handleReactionClick}
+            data-reaction={reaction.name}
+            alt={reaction.name}
+          />
+        </span>
       );
     }
-    return reactionsArr;
+    return reactions;
   };
 
   createMomentColorButtons = (): Array<JSX.Element> => {
-    let buttonsArr: Array<JSX.Element> = [];
+    let buttons: Array<JSX.Element> = [];
 
-    for (let i = 0; i < momentColorsJSON.colors.length; ++i) {
-    
-      let buttonClass: string;
-      momentColorsJSON.colors[i].color == this.state.mainColor 
-      ? buttonClass = "color-button active"
-      : buttonClass = "color-button"
-      
-        buttonsArr.push(
+    for (const color of colorsData) {
+      const buttonClass: string =
+        color.color === this.props.newMoment.color
+          ? "color-button active"
+          : "color-button";
+
+      buttons.push(
         <input
+          key={color.color}
           type="button"
           className={buttonClass}
-          data-color={momentColorsJSON.colors[i].color}
-          style={this.setMomentColorButtonStyle(momentColorsJSON.colors[i].color)}
+          data-color={color.color}
+          style={this.setMomentColorButtonStyle(color.color)}
           onClick={this.handleColorButtonClick}
         />
       );
     }
-    return buttonsArr;
+    return buttons;
   };
 
   createSectionButtons = (): Array<JSX.Element> => {
-    let sectionButtonsArr: Array<JSX.Element> = [];
+    let sectionButtons: Array<JSX.Element> = [];
 
-    for( let i = 1; i < 6; ++i) {
-      let sectionButtonClass: string;
-      i == this.state.section
-      ? sectionButtonClass = "section-button active"
-      : sectionButtonClass = "section-button"
+    for (let section = 0; section <= 4; ++section) {
+      const sectionButtonClass: string =
+        section == this.props.newMoment.section
+          ? "section-button active"
+          : "section-button";
 
-      sectionButtonsArr.push(
-        <div className={sectionButtonClass} onClick={this.handleSectionClick}>
-          <span>{i}</span>
-      </div>
+      sectionButtons.push(
+        <div
+          key={section}
+          className={sectionButtonClass}
+          data-section={section}
+          onClick={this.handleSectionClick}
+        >
+          <span>{section + 1}</span>
+        </div>
       );
     }
-    return sectionButtonsArr;
+    return sectionButtons;
+  };
+
+  handleMomentNameInputKeyUp = (
+    event: React.KeyboardEvent<HTMLInputElement>
+  ): void => {
+    this.props.onNameChange(event.currentTarget.value);
+  };
+
+  handleMomentDescriptionAreaKeyUp = (
+    event: React.KeyboardEvent<HTMLTextAreaElement>
+  ): void => {
+    this.props.onDescriptionChange(event.currentTarget.value);
   };
 
   render() {
-    convertToMMSSMS(this.props.currentTime);
+    const { currentTime, newMoment } = this.props;
+
+    convertToMMSSMS(currentTime);
     return (
-      <div className="moment-editor-container" style={{backgroundColor: this.countShade(this.state.mainColor)}}>
+      <div
+        className="moment-editor-container"
+        style={{ backgroundColor: this.countShade(newMoment.color) }}
+      >
         <div className="moment-editor left">
           <div className="moment-name-input-container">
             <input
               type="text"
               className="moment-name-input"
               placeholder="moment-name"
+              onKeyUp={this.handleMomentNameInputKeyUp}
             />
           </div>
           <div className="moment-description-container">
             <textarea
               className="moment-description-input"
               placeholder="Add description of your moment... "
+              onKeyUp={this.handleMomentDescriptionAreaKeyUp}
             />
           </div>
           <div className="moment-colors-container">
@@ -339,10 +440,9 @@ class MomentEditor extends React.Component<MomentEditorProps> {
           </div>
         </div>
         <div className="moment-editor-divider-container">
-          <div className="moment-editor-divider"></div>
+          <div className="moment-editor-divider" />
         </div>
         <div className="moment-editor right">
-
           <div className="moment-time-wrapper">
             <div className="moment-time-container">
               <div className="time-value">
@@ -352,7 +452,7 @@ class MomentEditor extends React.Component<MomentEditorProps> {
                 <span>:</span>
                 {this.msInput(true)}
               </div>
-              <div className="time-divider"></div>
+              <div className="time-divider" />
               <div className="time-name-container">
                 <span>start</span>
               </div>
@@ -365,7 +465,7 @@ class MomentEditor extends React.Component<MomentEditorProps> {
                 <span>:</span>
                 {this.msInput(false)}
               </div>
-              <div className="time-divider"></div>
+              <div className="time-divider" />
               <div className="time-name-container">
                 <span>end</span>
               </div>
@@ -380,7 +480,7 @@ class MomentEditor extends React.Component<MomentEditorProps> {
                 {this.createSectionButtons()}
               </div>
               <div className="section-selector-final-button">
-                <i className="icon-right-open"></i>
+                <i className="icon-right-open" />
               </div>
             </div>
           </div>
@@ -390,6 +490,9 @@ class MomentEditor extends React.Component<MomentEditorProps> {
   }
 }
 
-const MomentEditorContainer: ConnectedComponent<typeof MomentEditor, any> = connect(mapStateToProps, mapDispatchToProps)(MomentEditor);
+const MomentEditorContainer: ConnectedComponent<
+  typeof MomentEditor,
+  any
+> = connect(mapStateToProps, mapDispatchToProps)(MomentEditor);
 
 export default MomentEditorContainer;

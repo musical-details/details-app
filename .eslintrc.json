@@ -1,0 +1,14 @@
+{
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "rules": {
+    "semi": "error",
+    "no-useless-constructor": "off",
+    "@typescript-eslint/no-useless-constructor": false
+  }
+}

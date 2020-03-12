@@ -9,6 +9,7 @@ import Menu from "../menu/Menu";
 import Content from "../content/Content";
 
 import "./App.scss";
+import ViewContainer from "../view/view";
 
 const store: Store = getStore();
 
@@ -17,6 +18,9 @@ const App: React.FC = () => {
     <Provider store={store}>
       <Router>
         <div className="app">
+          <div className="view-wrapper">
+            <ViewContainer />
+          </div>
           <div className="menu-wrapper">
             <Menu />
           </div>

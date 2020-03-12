@@ -1,11 +1,39 @@
 import React, { RefObject } from "react";
 
 import "./track-waver.scss";
+import { Dispatch } from "redux";
+import { AppState } from "../../../core/state/store";
+
+import * as tasks from "../../../core/state/ducks/tasks";
+import { ConnectedComponent, connect } from "react-redux";
+import { Seconds } from "../../../core/shared";
+
+const mapStateToProps = (state: AppState): TrackWaverProps | any => ({
+  isSetInPlayer: state.viewedTrack.isSetInPlayer,
+  wave: state.viewedTrack.wave,
+  currentTime: state.track.currentTime,
+  duration: state.track.duration,
+  soundcloudDuration: state.viewedTrack.duration
+});
+
+const mapDispatchToProps = (
+  dispatch: Dispatch<any>
+): TrackWaverProps | any => ({
+  onTransferTrackToPlayer: () => {
+    dispatch(tasks.trackOperations.transferViewedTrackToPlayer(true));
+  },
+  onChangeTime: (newTime: number) => {
+    dispatch(tasks.trackActions.setAudioNewTime(newTime));
+  }
+});
 
 type TrackWaverProps = {
+  isSetInPlayer: boolean;
   wave: Array<number>;
   currentTime: number;
-  duration: number;
+  duration: Seconds;
+  soundcloudDuration: Seconds;
+  onTransferTrackToPlayer: () => void;
   onChangeTime: (newTime: number) => void;
 };
 
@@ -25,16 +53,14 @@ class TrackWaverStick extends React.Component<TrackWaverStickProps> {
   }
 
   render() {
-    let fill = this.props.isActive ? "url(#active)" : "#5e5e5e";
-    let x = this.props.index * stickSpace;
-    let y = (svgHeight - this.props.value) / 2;
+    const { isActive, index, value } = this.props;
+
+    const fill: string = isActive ? "url(#active)" : "#5e5e5e";
+    const x: number = index * stickSpace;
+    const y: number = (svgHeight - value) / 2;
     return (
       <g transform={`translate(${x}, 0)`}>
-        <path
-          data-name={`stick-${this.props.index}`}
-          fill={`${fill}`}
-          d={`M0 0h4v${this.props.value}H0z`}
-        ></path>
+        <path fill={`${fill}`} d={`M0 0h4v${value}H0z`} />
       </g>
     );
   }
@@ -50,39 +76,34 @@ class TrackWaver extends React.Component<TrackWaverProps> {
     this.areaRef = React.createRef();
   }
 
-  handleChangeTime = (index: number): void => {
-    this.props.onChangeTime((this.props.duration / this.sticksCount) * index);
-  };
-
-  createSticks = (): Array<JSX.Element> | void => {
+  createSticks = (): Array<JSX.Element> => {
+    const { isSetInPlayer, currentTime, duration, wave } = this.props;
     let sticks: Array<JSX.Element> = [];
-    let activeArea: number;
-    if (this.props.duration)
-      activeArea = Math.ceil(
-        (this.props.currentTime / this.props.duration) * this.sticksCount
-      );
-    else activeArea = 0;
+    const activeArea: number =
+      isSetInPlayer && duration
+        ? Math.ceil((currentTime / duration) * this.sticksCount)
+        : 0;
 
     for (let i = 0; i < activeArea; ++i) {
       sticks.push(
-        <TrackWaverStick index={i} value={this.props.wave[i]} isActive={true} />
+        <TrackWaverStick key={i} index={i} value={wave[i]} isActive={true} />
       );
     }
     for (let i = activeArea; i < this.sticksCount; ++i) {
       sticks.push(
-        <TrackWaverStick
-          index={i}
-          value={this.props.wave[i]}
-          isActive={false}
-        />
+        <TrackWaverStick key={i} index={i} value={wave[i]} isActive={false} />
       );
     }
     return sticks;
   };
 
   handleClick = (event: React.MouseEvent<SVGElement>): void => {
+    const { isSetInPlayer, duration } = this.props;
+    if (!isSetInPlayer) {
+      this.props.onTransferTrackToPlayer();
+    }
     const offsetX: number = event.nativeEvent.offsetX;
-    this.props.onChangeTime((this.props.duration / svgWidth) * offsetX);
+    this.props.onChangeTime((duration / svgWidth) * offsetX);
   };
 
   handleMouseMove = (event: React.MouseEvent<SVGElement>): void => {
@@ -96,15 +117,14 @@ class TrackWaver extends React.Component<TrackWaverProps> {
           data-name="track-waver-svg"
           width="100%"
           height={svgHeight}
-          {...this.props}
           onClick={this.handleClick}
           onMouseMove={this.handleMouseMove}
         >
           <defs>
             <linearGradient id="active" x2="1" y2="1">
-              <stop offset="0%" stop-color="#fd7a2c" />
-              <stop offset="80%" stop-color="#ba3a65" />
-              <stop offset="100%" stop-color="#ba3a65" />
+              <stop offset="0%" stopColor="#fd7a2c" />
+              <stop offset="80%" stopColor="#ba3a65" />
+              <stop offset="100%" stopColor="#ba3a65" />
             </linearGradient>
           </defs>
           {this.createSticks()}
@@ -114,4 +134,9 @@ class TrackWaver extends React.Component<TrackWaverProps> {
   }
 }
 
-export default TrackWaver;
+const TrackWaverContainer: ConnectedComponent<typeof TrackWaver, any> = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TrackWaver);
+
+export default TrackWaverContainer;

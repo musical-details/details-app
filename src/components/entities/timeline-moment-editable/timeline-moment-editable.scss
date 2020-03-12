@@ -1,0 +1,32 @@
+.timeline-moment-editable {
+  .draggable-zone {
+    min-width: 4px;
+    height: 70px;
+    position: relative;
+
+    .resizable-zone {
+      width: 100%;
+      height: 100%;
+      padding: 10px 0;
+      box-sizing: border-box;
+      position: relative;
+
+      .react-resizable-handle {
+        position: absolute;
+        width: 8px;
+        height: 100%;
+        box-sizing: border-box;
+
+        &.react-resizable-handle-w {
+          left: -4px;
+          cursor: w-resize;
+        }
+
+        &.react-resizable-handle-e {
+          right: -4px;
+          cursor: e-resize;
+        }
+      }
+    }
+  }
+}

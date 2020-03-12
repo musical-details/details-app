@@ -1,6 +1,6 @@
 import { AppState } from "./../../store";
 import { createSelector } from "reselect";
-import { Rating, Moment } from "./viewed-track.state";
+import { Rating, Moment } from "../../../shared";
 
 function getUserRating(state: AppState): Rating {
   const { isLogged, nickname, avatar, userId } = state.user;

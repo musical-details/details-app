@@ -3,8 +3,7 @@ import "./access.scss";
 import { AppState } from "../../../core/state/store";
 import { ConnectedComponent, connect } from "react-redux";
 import { withRouter, Redirect } from "react-router";
-import userActions from "../../../core/state/ducks/user/user.actions";
-import userOperations from "../../../core/state/ducks/user/user.operations";
+import * as tasks from "../../../core/state/ducks/tasks";
 import {
   LoginStage,
   RegisterStage,
@@ -23,10 +22,10 @@ const mapDispatchToProps = (
   dispatch: Dispatch<any>
 ): AccessComponentProps | any => ({
   signIn: (login: string, password: string): void => {
-    dispatch(userOperations.signIn(login, password));
+    dispatch(tasks.userOperations.signIn(login, password));
   },
   signUp: (login: string, password: string, nickname: string): void => {
-    dispatch(userOperations.signUp(login, password, nickname));
+    dispatch(tasks.userOperations.signUp(login, password, nickname));
   }
 });
 

@@ -1,28 +1,26 @@
-{
-    "colors": [
-        {
-            "color": "#5d238a"
-        },
-        {
-            "color": "#283dc3"
-        },
-        {
-            "color": "#38adae"
-        },
-        {
-            "color": "#f85765"
-        },
-        {
-            "color": "#f94922"
-        },
-        {
-            "color": "#d12e71"
-        },
-        {
-            "color": "#bc209b"
-        },
-        {
-            "color": "#6a4ba2"
-        }
-    ]
-}
+[
+  {
+    "color": "#5d238a"
+  },
+  {
+    "color": "#283dc3"
+  },
+  {
+    "color": "#38adae"
+  },
+  {
+    "color": "#f85765"
+  },
+  {
+    "color": "#f94922"
+  },
+  {
+    "color": "#d12e71"
+  },
+  {
+    "color": "#bc209b"
+  },
+  {
+    "color": "#6a4ba2"
+  }
+]

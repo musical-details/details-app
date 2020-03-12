@@ -1,25 +1,9 @@
-export type Moment = {
-  name: string;
-  description: string;
-  color: string;
-  start: number;
-  end: number;
-  timelineSection: number;
-};
-
-export type Rating = {
-  ratingId: number;
-  user: {
-    userId: number;
-    nickname: string;
-    avatar: string;
-  };
-  moments: Array<Moment>;
-};
+import { Rating } from "../../../shared";
 
 export interface AppViewedTrackState {
   readonly trackId: number;
   readonly isSetInPlayer: boolean;
+  readonly duration: number;
   readonly cover: string;
   readonly author: string;
   readonly title: string;
@@ -32,6 +16,7 @@ export interface AppViewedTrackState {
 export const initialState: AppViewedTrackState = {
   trackId: 0,
   isSetInPlayer: false,
+  duration: 0,
   cover: "",
   author: "",
   title: "",

@@ -1,6 +1,6 @@
-import { Rating } from "./viewed-track.state";
 import ActionTypes from "./viewed-track.types";
 import { SoundCloud } from "../../../soundcloud";
+import { Rating } from "../../../shared";
 
 type Action = {
   type: string;
@@ -28,7 +28,8 @@ const fetchMetaSuccess = (data: SoundCloud.TrackData): Action => ({
   payload: {
     cover: data.artwork_url.toString().replace("large", "t500x500"),
     title: data.title,
-    author: data.user.username
+    author: data.user.username,
+    duration: data.duration / 1000
   }
 });
 

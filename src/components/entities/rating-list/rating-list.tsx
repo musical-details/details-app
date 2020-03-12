@@ -3,24 +3,26 @@ import React, { Dispatch, ComponentClass } from "react";
 import "./rating-list.scss";
 import { AppState } from "../../../core/state/store";
 
-import viewedTrackSelectors from "../../../core/state/ducks/viewed-track/viewed-track.selectors";
-import { Rating } from "../../../core/state/ducks/viewed-track/viewed-track.state";
+import * as tasks from "../../../core/state/ducks/tasks";
+
 import { connect, ConnectedComponent } from "react-redux";
 import { withRouter } from "react-router";
 import CSS from "csstype";
-import viewedTrackActions from "../../../core/state/ducks/viewed-track/viewed-track.actions";
+import { Rating } from "../../../core/shared";
+import { RatingEditorMode } from "../../../core/state/ducks/rating-editor/rating-editor.state";
 
 const mapStateToProps = (state: AppState): RatingListProps | any => ({
-  userRating: viewedTrackSelectors.getUserRating(state),
-  otherRatings: viewedTrackSelectors.getOtherRatings(state),
-  selectedRatingId: state.viewedTrack.selectedRatingId
+  userRating: tasks.viewedTrackSelectors.getUserRating(state),
+  otherRatings: tasks.viewedTrackSelectors.getOtherRatings(state),
+  selectedRatingId: state.viewedTrack.selectedRatingId,
+  mode: state.ratingEditor.mode
 });
 
 const mapDispatchToProps = (
   dispatch: Dispatch<any>
 ): RatingListProps | any => ({
   onChangeRating: (ratingId: number): void => {
-    dispatch(viewedTrackActions.setSelectedRatingId(ratingId));
+    dispatch(tasks.viewedTrackActions.setSelectedRatingId(ratingId));
   }
 });
 
@@ -28,6 +30,7 @@ type RatingListProps = {
   userRating: Rating;
   otherRatings: Array<Rating>;
   selectedRatingId: number;
+  mode: RatingEditorMode;
   onChangeRating: (ratingId: number) => void;
   match?: any;
 };
@@ -39,22 +42,13 @@ class RatingList extends React.Component<RatingListProps, RatingListState> {
     super(props);
   }
 
-  componentDidMount() {}
-
   renderButtons(): Array<JSX.Element> {
     const { userRating, otherRatings } = this.props;
-    let buttons: Array<JSX.Element> = [];
-
-    buttons.push(this.renderUserButton(userRating));
-
-    for (const rating of otherRatings) {
-      buttons.push(this.renderButton(rating));
-    }
-
-    return buttons;
+    const buttons: Array<JSX.Element> = [this.renderUserButton(userRating, -1)];
+    return buttons.concat(otherRatings.map(this.renderButton));
   }
 
-  renderUserButton(rating: Rating): JSX.Element {
+  renderUserButton(rating: Rating, index: number): JSX.Element {
     const { ratingId } = rating;
     const { avatar } = rating.user;
 
@@ -67,13 +61,14 @@ class RatingList extends React.Component<RatingListProps, RatingListState> {
     };
     return (
       <div
+        key={index}
         className={ratingButtonClassName}
         onClick={(event: React.MouseEvent) => {
           this.props.onChangeRating(ratingId);
         }}
       >
         <div className="avatar-box">
-          <div className="avatar" style={avatarStyles}></div>
+          <div className="avatar" style={avatarStyles} />
         </div>
         <div className="text-box">
           <div>
@@ -89,7 +84,7 @@ class RatingList extends React.Component<RatingListProps, RatingListState> {
     );
   }
 
-  renderButton = (rating: Rating): JSX.Element => {
+  renderButton = (rating: Rating, index: number): JSX.Element => {
     const { nickname, avatar } = rating.user;
     const { selectedRatingId } = this.props;
 
@@ -103,13 +98,14 @@ class RatingList extends React.Component<RatingListProps, RatingListState> {
 
     return (
       <div
+        key={index}
         className={ratingButtonClassName}
         onClick={(event: React.MouseEvent) => {
           this.props.onChangeRating(rating.ratingId);
         }}
       >
         <div className="avatar-box">
-          <div className="avatar" style={avatarStyles}></div>
+          <div className="avatar" style={avatarStyles} />
         </div>
         <div className="text-box">
           <div>
