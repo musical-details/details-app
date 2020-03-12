@@ -6,7 +6,6 @@ import CSS from "csstype";
 import "./Timeline.scss";
 import TimelineMoment from "../timeline-moment/TimelineMoment";
 import TimelineTimers from "./timeline-timer";
-import TimelineMoment from "../timeline-moment/TimelineMoment";
 
 import { AppState } from "../../../core/state/store";
 import { RatingEditorMode } from "../../../core/state/ducks/rating-editor/rating-editor.state";

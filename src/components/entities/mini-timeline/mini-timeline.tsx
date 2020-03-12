@@ -2,7 +2,8 @@ import React, { Dispatch } from "react";
 
 import { AppState } from "../../../core/state/store";
 import { connect, ConnectedComponent } from "react-redux";
-import { Moment } from "../../../core/state/ducks/viewed-track/viewed-track.state";
+import { Moment } from "../../../core/shared/index";
+
 import viewedTrackSelectors from "../../../core/state/ducks/viewed-track/viewed-track.selectors"
 import trackActions from "../../../core/state/ducks/track/track.actions";
 
@@ -10,6 +11,7 @@ import Draggable, { DraggableEvent, DraggableData, ControlPosition } from "react
 
 import CSS from "csstype";
 import "./mini-timeline.scss";
+
 
 type momentsArrProps = {
     name: string,
@@ -159,7 +161,7 @@ class MiniTimeline extends React.Component <MiniTimelineProps, MiniTimelineState
             containerStyle = {
                 width: `${((moment.end - moment.start)*secondsFactor)}px`,
                 maxHeight: 'calc(100% - 20%)',
-                top: `${moment.timelineSection * 20}%`,
+                top: `${moment.section * 20}%`,
                 transform: `translate(${moment.start *secondsFactor}px)`,
             }
 

@@ -5,7 +5,6 @@ import { withRouter } from "react-router-dom";
 import TrackInfo from "../../entities/track-info/track-info";
 import TrackWaver from "../../entities/track-waver/track-waver";
 
-import RatingList from "../../entities/rating-list/rating-list";
 import MiniTimeline from "../../entities/mini-timeline/mini-timeline";
 import Timeline from "../../entities/timeline/Timeline";
 import MomentEditor from "../../entities/moment-editor/moment-editor";
@@ -119,6 +118,9 @@ class TrackComponent extends React.Component<TrackProps, TrackState> {
         </div>
         <div ref={this.ratingsWrapperRef} id="rating-list-wrapper">
           <RatingList />
+        </div>
+        <div id="mini-timeline-wrapper">
+          <MiniTimeline />
         </div>
         <div ref={this.timelineWrapperRef} id="timeline-wrapper">
           <Timeline />
