@@ -3,11 +3,12 @@
 .menu {
   width: 350px;
   height: 100%;
-  padding: 15px;
   box-sizing: border-box;
   text-align: center;
   position: fixed;
-  background-color: #222;
+  background-color: $base-color-darker;
+  box-shadow: 8px 0px 30px #00000030;
+  font-family: 'Inter', sans-serif;
 
   & > .menu-content {
     @extend .full;
@@ -15,12 +16,19 @@
     & > div {
       @extend .full;
       @extend .middle;
+      display: flex;
+      flex-flow: column;
     }
   }
 
   & > .logo-wrapper {
     width: 100%;
   }
+}
+
+.menu-content-items {
+  width: 100%;
+  height: auto;
 }
 
 .user-bar-wrapper {
@@ -31,24 +39,30 @@
   z-index: 100;
 }
 
+.header-wrapper {
+  margin-top: 10%;
+}
+
 .logo-wrapper {
   @extend .middle;
   width: 100%;
   height: 185px;
+  margin-top: 40%;
   text-align: center;
 }
 
 .options {
   list-style-type: none;
-  margin: 0;
+  margin-top: 10%;
   padding: 0;
+  width: 100%;
 
   a {
     text-decoration: none;
 
     &:hover span,
     &.selected span {
-      background: linear-gradient(to right, #f94922, #bc209b);
+      background: linear-gradient(to right, $base-orange, $base-pink);
       background-clip: text;
       -webkit-text-fill-color: transparent;
     }
@@ -60,7 +74,6 @@
     justify-content: flex-start;
     height: 65px;
     margin: 0;
-    border-bottom: 2px solid #2d2d2d;
     padding: 0 50px;
     box-sizing: border-box;
     text-align: left;
@@ -75,6 +88,11 @@
       background: linear-gradient(to right, white, white);
       background-clip: text;
       -webkit-text-fill-color: transparent;
+    }
+
+    &:hover{
+      background-color: #ffffff05;
+      transition: 0.25s linear;
     }
   }
 }

@@ -1,6 +1,5 @@
 import React from "react";
 import "./timeline-timer.scss";
-import { listenerCount } from "cluster";
 import { convertToMMSSMS } from "../../../utils/index";
 
 type TimelineTimerProps = {

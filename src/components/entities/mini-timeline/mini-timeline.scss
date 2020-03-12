@@ -7,7 +7,7 @@
     flex-flow: column;
     overflow-x: scroll;
     overflow-y: hidden;
-    background-color: #222;
+    background-color: $base-color-component-bg;
 
     &::-webkit-scrollbar {
         height: 0px !important; 
@@ -39,14 +39,6 @@ $active_box_width: 210px;
     &:hover {
         background-color: rgba(255, 255, 255, 0.12);
         cursor: pointer;
-    }
-
-    .active-box-cursor {
-        height: 100%;
-        width: 4px;
-        position: relative;
-        background-color: #ffffff24;
-        left: 48%;
     }
 }
 

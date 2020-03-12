@@ -11,7 +11,6 @@ import AccessContainer from "../../pages/access/access";
 const Content: React.FC = () => {
   return (
     <div className="content">
-      ]
       <div className="global-player-wrapper">
         <GlobalPlayer />
       </div>

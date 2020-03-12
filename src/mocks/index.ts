@@ -95,7 +95,7 @@ const randomMoment = (trackDuration: number): Moment => {
     start: momentStart,
     end: momentEnd,
     reaction: MomentReaction.NONE,
-    section: random(0, 4) as 0 | 1 | 2 | 3 | 4
+    section: random(0, 5) as 0 | 1 | 2 | 3 | 4
   };
 };
 

@@ -96,7 +96,7 @@ class MomentEditor extends React.Component<
 
   constructor(props: MomentEditorProps) {
     super(props);
-    this.defaultColor = "#202020";
+    this.defaultColor = "#ffffff8a";
     this.defaultReaction = MomentReaction.NONE;
     this.defaultSection = 2;
 

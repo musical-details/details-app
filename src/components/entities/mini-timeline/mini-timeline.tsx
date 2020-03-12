@@ -12,16 +12,6 @@ import Draggable, { DraggableEvent, DraggableData, ControlPosition } from "react
 import CSS from "csstype";
 import "./mini-timeline.scss";
 
-
-type momentsArrProps = {
-    name: string,
-    description: string,
-    color: string,
-    start: number,
-    end: number,
-    timelineSection: 1 | 2 | 3 | 4 | 5
-}
-
 const mapStateToProps = (state: AppState): MiniTimelineProps | any => ({
     currentTime: state.track.currentTime,
     duration: state.track.duration,
@@ -54,89 +44,6 @@ type MiniTimelineState = {
     dragStartPosition: number;
     currentTimeOffset: number;
 }
-
-// const momentsTmp: Array<momentsArrProps> = [
-//     {
-//         name:"Drums",
-//         description:"",
-//         color:"#e0d942",
-//         start:10,
-//         end:12,
-//         timelineSection:1,
-//     },
-//     {
-//         name:"Drums",
-//         description:"",
-//         color:"#e0d942",
-//         start:13,
-//         end:22,
-//         timelineSection:2,
-//     },
-//     {
-//         name:"Snare",
-//         description:"",
-//         color:"#f94922",
-//         start:18,
-//         end:20,
-//         timelineSection:3
-//     },
-//     {
-//         name:"Drop",
-//         description:"",
-//         color:"#bc209b",
-//         start:25,
-//         end:32,
-//         timelineSection:4
-//     },
-//     {
-//         name:"Buildup",
-//         description:"",
-//         color:"#e0d942",
-//         start:28,
-//         end:32,
-//         timelineSection:2
-//     },
-//     {
-//         name:"Keys",
-//         description:"",
-//         color:"#755e7b",
-//         start: parseFloat("6.800"),
-//         end:parseFloat("6.900"),
-//         timelineSection:3
-//     },
-//     {
-//         name:"Groove",
-//         description:"",
-//         color:"#755e7b",
-//         start: 90,
-//         end: 101,
-//         timelineSection:4
-//     },
-//     {
-//         name:"Hi-Hats",
-//         description:"",
-//         color:"#c36fda",
-//         start:230,
-//         end:240,
-//         timelineSection:2
-//     },
-//     {
-//         name:"Hi-Hats",
-//         description:"",
-//         color:"#c36fda",
-//         start:0,
-//         end:3,
-//         timelineSection:5
-//     },
-//     {
-//         name:"Hi-Hats",
-//         description:"",
-//         color:"#c36fda",
-//         start:250,
-//         end:260,
-//         timelineSection:5
-//     }
-// ]
 
 class MiniTimeline extends React.Component <MiniTimelineProps, MiniTimelineState>{
 

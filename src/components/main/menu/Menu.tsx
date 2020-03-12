@@ -12,9 +12,10 @@ const Menu: React.FC = () => {
       <div className="user-bar-wrapper">
         <TopBarContainer />
       </div>
+
       <div className="menu-content">
         <div>
-          <div>
+          <div className="menu-content-items">
             <div className="logo-wrapper">
               <Logo />
             </div>
@@ -22,7 +23,7 @@ const Menu: React.FC = () => {
               <GradientHeader icon="" text="Menu" />
             </div>
 
-            <div>
+            
               <ul className="options">
                 <div>
                   <NavLink activeClassName="selected" to="/home">
@@ -42,7 +43,6 @@ const Menu: React.FC = () => {
                   </NavLink>
                 </div>
               </ul>
-            </div>
           </div>
         </div>
       </div>
