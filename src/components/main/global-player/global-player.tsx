@@ -7,6 +7,7 @@ import CSS from "csstype";
 import "./global-player.scss";
 import { AppState } from "../../../core/state/store";
 import { RatingEditorMode } from "../../../core/state/ducks/rating-editor/rating-editor.state";
+import GlobalPlayerTimers from "./global-player-timer"
 import * as tasks from "../../../core/state/ducks/tasks";
 
 const mapStateToProps = (state: AppState): GlobalPlayerProps | any => ({
@@ -271,12 +272,19 @@ class GlobalPlayerComponent extends React.Component<
             <div className="background" />
             <i className="icon-note" />
           </div>
+          
           <div className="bar-box">
             <div className="bar-area" onClick={this.handleBarAreaClick}>
               <div className="bar">
                 <div className="not-fill" style={BarNotFillStyles} />
               </div>
             </div>
+
+            <GlobalPlayerTimers 
+              currentTime={this.props.currentTime} 
+              duration={this.props.duration}
+            />
+
           </div>
           <div className="volume-box">
             <i className="icon-volume" />

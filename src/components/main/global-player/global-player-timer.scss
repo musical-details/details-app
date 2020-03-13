@@ -1,0 +1,14 @@
+.player-timer-block {
+    font-size: 12px;
+    height: 100%;
+    width: auto;
+}
+
+.player-timers-container {
+    height: 35%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    position: relative;
+}
