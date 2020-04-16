@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/details-app/static/css/main.af8e81dd.chunk.css",
+    "main.js": "/details-app/static/js/main.cdb3c382.chunk.js",
+    "main.js.map": "/details-app/static/js/main.cdb3c382.chunk.js.map",
+    "runtime-main.js": "/details-app/static/js/runtime-main.8bf5703e.js",
+    "runtime-main.js.map": "/details-app/static/js/runtime-main.8bf5703e.js.map",
+    "static/js/2.d98a4bef.chunk.js": "/details-app/static/js/2.d98a4bef.chunk.js",
+    "static/js/2.d98a4bef.chunk.js.map": "/details-app/static/js/2.d98a4bef.chunk.js.map",
+    "index.html": "/details-app/index.html",
+    "precache-manifest.688949e110b299deb84e1b345a14137b.js": "/details-app/precache-manifest.688949e110b299deb84e1b345a14137b.js",
+    "service-worker.js": "/details-app/service-worker.js",
+    "static/css/main.af8e81dd.chunk.css.map": "/details-app/static/css/main.af8e81dd.chunk.css.map",
+    "static/js/2.d98a4bef.chunk.js.LICENSE": "/details-app/static/js/2.d98a4bef.chunk.js.LICENSE",
+    "static/media/Timeline.scss": "/details-app/static/media/timeline-white-grid.a84f6dd8.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.8bf5703e.js",
+    "static/js/2.d98a4bef.chunk.js",
+    "static/css/main.af8e81dd.chunk.css",
+    "static/js/main.cdb3c382.chunk.js"
+  ]
+}
