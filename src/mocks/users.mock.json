@@ -1,0 +1,12 @@
+[
+  {
+    "_id": "asdasdas",
+    "login": "Abc",
+    "password": "frregt453t5",
+    "profiles": [],
+    "favouriteTracksIds": ["1", "22", "3"],
+    "photoUrl": "",
+    "backgroundPhotoUrl": "",
+    "backgroundColorTheme": "#222"
+  }
+]
