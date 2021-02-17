@@ -7,7 +7,7 @@ import {
   applyMiddleware,
   combineReducers,
   Reducer,
-  Store
+  Store,
 } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import thunkMiddleware from "redux-thunk";
