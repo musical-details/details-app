@@ -15,23 +15,23 @@ const ratingEditorReducer: Reducer<
     case ActionTypes.SET_MODE:
       return {
         ...state,
-        mode: action.payload.mode
+        mode: action.payload.mode,
       };
     case ActionTypes.SET_SELECTED_TIME_START:
       return {
         ...state,
         selectedTime: {
           ...state.selectedTime,
-          start: action.payload.start
-        }
+          start: action.payload.start,
+        },
       };
     case ActionTypes.SET_SELECTED_TIME_END:
       return {
         ...state,
         selectedTime: {
           ...state.selectedTime,
-          end: action.payload.end
-        }
+          end: action.payload.end,
+        },
       };
 
     case ActionTypes.SET_NEW_MOMENT_NAME:
@@ -39,8 +39,8 @@ const ratingEditorReducer: Reducer<
         ...state,
         newMoment: {
           ...state.newMoment,
-          name: action.payload.name
-        }
+          name: action.payload.name,
+        },
       };
 
     case ActionTypes.SET_NEW_MOMENT_DESCRIPTION:
@@ -48,8 +48,8 @@ const ratingEditorReducer: Reducer<
         ...state,
         newMoment: {
           ...state.newMoment,
-          description: action.payload.description
-        }
+          description: action.payload.description,
+        },
       };
 
     case ActionTypes.SET_NEW_MOMENT_COLOR:
@@ -57,8 +57,8 @@ const ratingEditorReducer: Reducer<
         ...state,
         newMoment: {
           ...state.newMoment,
-          color: action.payload.color
-        }
+          color: action.payload.color,
+        },
       };
 
     case ActionTypes.SET_NEW_MOMENT_REACTION:
@@ -66,32 +66,32 @@ const ratingEditorReducer: Reducer<
         ...state,
         newMoment: {
           ...state.newMoment,
-          reaction: action.payload.reaction
-        }
+          reaction: action.payload.reaction,
+        },
       };
     case ActionTypes.SET_NEW_MOMENT_TIME_START:
       return {
         ...state,
         newMoment: {
           ...state.newMoment,
-          start: action.payload.start
-        }
+          start: action.payload.start,
+        },
       };
     case ActionTypes.SET_NEW_MOMENT_TIME_END:
       return {
         ...state,
         newMoment: {
           ...state.newMoment,
-          end: action.payload.end
-        }
+          end: action.payload.end,
+        },
       };
     case ActionTypes.SET_NEW_MOMENT_SECTION:
       return {
         ...state,
         newMoment: {
           ...state.newMoment,
-          section: action.payload.section
-        }
+          section: action.payload.section,
+        },
       };
     case ActionTypes.RESET_MOMENT_EDITOR:
       return {
@@ -102,8 +102,12 @@ const ratingEditorReducer: Reducer<
           description: "",
           color: "#202020",
           reaction: MomentReaction.NONE,
-          section: 2
-        }
+          section: 2,
+        },
+      };
+    case ActionTypes.SUBMIT_MOMENT_EDITOR:
+      return {
+        ...state,
       };
     default:
       return state;

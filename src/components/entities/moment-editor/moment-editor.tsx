@@ -52,6 +52,9 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
   },
   newRecordingTimeEnd: (time: number) => {
     dispatch(tasks.ratingEditorActions.setSelectedTimeEnd(time));
+  },
+  onSubmit: () => {
+    dispatch(tasks.ratingEditorActions.submitMomentEditor())
   }
 });
 
@@ -69,6 +72,7 @@ type MomentEditorProps = {
   newCurrentTime: (time: number) => void;
   newRecordingTimeStart: (time: number) => void;
   newRecordingTimeEnd: (time: number) => void;
+  onSubmit: () => void;
 };
 
 type MomentEditorState = {};
@@ -405,6 +409,11 @@ class MomentEditor extends React.Component<
     this.props.onDescriptionChange(event.currentTarget.value);
   };
 
+
+  handleFinalButtonClick = () => {
+    this.props.onSubmit();
+  }
+
   render() {
     const { currentTime, newMoment } = this.props;
 
@@ -479,7 +488,7 @@ class MomentEditor extends React.Component<
               <div className="section-buttons-container">
                 {this.createSectionButtons()}
               </div>
-              <div className="section-selector-final-button">
+              <div className="section-selector-final-button" onClick={this.handleFinalButtonClick}>
                 <i className="icon-right-open" />
               </div>
             </div>

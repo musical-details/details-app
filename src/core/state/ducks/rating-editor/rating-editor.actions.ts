@@ -4,7 +4,7 @@ import {
   MomentReaction,
   MomentColor,
   MomentSection,
-  Seconds
+  Seconds,
 } from "../../../shared";
 import { RatingEditorMode } from "./rating-editor.state";
 
@@ -80,6 +80,9 @@ export interface setNewMomentSectionAction
 export interface ResetMomentEditorAction
   extends Action<ActionTypes.RESET_MOMENT_EDITOR> {}
 
+export interface SubmitMomentEditorAction
+  extends Action<ActionTypes.SUBMIT_MOMENT_EDITOR> {}
+
 /**
  *
  * @param {RatingEditorMode} mode
@@ -87,22 +90,22 @@ export interface ResetMomentEditorAction
 const setMode = (mode: RatingEditorMode): setModeAction => ({
   type: ActionTypes.SET_MODE,
   payload: {
-    mode: mode
-  }
+    mode: mode,
+  },
 });
 
 const setSelectedTimeStart = (start: Seconds): setSelectedTimeStartAction => ({
   type: ActionTypes.SET_SELECTED_TIME_START,
   payload: {
-    start: start
-  }
+    start: start,
+  },
 });
 
 const setSelectedTimeEnd = (end: Seconds): setSelectedTimeEndAction => ({
   type: ActionTypes.SET_SELECTED_TIME_END,
   payload: {
-    end: end
-  }
+    end: end,
+  },
 });
 
 const setNewMomentTimeStart = (
@@ -110,22 +113,22 @@ const setNewMomentTimeStart = (
 ): setNewMomentTimeStartAction => ({
   type: ActionTypes.SET_NEW_MOMENT_TIME_START,
   payload: {
-    start: start
-  }
+    start: start,
+  },
 });
 
 const setNewMomentTimeEnd = (end: Seconds): setNewMomentTimeEndAction => ({
   type: ActionTypes.SET_NEW_MOMENT_TIME_END,
   payload: {
-    end: end
-  }
+    end: end,
+  },
 });
 
 const setNewMomentName = (name: string): setNewMomentNameAction => ({
   type: ActionTypes.SET_NEW_MOMENT_NAME,
   payload: {
-    name: name
-  }
+    name: name,
+  },
 });
 
 const setNewMomentDescription = (
@@ -133,15 +136,15 @@ const setNewMomentDescription = (
 ): setNewMomentDescriptionAction => ({
   type: ActionTypes.SET_NEW_MOMENT_DESCRIPTION,
   payload: {
-    description: description
-  }
+    description: description,
+  },
 });
 
 const setNewMomentColor = (color: MomentColor): setNewMomentColorAction => ({
   type: ActionTypes.SET_NEW_MOMENT_COLOR,
   payload: {
-    color: color
-  }
+    color: color,
+  },
 });
 
 const setNewMomentReaction = (
@@ -149,8 +152,8 @@ const setNewMomentReaction = (
 ): setNewMomentReactionAction => ({
   type: ActionTypes.SET_NEW_MOMENT_REACTION,
   payload: {
-    reaction: reaction
-  }
+    reaction: reaction,
+  },
 });
 
 const setNewMomentSection = (
@@ -158,12 +161,16 @@ const setNewMomentSection = (
 ): setNewMomentSectionAction => ({
   type: ActionTypes.SET_NEW_MOMENT_SECTION,
   payload: {
-    section: section
-  }
+    section: section,
+  },
 });
 
 const resetMomentEditor = (): ResetMomentEditorAction => ({
-  type: ActionTypes.RESET_MOMENT_EDITOR
+  type: ActionTypes.RESET_MOMENT_EDITOR,
+});
+
+const submitMomentEditor = (): SubmitMomentEditorAction => ({
+  type: ActionTypes.SUBMIT_MOMENT_EDITOR,
 });
 
 export type AppRatingEdtiorActions =
@@ -177,7 +184,8 @@ export type AppRatingEdtiorActions =
   | setNewMomentColorAction
   | setNewMomentReactionAction
   | setNewMomentSectionAction
-  | ResetMomentEditorAction;
+  | ResetMomentEditorAction
+  | SubmitMomentEditorAction;
 
 export default {
   setMode,
@@ -190,5 +198,6 @@ export default {
   setNewMomentColor,
   setNewMomentReaction,
   setNewMomentSection,
-  resetMomentEditor
+  resetMomentEditor,
+  submitMomentEditor,
 };
