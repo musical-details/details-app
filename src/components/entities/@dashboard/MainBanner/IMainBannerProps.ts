@@ -1,4 +1,7 @@
-export type IMainBannerStateProps = {};
+export type IMainBannerStateProps = {
+  ratedTracksCount: number | undefined;
+  momentsCount: number | undefined;
+};
 
 export type IMainBannerDispatchProps = {};
 

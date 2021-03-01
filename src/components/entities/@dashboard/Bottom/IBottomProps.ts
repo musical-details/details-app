@@ -1,4 +1,6 @@
-export type IBottomStateProps = {};
+export type IBottomStateProps = {
+  ratingExtensions: Rating.RatingExtension[];
+};
 
 export type IBottomDispatchProps = {};
 
