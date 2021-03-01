@@ -1,6 +1,8 @@
 export type IHeaderTextStateProps = {};
 
-export type IHeaderTextDispatchProps = {};
+export type IHeaderTextDispatchProps = {
+  onTry?: () => void;
+};
 
 export type IHeaderTextOwnProps = {};
 

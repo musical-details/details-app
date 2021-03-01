@@ -9,7 +9,8 @@ declare global {
       favouriteTracksIds: string[];
       photoUrl: string;
       backgroundPhotoUrl: string;
-      backgroundColorTheme: string;
+      backgroundColorThemes: [string, string];
+      lastAccess: System.Timestamp;
       _created_at: System.Timestamp;
       _updated_at: System.Timestamp;
     }
