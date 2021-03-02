@@ -1,6 +1,7 @@
 {
   "parserOptions": {
-    "ecmaVersion": 6,
+    "parser":"babel-eslint",
+    "ecmaVersion": 2020,
     "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
@@ -8,7 +9,6 @@
   },
   "rules": {
     "semi": "error",
-    "no-useless-constructor": "off",
-    "@typescript-eslint/no-useless-constructor": false
+    "no-useless-constructor": "off"
   }
 }

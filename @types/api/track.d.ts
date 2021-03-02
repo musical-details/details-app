@@ -1,34 +1,36 @@
 export {};
 declare global {
   export namespace Track {
-    export interface Track {
-      _id: string;
-      genreId: string | undefined;
-      audioUrl: string;
-      waveSticks: Track.WaveStick;
-      title: string;
-      artist: string;
-      coverUrl: string;
-      _created_at: System.Timestamp;
-      _updated_at: System.Timestamp;
-    }
+    export type TrackId = string;
 
-    export interface Genre {
-      _id: string;
-      name: string;
-      _created_at: System.Timestamp;
-      _updated_at: System.Timestamp;
+    export interface Track {
+      _id: Track.TrackId;
+      sources: Track.Sources;
+      genreIds: string[];
+      moodIds?: string[];
+      audioUrl: string;
+      waveSticks: number[];
+      artist: string;
+      title: string;
+      coverUrl?: string;
+      createdAt: System.Timestamp;
+      updatedAt: System.Timestamp;
     }
 
     export type WaveStick = {
       _id: string;
       value: number;
-      _created_at: System.Timestamp;
-      _updated_at: System.Timestamp;
+    };
+
+    export type Sources = {
+      soundCloudId?: string;
+      spotifyId?: string;
     };
 
     export type TrackExtension = Track.Track & {
-      genre: Track.Genre | undefined;
+      genres: Genre.Genre[];
+      moods?: Mood.Mood[]; // TODO
+      ratings: Rating.Rating[];
     };
   }
 }

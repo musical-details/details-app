@@ -2,11 +2,11 @@ import React from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 import "./Content.scss";
-import TrackComponent from "../../pages/track/track";
+import TrackComponent from "../../pages/TrackPage/TrackPage";
 import GlobalPlayer from "../global-player/global-player";
-import MyProfileComponent from "../../pages/my-profile/my-profile";
-import RateComponent from "../../pages/rate/rate";
-import AccessContainer from "../../pages/access/access";
+import MyProfileComponent from "../../pages/ProfilePage/ProfilePage";
+import RateComponent from "../../pages/RatePage/rate";
+import AccessContainer from "../../pages/JoinPage/JoinPage";
 
 const Content: React.FC = () => {
   return (

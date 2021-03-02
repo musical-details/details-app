@@ -1,24 +1,24 @@
 import React, { Dispatch, ComponentClass } from "react";
 import "./user-bar.scss";
 import { SoundCloud, API_KEY } from "../../../core/soundcloud";
-import { AppState } from "../../../core/state/store";
+import { AppState } from "../../../core/store/store";
 import { withRouter } from "react-router";
 import { connect } from "react-redux";
 import { ConnectedComponent } from "react-redux";
 
-import userActions from "../../../core/state/ducks/user/user.actions";
-import userOperations from "../../../core/state/ducks/user/user.operations";
+import userActions from "../../../core/store/ducks/user/user.actions";
+import userOperations from "../../../core/store/ducks/user/user.operations";
 
 const mapStateToProps = (state: AppState): UserBarProps | any => ({
   isLogged: state.user.isLogged,
   nickname: state.user.nickname,
-  avatar: state.user.avatar
+  avatar: state.user.avatar,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): UserBarProps | any => ({
   logOut: () => {
     dispatch(userActions.logout());
-  }
+  },
 });
 
 type UserBarProps = {

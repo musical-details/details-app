@@ -1,0 +1,89 @@
+@import "../../../../assets/styles/global";
+
+.rating-list {
+  width: 100%;
+  height: 60px;
+  margin-bottom: 15px;
+  font-family: "Roboto";
+
+  & > div {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    background: $base-color-component-bg;
+    border-radius: 25px 25px 0 0;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+
+  .rating-button {
+    width: 160px;
+    height: 100%;
+    background: #2e2e2e;
+    border-radius: 10px;
+    margin-right: 10px;
+    transition: 0.2s linear;
+
+    &:hover {
+      cursor: pointer;
+      background: #ce3241;
+      span {
+        color: white;
+      }
+    }
+
+    &.selected {
+      background: #e53c4b;
+      span {
+        color: white;
+      }
+    }
+
+    span {
+      color: #848484;
+      font-size: 13px;
+    }
+
+    .avatar-box,
+    .text-box {
+      float: left;
+      box-sizing: border-box;
+    }
+
+    .avatar-box {
+      width: 40px;
+      height: 40px;
+      padding: 5px;
+
+      .avatar {
+        @extend .image;
+        width: 100%;
+        height: 100%;
+        border: 2px solid white;
+        background-color: white;
+        border-radius: 50%;
+        box-sizing: border-box;
+      }
+    }
+
+    .text-box {
+      @extend .middle;
+      justify-content: flex-start;
+      width: calc(100% - 40px);
+      height: 40px;
+      padding: 0 5px;
+      overflow: hidden;
+      line-height: 13px;
+
+      span {
+        font-size: 11px;
+        text-transform: uppercase;
+      }
+
+      .nickname span {
+        font-weight: bold;
+        font-size: 13px;
+      }
+    }
+  }
+}

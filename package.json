@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "https://musical-details.github.io/details-app/",
   "dependencies": {
+    "@reduxjs/toolkit": "^1.5.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
@@ -26,14 +27,16 @@
     "react-redux": "^7.1.3",
     "react-resizable": "^1.10.1",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.3.0",
-    "react-scripts-ts": "^3.1.0",
+    "react-scripts": "^4.0.3",
+    "react-scripts-ts": "^4.0.8",
     "redux": "^4.0.4",
     "redux-devtools-extension": "^2.13.8",
-    "redux-localstorage": "^0.4.1",
+    "redux-observable": "^1.2.0",
     "redux-thunk": "^2.3.0",
+    "redux-toolkit": "^1.1.2",
     "reselect": "^4.0.0",
-    "typescript": "^3.7.3"
+    "rxjs": "^6.6.6",
+    "typescript": "^3.9.9"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -60,7 +63,8 @@
   },
   "devDependencies": {
     "@types/node-sass": "^4.11.0",
-    "node-sass": "^4.13.0",
+    "babel-eslint": "^10.1.0",
+    "node-sass": "^4.14.1",
     "svg-react-loader": "^0.4.6"
   }
 }

@@ -1,34 +1,37 @@
 export {};
 declare global {
   export namespace User {
+    export type UserId = string;
+
     export interface User {
-      _id: string;
-      login: string;
+      _id: User.UserId;
+      connections: User.Connections;
+      email: User.Email;
       password: string;
-      profiles: User.Profiles;
-      favouriteTracksIds: string[];
-      photoUrl: string;
-      backgroundPhotoUrl: string;
-      backgroundColorThemes: [string, string];
-      lastAccess: System.Timestamp;
-      _created_at: System.Timestamp;
-      _updated_at: System.Timestamp;
-    }
-
-    export interface Profiles {
-      _id: string;
-      soundCloud?: User.SoundCloudProfile;
-      spotify?: User.SpotifyProfile;
-    }
-
-    export type SoundCloudProfile = {
-      _id: string;
       nickname: string;
-      token: string; // TODO
+      favouriteTracksIds: string[];
+      lastSeenAt: System.Timestamp;
+      createdAt: System.Timestamp;
+      updatedAt: System.Timestamp;
+      photoUrl?: string;
+      backgroundPhotoUrl?: string;
+      backgroundColorThemes?: [string, string];
+    }
+
+    export type UserExtension = User.User & {
+      favouriteTracks: Track.Track[];
+      ratings: Rating.Rating[];
     };
 
-    export type SpotifyProfile = {
-      _id: string; // TODO
+    export interface Connections {
+      _id: string;
+      soundCloudId?: string;
+      spotifyId?: string;
+    }
+
+    export type Email = {
+      address: string;
+      confirmedAt?: System.Timestamp;
     };
   }
 }

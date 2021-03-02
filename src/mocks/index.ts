@@ -36,9 +36,9 @@ const randomRating = (trackDuration: number, ratingId: number): Rating => {
     user: {
       userId: random(1, 300),
       nickname: `user-${random(1000, 9999)}`,
-      avatar: ""
+      avatar: "",
     },
-    moments: moments
+    moments: moments,
   };
 };
 
@@ -66,7 +66,7 @@ const momentsName: Array<string> = [
   "Chill",
   "GrossBeat effect",
   "Fade effect",
-  "Guitar"
+  "Guitar",
 ];
 const momentsColors: Array<string> = [
   "#9C27BD",
@@ -81,7 +81,7 @@ const momentsColors: Array<string> = [
   "#755e7b",
   "#ffeb70",
   "#ff8870",
-  "#95ff70"
+  "#95ff70",
 ];
 
 const randomMoment = (trackDuration: number): Moment => {
@@ -95,11 +95,11 @@ const randomMoment = (trackDuration: number): Moment => {
     start: momentStart,
     end: momentEnd,
     reaction: MomentReaction.NONE,
-    section: random(0, 5) as 0 | 1 | 2 | 3 | 4
+    section: <0 | 1 | 2 | 3 | 4>random(0, 5),
   };
 };
 
 export default {
   randomWave,
-  randomRatings
+  randomRatings,
 };

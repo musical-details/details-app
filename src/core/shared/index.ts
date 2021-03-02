@@ -1,7 +1,13 @@
+/**@depracated */
 export type Seconds = number;
+
+/**@depracated */
 export type Pixels = number;
+
+/**@depracated */
 export type Position = { x: Pixels; y: Pixels };
 
+/**@depracated */
 export enum MomentReaction {
   NONE = "None",
   SUPRRISED_FACE = "SuprisedFace",
@@ -10,11 +16,13 @@ export enum MomentReaction {
   LOVE = "Love",
   LAUGHING_FACE = "LaughingFace",
   THUMB_DOWN = "ThumbDown",
-  THUMB_UP = "ThumbUp"
+  THUMB_UP = "ThumbUp",
 }
 
+/**@depracated */
 export type MomentSection = 0 | 1 | 2 | 3 | 4;
 
+/**@depracated */
 export type MomentColor =
   | "#202020"
   | "#5d238a"
@@ -27,6 +35,7 @@ export type MomentColor =
   | "#6a4ba2"
   | string;
 
+/**@depracated */
 export type Moment = {
   name: string;
   description: string;
@@ -37,6 +46,7 @@ export type Moment = {
   section: MomentSection;
 };
 
+/**@depracated */
 export type Rating = {
   ratingId: number;
   user: {
@@ -47,6 +57,7 @@ export type Rating = {
   moments: Array<Moment>;
 };
 
+/**@depracated */
 export type User = {
   nickname: string;
   login: string;

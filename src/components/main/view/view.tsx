@@ -3,18 +3,18 @@ import React, { Dispatch } from "react";
 import "./view.scss";
 import { AppState } from "../../../core/state/store";
 import { connect, ConnectedComponent } from "react-redux";
-import TimelineMomentContextmenu from "../../entities/timeline-moment-contextmenu/timeline-moment-contextmenu";
+import TimelineMomentContextmenu from "../../entities/@track/timeline-moment-contextmenu/timeline-moment-contextmenu";
 
 import * as tasks from "../../../core/state/ducks/tasks";
 
 const mapStateToProps = (state: AppState): ViewProps | any => ({
-  isContextMenuHidden: state.view.timelineMomentContextMenu.isHidden
+  isContextMenuHidden: state.view.timelineMomentContextMenu.isHidden,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): ViewProps | any => ({
   onCloseContextMenu: () => {
     dispatch(tasks.viewActions.hideTimelineMomentContextMenu());
-  }
+  },
 });
 
 type ViewProps = {
@@ -29,14 +29,14 @@ class View extends React.Component<ViewProps, ViewState> {
   }
 
   componentDidMount() {
-    document.addEventListener("contextmenu", event => {
+    document.addEventListener("contextmenu", (event) => {
       event.preventDefault();
     });
-    document.addEventListener("click", event => {
+    document.addEventListener("click", (event) => {
       if (this.props.isContextMenuHidden) return;
       this.props.onCloseContextMenu();
     });
-    document.addEventListener("scroll", event => {
+    document.addEventListener("scroll", (event) => {
       if (this.props.isContextMenuHidden) return;
       this.props.onCloseContextMenu();
     });

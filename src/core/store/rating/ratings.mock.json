@@ -1,0 +1,45 @@
+[
+  {
+    "_id": "603d6226db6737494497a0d1",
+    "userId": "603d30d23fd8d4540acbb146",
+    "trackId": "603d06825b81732e96ea86ac",
+    "moments": [
+      {
+        "_id": "603d626f6d1b484a96362a69",
+        "name": "Bass",
+        "description": "This bass is so so amazing!",
+        "startTimestamp": 4050,
+        "endTimestamp": 5550,
+        "section": 1,
+        "themeColor": "#202020",
+        "reactionType": "love",
+        "createdAt": 1614610904,
+        "updatedAt": 1614610904
+      },
+      {
+        "_id": "603d626f6d1b484a96362a69",
+        "name": "Yeah",
+        "startTimestamp": 8500,
+        "endTimestamp": 9050,
+        "section": 2,
+        "themeColor": "#5d238a",
+        "reactionType": "thumb_up",
+        "createdAt": 1614612504,
+        "updatedAt": 1614612504
+      },
+      {
+        "_id": "603d63a204301fc667a86ff8",
+        "name": "Yeah",
+        "startTimestamp": 7500,
+        "endTimestamp": 10050,
+        "section": 4,
+        "themeColor": "#283dc3",
+        "reactionType": "suprised_face",
+        "createdAt": 1614613604,
+        "updatedAt": 1614618804
+      }
+    ],
+    "createdAt": 1614610904,
+    "updatedAt": 1614610904
+  }
+]

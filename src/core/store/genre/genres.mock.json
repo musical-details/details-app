@@ -1,0 +1,131 @@
+[
+  {
+    "_id": "603d481c232d14e98d1aec00",
+    "group": "house",
+    "name": "House",
+    "createdAt": 1614610904,
+    "updatedAt": 1614610904
+  },
+  {
+    "_id": "603d48a6a4ace8e62813632c",
+    "group": "house",
+    "name": "Deep House",
+    "createdAt": 1614610904,
+    "updatedAt": 1614610904
+  },
+  {
+    "_id": "603d48c59f2f1605d369a7a5",
+    "name": "Rap",
+    "createdAt": 1614610904,
+    "updatedAt": 1614610904
+  },
+  {
+    "_id": "603d4a800bc99f3a3afdb9e7",
+    "name": "Trap",
+    "createdAt": 1614610904,
+    "updatedAt": 1614610904
+  },
+  {
+    "_id": "603d4a8ba7d213713308b320",
+    "name": "Rock",
+    "createdAt": 1614610904,
+    "updatedAt": 1614610904
+  },
+  {
+    "_id": "603d4a95061d12a1e7f7605a",
+    "name": "Wave",
+    "createdAt": 1614610904,
+    "updatedAt": 1614610904
+  },
+  {
+    "_id": "603d4a9fba6b7b66929fc48a",
+    "name": "Dubstep",
+    "createdAt": 1614610904,
+    "updatedAt": 1614610904
+  },
+  {
+    "_id": "603d4aa5cc874784681d961f",
+    "name": "Drum & Bass",
+    "createdAt": 1614610904,
+    "updatedAt": 1614610904
+  },
+  {
+    "_id": "603d4aab742aaaa1c782314c",
+    "name": "Rap",
+    "createdAt": 1614610904,
+    "updatedAt": 1614610904
+  },
+  {
+    "_id": "603d4ab187dca40450248946",
+    "name": "Jazz",
+    "createdAt": 1614610904,
+    "updatedAt": 1614610904
+  },
+  {
+    "_id": "603d4ab723c56a8be4cf4084",
+    "name": "Future Bass",
+    "createdAt": 1614610904,
+    "updatedAt": 1614610904
+  },
+  {
+    "_id": "603d4abd61d4ae0ffba10550",
+    "name": "Disco",
+    "createdAt": 1614610904,
+    "updatedAt": 1614610904
+  },
+  {
+    "_id": "603d4ac7bc68da62aa059792",
+    "name": "Midtempo",
+    "createdAt": 1614610904,
+    "updatedAt": 1614610904
+  },
+  {
+    "_id": "603d4ad1dc587c2f6d596ae7",
+    "name": "Techno",
+    "createdAt": 1614610904,
+    "updatedAt": 1614610904
+  },
+  {
+    "_id": "603d4ad934e43522379609eb",
+    "group": "house",
+    "name": "Tech-House",
+    "createdAt": 1614610904,
+    "updatedAt": 1614610904
+  },
+  {
+    "_id": "603d4ae3e9ae7c1390fd067d",
+    "name": "R&B",
+    "createdAt": 1614610904,
+    "updatedAt": 1614610904
+  },
+  {
+    "_id": "603d48c59f2f1605d369a7a5",
+    "name": "Pop",
+    "createdAt": 1614610904,
+    "updatedAt": 1614610904
+  },
+  {
+    "_id": "603d4aecc12d3b93b8824065",
+    "name": "EDM",
+    "createdAt": 1614610904,
+    "updatedAt": 1614610904
+  },
+  {
+    "_id": "603d4afcf5ba6af4ecd593ec",
+    "name": "Hardbass",
+    "createdAt": 1614610904,
+    "updatedAt": 1614610904
+  },
+  {
+    "_id": "603d4b067a75813948fedd82",
+    "name": "Lo-fi",
+    "createdAt": 1614610904,
+    "updatedAt": 1614610904
+  },
+  {
+    "_id": "603d4b0e998bd889f4484cb3",
+    "name": "Alternative",
+    "createdAt": 1614610904,
+    "updatedAt": 1614610904
+  }
+]

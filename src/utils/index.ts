@@ -27,7 +27,7 @@ export const convertToMMSSMS = (seconds: number): Time => {
     signed: s < 0 ? `-` : ``,
     m: m < 10 ? `0${Math.abs(m)}` : `${m}`,
     s: Math.abs(s) < 10 ? `0${Math.abs(s)}` : `${Math.abs(s)}`,
-    ms: ms < 100 ? (ms < 10 ? `00${ms}` : `0${ms}`) : `${ms}`
+    ms: ms < 100 ? (ms < 10 ? `00${ms}` : `0${ms}`) : `${ms}`,
   };
 };
 
@@ -53,11 +53,11 @@ export const fetchFromApi = async (
     credentials: "same-origin",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${data.token}`
+      Authorization: `Bearer ${data.token}`,
     },
     redirect: "follow",
     referrerPolicy: "no-referrer",
-    body: JSON.stringify(data.body)
+    body: JSON.stringify(data.body),
   });
   return await response.json();
 };
@@ -75,6 +75,13 @@ export const adjustPositionToScreen = (
     y:
       position.y + size.height < innerHeight
         ? position.y
-        : position.y - size.height
+        : position.y - size.height,
   };
+};
+
+export const findIdxById = <T extends { _id: string }>(
+  array: T[],
+  id: string
+): number => {
+  return array.findIndex((element) => element._id === id);
 };
