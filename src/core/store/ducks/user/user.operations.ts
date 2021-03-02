@@ -1,5 +1,5 @@
-import { fetchFromApi } from "./../../../../utils/index";
-import { AppState } from "./../../store";
+import { fetchFromApi } from "../../../../utils/index";
+import { AppState } from "../../store";
 import { Dispatch } from "react";
 import { AnyAction } from "redux";
 import actions from "./user.actions";
@@ -25,8 +25,8 @@ function signIn(login: string, password: string) {
         method: "POST",
         body: {
           login: login,
-          password: password
-        }
+          password: password,
+        },
       });
       if (!data.status) {
         dispatch(actions.loginReject());
@@ -59,8 +59,8 @@ function signUp(
         body: {
           login: login,
           password: password,
-          soundcloudUri: soundcloudUri
-        }
+          soundcloudUri: soundcloudUri,
+        },
       });
       if (!data.status) {
         dispatch(actions.registerReject(data.error));
@@ -77,5 +77,5 @@ function signUp(
 
 export default {
   signIn,
-  signUp
+  signUp,
 };

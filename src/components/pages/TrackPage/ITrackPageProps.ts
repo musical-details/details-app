@@ -1,5 +1,5 @@
 import { RouteComponentProps } from "react-router-dom";
-import { RatingEditorMode } from "../../../core/state/ducks/rating-editor/rating-editor.state";
+import { RatingEditorMode } from "../../../core/store/ducks/rating-editor/rating-editor.state";
 
 export type ITrackPageRouteParams = {
   trackId: string;

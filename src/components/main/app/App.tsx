@@ -3,7 +3,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 
 import { Provider } from "react-redux";
 import { Store } from "redux";
-import getStore from "../../../core/state/store";
+import getStore from "../../../core/store/store";
 
 import Menu from "../menu/Menu";
 import Content from "../content/Content";

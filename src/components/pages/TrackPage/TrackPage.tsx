@@ -10,12 +10,12 @@ import Timeline from "../../entities/@track/timeline/Timeline";
 import MomentEditor from "../../entities/@track/moment-editor/moment-editor";
 import "./TrackPage.scss";
 
-import { AppState } from "../../../core/state/store";
+import { AppState } from "../../../core/store/store";
 
-import * as tasks from "../../../core/state/ducks/tasks";
+import * as tasks from "../../../core/store/ducks/tasks";
 import RatingList from "../../entities/@track/rating-list/rating-list";
 import { scrollTo } from "../../../utils";
-import { RatingEditorMode } from "../../../core/state/ducks/rating-editor/rating-editor.state";
+import { RatingEditorMode } from "../../../core/store/ducks/rating-editor/rating-editor.state";
 import {
   ITrackPageDispatchProps,
   ITrackPageProps,

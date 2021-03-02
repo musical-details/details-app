@@ -1,4 +1,4 @@
-import { AppState } from "./../../store";
+import { AppState } from "../../store";
 import { Dispatch } from "react";
 import actions from "./viewed-track.actions";
 import { API_KEY, SoundCloud } from "../../../soundcloud";
@@ -41,7 +41,7 @@ function fetchViewedTrack(trackId: number, selectedRatingId: number = -1) {
       dispatch(actions.fetchRatingsPending());
       const ratingsData: Array<Rating> = mocks.randomRatings(300);
       const userRating: Rating | undefined = ratingsData.find(
-        rating => rating.ratingId === userId
+        (rating) => rating.ratingId === userId
       );
       const userRatingId = userRating === undefined ? -1 : userRating.ratingId;
       dispatch(actions.fetchRatingsSuccess(ratingsData));
@@ -57,5 +57,5 @@ function fetchViewedTrack(trackId: number, selectedRatingId: number = -1) {
 }
 
 export default {
-  fetchViewedTrack
+  fetchViewedTrack,
 };

@@ -85,3 +85,9 @@ export const findIdxById = <T extends { _id: string }>(
 ): number => {
   return array.findIndex((element) => element._id === id);
 };
+
+export const notEmpty = <TValue>(
+  value: TValue | null | undefined
+): value is TValue => {
+  return value !== null && value !== undefined;
+};

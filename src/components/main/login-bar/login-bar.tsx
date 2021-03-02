@@ -1,20 +1,20 @@
 import React, { Dispatch, ComponentClass } from "react";
 import "./login-bar.scss";
-import { AppState } from "../../../core/state/store";
+import { AppState } from "../../../core/store/store";
 import { withRouter } from "react-router";
 import { connect } from "react-redux";
 import { ConnectedComponent } from "react-redux";
 
-import * as tasks from "../../../core/state/ducks/tasks";
+import * as tasks from "../../../core/store/ducks/tasks";
 
 const mapStateToProps = (state: AppState): LoginBarProps | any => ({
-  isLogged: state.user.isLogged
+  isLogged: state.user.isLogged,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): LoginBarProps | any => ({
   signIn: (login: string, password: string) => {
     dispatch(tasks.userOperations.signIn(login, password));
-  }
+  },
 });
 
 type LoginBarProps = {
@@ -32,7 +32,7 @@ class LoginBar extends React.Component<LoginBarProps, LoginBarState> {
   state: LoginBarState = {
     formStage: 1,
     loginEntered: "",
-    passwordEntered: ""
+    passwordEntered: "",
   };
 
   constructor(props: LoginBarProps) {
@@ -43,7 +43,7 @@ class LoginBar extends React.Component<LoginBarProps, LoginBarState> {
     if (this.props.isLogged || event.keyCode != 13) return;
     this.setState({
       formStage: 2,
-      loginEntered: event.target.value
+      loginEntered: event.target.value,
     });
   };
 
@@ -52,7 +52,7 @@ class LoginBar extends React.Component<LoginBarProps, LoginBarState> {
     this.setState(
       {
         formStage: 1,
-        passwordEntered: event.target.value
+        passwordEntered: event.target.value,
       },
       () => {
         this.props.signIn(this.state.loginEntered, this.state.passwordEntered);

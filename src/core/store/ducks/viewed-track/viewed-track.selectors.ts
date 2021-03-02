@@ -1,4 +1,4 @@
-import { AppState } from "./../../store";
+import { AppState } from "../../store";
 import { createSelector } from "reselect";
 import { Rating, Moment } from "../../../shared";
 
@@ -10,14 +10,14 @@ function getUserRating(state: AppState): Rating {
       user: {
         userId: 0,
         nickname: ``,
-        avatar: ``
+        avatar: ``,
       },
-      moments: []
+      moments: [],
     };
   }
   const { userRatingId, ratings } = state.viewedTrack;
   const rating: Rating | undefined = ratings.find(
-    rating => rating.ratingId === userRatingId
+    (rating) => rating.ratingId === userRatingId
   );
   return rating !== undefined
     ? rating
@@ -26,15 +26,15 @@ function getUserRating(state: AppState): Rating {
         user: {
           userId: userId,
           nickname: nickname,
-          avatar: avatar
+          avatar: avatar,
         },
-        moments: []
+        moments: [],
       };
 }
 
 function getSelectedRating(state: AppState): Rating | undefined {
   const { selectedRatingId, ratings } = state.viewedTrack;
-  return ratings.find(rating => rating.ratingId === selectedRatingId);
+  return ratings.find((rating) => rating.ratingId === selectedRatingId);
 }
 
 /**
@@ -44,7 +44,7 @@ function getSelectedRating(state: AppState): Rating | undefined {
 function getOtherRatings(state: AppState): Array<Rating> {
   const { ratings } = state.viewedTrack;
   const { userId } = state.user;
-  return ratings.filter(rating => rating.user.userId != userId);
+  return ratings.filter((rating) => rating.user.userId != userId);
 }
 
 function getSelectedMoments(state: AppState): Array<Moment> {
@@ -56,5 +56,5 @@ export default {
   getUserRating,
   getSelectedRating,
   getSelectedMoments,
-  getOtherRatings
+  getOtherRatings,
 };

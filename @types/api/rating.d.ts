@@ -13,7 +13,6 @@ declare global {
     export interface Moment {
       _id: string;
       name: string;
-      description?: string;
       startTimestamp: System.Timestamp;
       endTimestamp: System.Timestamp;
       section: Rating.MomentSection;
@@ -21,6 +20,7 @@ declare global {
       reactionType: Rating.ReactionType;
       createdAt: System.Timestamp;
       updatedAt: System.Timestamp;
+      description?: string;
     }
 
     export type MomentSection = 1 | 2 | 3 | 4 | 5;

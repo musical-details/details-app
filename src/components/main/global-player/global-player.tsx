@@ -5,9 +5,9 @@ import { Dispatch } from "redux";
 import CSS from "csstype";
 
 import "./global-player.scss";
-import { AppState } from "../../../core/state/store";
-import { RatingEditorMode } from "../../../core/state/ducks/rating-editor/rating-editor.state";
-import * as tasks from "../../../core/state/ducks/tasks";
+import { AppState } from "../../../core/store/store";
+import { RatingEditorMode } from "../../../core/store/ducks/rating-editor/rating-editor.state";
+import * as tasks from "../../../core/store/ducks/tasks";
 
 const mapStateToProps = (state: AppState): GlobalPlayerProps | any => ({
   autoplay: state.track.autoplay,
@@ -23,7 +23,7 @@ const mapStateToProps = (state: AppState): GlobalPlayerProps | any => ({
   currentTime: state.track.currentTime,
   newTime: state.track.newTime,
   duration: state.track.duration,
-  volume: state.track.volume
+  volume: state.track.volume,
 });
 
 const mapDispatchToProps = (
@@ -62,7 +62,7 @@ const mapDispatchToProps = (
   },
   onAudioTimeChange: (newTime: number) => {
     dispatch(tasks.trackActions.setAudioNewTime(newTime));
-  }
+  },
 });
 
 type GlobalPlayerProps = {
@@ -244,11 +244,11 @@ class GlobalPlayerComponent extends React.Component<
     const { currentTime, duration, isPlaying, mode } = this.props;
 
     const BarNotFillStyles: CSS.Properties = {
-      width: 100 - (currentTime / duration) * 100 + "%"
+      width: 100 - (currentTime / duration) * 100 + "%",
     };
 
     const TrackCoverStyles: CSS.Properties = {
-      backgroundImage: `url(${this.props.cover})`
+      backgroundImage: `url(${this.props.cover})`,
     };
 
     const playButtonIcon: string = isPlaying ? "icon-pause" : "icon-play";

@@ -4,14 +4,14 @@ import "./rate.scss";
 import { API_KEY, SoundCloud } from "../../../core/soundcloud";
 import { withRouter, NavLink } from "react-router-dom";
 import CSS from "csstype";
-import * as tasks from "../../../core/state/ducks/tasks";
-import { AppState } from "../../../core/state/store";
+import * as tasks from "../../../core/store/ducks/tasks";
+import { AppState } from "../../../core/store/store";
 import { connect, ConnectedComponent } from "react-redux";
 import SpinnerComponent from "../../shared/spinner/spinner";
 
 const mapStateToProps = (state: AppState): RateComponentProps | any => ({
   isLogged: state.user.isLogged,
-  soundcloudId: state.user.soundcloudId
+  soundcloudId: state.user.soundcloudId,
 });
 
 const mapDispatchToProps = (
@@ -39,7 +39,7 @@ class RateComponent extends React.Component<
   state: RateComponentState = {
     isUserFavourtiesLoaded: false,
     userFavourites: [],
-    progress: 0
+    progress: 0,
   };
 
   constructor(props: RateComponentProps) {
@@ -81,7 +81,7 @@ class RateComponent extends React.Component<
       const data: Array<SoundCloud.UserFavouritesData> = await response.json();
       this.setState({
         userFavourites: data,
-        isUserFavourtiesLoaded: true
+        isUserFavourtiesLoaded: true,
       });
     } catch (error) {
       console.error(error);
@@ -91,7 +91,7 @@ class RateComponent extends React.Component<
   createBoxes = (): Array<JSX.Element> => {
     try {
       return this.state.userFavourites
-        .filter(userFavourite => userFavourite.streamable === true)
+        .filter((userFavourite) => userFavourite.streamable === true)
         .slice(0, 6)
         .map(({ id, artwork_url }) => this.createBox(id, artwork_url));
     } catch (error) {
@@ -108,7 +108,7 @@ class RateComponent extends React.Component<
         : artwork_url.toString().replace("large", "t500x500");
 
     const coverStyles: CSS.Properties = {
-      backgroundImage: `url(${artUrl})`
+      backgroundImage: `url(${artUrl})`,
     };
     return (
       <NavLink to={url}>
@@ -129,7 +129,7 @@ class RateComponent extends React.Component<
     const { isLogged } = this.props;
 
     const favouritesWrapperStyles: CSS.Properties = {
-      display: isLogged ? "flex" : "none"
+      display: isLogged ? "flex" : "none",
     };
 
     return (

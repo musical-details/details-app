@@ -1,13 +1,13 @@
 import React from "react";
 import "./top-bar.scss";
-import { AppState } from "../../../core/state/store";
+import { AppState } from "../../../core/store/store";
 import { Dispatch } from "redux";
 import { ConnectedComponent, connect } from "react-redux";
 import UserBarContainer from "../user-bar/user-bar";
 import LoginBarContainer from "../login-bar/login-bar";
 
 const mapStateToProps = (state: AppState): TopBarProps => ({
-  isLogged: state.user.isLogged
+  isLogged: state.user.isLogged,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({});

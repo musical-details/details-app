@@ -29,7 +29,7 @@ declare global {
 
     export type TrackExtension = Track.Track & {
       genres: Genre.Genre[];
-      moods?: Mood.Mood[]; // TODO
+      // TODO moods?: Mood.Mood[];
       ratings: Rating.Rating[];
     };
   }

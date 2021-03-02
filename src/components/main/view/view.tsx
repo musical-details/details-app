@@ -1,11 +1,11 @@
 import React, { Dispatch } from "react";
 
 import "./view.scss";
-import { AppState } from "../../../core/state/store";
+import { AppState } from "../../../core/store/store";
 import { connect, ConnectedComponent } from "react-redux";
 import TimelineMomentContextmenu from "../../entities/@track/timeline-moment-contextmenu/timeline-moment-contextmenu";
 
-import * as tasks from "../../../core/state/ducks/tasks";
+import * as tasks from "../../../core/store/ducks/tasks";
 
 const mapStateToProps = (state: AppState): ViewProps | any => ({
   isContextMenuHidden: state.view.timelineMomentContextMenu.isHidden,

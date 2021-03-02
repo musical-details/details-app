@@ -1,15 +1,15 @@
 import { combineReducers } from "redux";
 
-import genreReducer from "./../store/genre/index";
-import userReducer from "./../store/user/index";
-import ratingReducer from "./../store/rating/index";
-import trackReducer from "./../store/track/index";
+import genre from "./../store/genre/index";
+import user from "./../store/user/index";
+import rating from "./../store/rating/index";
+import track from "./../store/track/index";
 
 const rootReducer = combineReducers({
-  genreReducer,
-  userReducer,
-  ratingReducer,
-  trackReducer,
+  genre,
+  user,
+  rating,
+  track,
 });
 
 export default rootReducer;

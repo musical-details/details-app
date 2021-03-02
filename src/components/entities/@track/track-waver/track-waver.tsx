@@ -2,9 +2,9 @@ import React, { RefObject } from "react";
 
 import "./track-waver.scss";
 import { Dispatch } from "redux";
-import { AppState } from "../../../../core/state/store";
+import { AppState } from "../../../../core/store/store";
 
-import * as tasks from "../../../../core/state/ducks/tasks";
+import * as tasks from "../../../../core/store/ducks/tasks";
 import { ConnectedComponent, connect } from "react-redux";
 import { Seconds } from "../../../../core/shared";
 
