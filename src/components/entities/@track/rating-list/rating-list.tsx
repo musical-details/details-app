@@ -1,15 +1,15 @@
 import React, { Dispatch, ComponentClass } from "react";
 
 import "./rating-list.scss";
-import { AppState } from "../../../../core/state/store";
+import { AppState } from "../../../../core/store/store";
 
-import * as tasks from "../../../../core/state/ducks/tasks";
+import * as tasks from "../../../../core/store/ducks/tasks";
 
 import { connect, ConnectedComponent } from "react-redux";
 import { withRouter } from "react-router";
 import CSS from "csstype";
 import { Rating } from "../../../../core/shared";
-import { RatingEditorMode } from "../../../../core/state/ducks/rating-editor/rating-editor.state";
+import { RatingEditorMode } from "../../../../core/store/ducks/rating-editor/rating-editor.state";
 
 const mapStateToProps = (state: AppState): RatingListProps | any => ({
   userRating: tasks.viewedTrackSelectors.getUserRating(state),

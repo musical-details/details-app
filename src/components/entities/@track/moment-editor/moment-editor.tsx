@@ -4,9 +4,9 @@ import CSS from "csstype";
 
 import "./moment-editor.scss";
 
-import { AppState } from "../../../../core/state/store";
-import { RatingEditorMode } from "../../../../core/state/ducks/rating-editor/rating-editor.state";
-import * as tasks from "../../../../core/state/ducks/tasks";
+import { AppState } from "../../../../core/store/store";
+import { RatingEditorMode } from "../../../../core/store/ducks/rating-editor/rating-editor.state";
+import * as tasks from "../../../../core/store/ducks/tasks";
 
 import colorsData from "../../../../assets/data/moment-colors.json";
 import reactionsData from "../../../../assets/data/moment-reactions.json";

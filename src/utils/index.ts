@@ -1,4 +1,7 @@
+import { ObjectID } from "bson";
 import { Position, Pixels } from "../core/shared";
+import { API_KEY, SoundCloud } from "../core/soundcloud";
+import genresMock from "./../core/store/genre/genres.mock.json";
 
 type Time = {
   signed: string;
@@ -90,4 +93,74 @@ export const notEmpty = <TValue>(
   value: TValue | null | undefined
 ): value is TValue => {
   return value !== null && value !== undefined;
+};
+
+export const generateUsersMock = async (
+  urls: Array<string> //
+): Promise<User.User[]> => {
+  const now = Date.now();
+
+  return Promise.all(
+    urls.map(async (url) => {
+      const trackRes = await fetch(
+        `https://api.soundcloud.com/resolve?url=${url}&client_id=${API_KEY}`
+      );
+      const trackResBody = await trackRes.json();
+      return {
+        _id: new ObjectID().toHexString(),
+        connections: {
+          soundCloudId: String(trackResBody.id),
+        },
+        email: {
+          address: `${trackResBody.username}@gmail.com`,
+          confirmedAt: now,
+        },
+        password:
+          "$2y$12$9qWn28CtgGCpE4H4jt8kcOdGVzqx1Pc2o2TKAWo8DjivciIK2YapK",
+        nickname: trackResBody.usernmae,
+        favouriteTracksIds: [],
+        lastSeenAt: now,
+        createdAt: now,
+        updatedAt: now,
+        photoUrl: trackResBody.avatar_url,
+        backgroundColorThemes: ["", ""] as [string, string],
+      };
+    })
+  );
+};
+
+export const generateTracksMock = async (
+  datas: Array<string> // soundCloudUrl
+): Promise<Track.Track[]> => {
+  const now = Date.now();
+  const genres: Genre.Genre[] = genresMock;
+  return Promise.all(
+    datas.map(async (data) => {
+      const trackRes = await fetch(
+        `https://api.soundcloud.com/resolve?url=${data}&client_id=${API_KEY}`
+      );
+      const trackResBody: SoundCloud.UserFavouritesData = await trackRes.json();
+      const genre: Genre.Genre | undefined = genres.find(
+        (genre) => genre.name.toLowerCase() === trackResBody.genre.toLowerCase()
+      );
+      const timestamp: number = random(0, 0);
+      return {
+        _id: new ObjectID().toHexString(),
+        sources: {
+          soundCloudId: String(trackResBody.id),
+        },
+        genreIds: (genre && [genre._id]) || [],
+        moodIds: [],
+        audioUrl: `https://api.soundcloud.com/tracks/${trackResBody.id}/stream?client_id=${API_KEY}`,
+        waveSticks: Array.from({ length: 200 }, () =>
+          Math.floor(Math.random() * 100)
+        ),
+        artist: trackResBody.user.username,
+        title: trackResBody.title,
+        coverUrl: trackResBody.artwork_url || undefined,
+        createdAt: random(1614784676 - 2592000000, 1614784676),
+        updatedAt: random(1614784676, 1614784676),
+      };
+    })
+  );
 };

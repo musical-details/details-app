@@ -6,14 +6,14 @@
     },
     "email": {
       "address": "adriantr@wp.pl",
-      "confirmedAt": 1614616554
+      "confirmedAt": 1614616554000000
     },
     "password": "$2y$12$RA7PbXb3IUbj2/MOqEafMengdxqltuZ6UAuvQ8l6sKeNTnneFF9gW",
     "nickname": "daddy addy",
     "favouriteTracksIds": [],
-    "lastSeenAt": 1614616554,
-    "createdAt": 1614616333,
-    "updatedAt": 1614616554,
+    "lastSeenAt": 1614616554000,
+    "createdAt": 1614616333000,
+    "updatedAt": 1614616554000,
     "photoUrl": "https://scontent-frx5-1.xx.fbcdn.net/v/t1.0-1/p200x200/99073838_2288574354778958_6203104081725095936_n.jpg?_nc_cat=105&ccb=3&_nc_sid=7206a8&_nc_ohc=ud4JQ0r_5qkAX8Wm9vI&_nc_ht=scontent-frx5-1.xx&tp=6&oh=c25410a045ea438ea0fc2ee98610a816&oe=60614308",
     "backgroundPhotoUrl": "https://i.pinimg.com/originals/b4/63/8a/b4638aa66c9882cbb725d1adf0fed6b0.jpg"
   },
@@ -22,14 +22,14 @@
     "connections": {},
     "email": {
       "address": "at.adriano.at@gmail.com",
-      "confirmedAt": 1614616252
+      "confirmedAt": 1614616252000
     },
     "password": "$2y$12$9qWn28CtgGCpE4H4jt8kcOdGVzqx1Pc2o2TKAWo8DjivciIK2YapK",
     "nickname": "dolano adriano",
     "favouriteTracksIds": [],
-    "lastSeenAt": 1614616200,
-    "createdAt": 1614616900,
-    "updatedAt": 1614617554,
+    "lastSeenAt": 1614616200000,
+    "createdAt": 1614616900000,
+    "updatedAt": 1614617554000,
     "photoUrl": "https://static.wikia.nocookie.net/komixxopedia/images/b/b7/E-SnfdE1_400x400.jpeg/revision/latest/top-crop/width/360/height/450?cb=20170218161037&path-prefix=pl",
     "backgroundColorThemes": ["#1eadf0", "#0afb60"]
   },
@@ -38,14 +38,14 @@
     "connections": {},
     "email": {
       "address": "malika@gmail.com",
-      "confirmedAt": 1614616252
+      "confirmedAt": 1614616252000
     },
     "password": "$2y$12$9qWn28CtgGCpE4H4jt8kcOdGVzqx1Pc2o2TKAWo8DjivciIK2YapK",
     "nickname": "Malika",
     "favouriteTracksIds": [],
-    "lastSeenAt": 1614618200,
-    "createdAt": 1614617900,
-    "updatedAt": 1614618554,
+    "lastSeenAt": 1614618200000,
+    "createdAt": 1614617900000,
+    "updatedAt": 1614618554000,
     "photoUrl": "https://scontent-frt3-1.xx.fbcdn.net/v/t1.0-9/132574960_1322862018065092_6013614105929968285_o.jpg?_nc_cat=107&ccb=3&_nc_sid=09cbfe&_nc_ohc=p-lZkC-i9rYAX_-olfl&_nc_ht=scontent-frt3-1.xx&oh=36b53e2d8841a5f6222a50509ed78b1e&oe=60618D9F",
     "backgroundColorThemes": ["#ffe031", "#f04579"]
   },
@@ -56,14 +56,14 @@
     },
     "email": {
       "address": "m_wafelki@gmail.com",
-      "confirmedAt": 1614616252
+      "confirmedAt": 1614616252000
     },
     "password": "$2y$12$9qWn28CtgGCpE4H4jt8kcOdGVzqx1Pc2o2TKAWo8DjivciIK2YapK",
     "nickname": "mwafelki",
     "favouriteTracksIds": [],
-    "lastSeenAt": 1614618100,
-    "createdAt": 1614617800,
-    "updatedAt": 1614618954,
+    "lastSeenAt": 1614618100000,
+    "createdAt": 1614617800000,
+    "updatedAt": 1614618954000,
     "photoUrl": "https://i1.sndcdn.com/avatars-xCDbVsaeNqF8f2e9-hCBkNg-t200x200.jpg",
     "backgroundColorThemes": ["#00ffed", "#9d00c6"]
   },
@@ -78,9 +78,9 @@
     "password": "$2y$12$9qWn28CtgGCpE4H4jt8kcOdGVzqx1Pc2o2TKAWo8DjivciIK2YapK",
     "nickname": "Joe Doe",
     "favouriteTracksIds": [],
-    "lastSeenAt": 1614610100,
-    "createdAt": 1614610800,
-    "updatedAt": 1614616954,
+    "lastSeenAt": 1614610100000,
+    "createdAt": 1614610800000,
+    "updatedAt": 1614616954000,
     "photoUrl": "https://i1.sndcdn.com/avatars-000636532857-1nwacy-t500x500.jpg",
     "backgroundColorThemes": ["#0100ec", "#fb36f4"]
   },
@@ -91,14 +91,14 @@
     },
     "email": {
       "address": "fliss@gmail.com",
-      "confirmedAt": 1614611252
+      "confirmedAt": 1614611252000
     },
     "password": "$2y$12$9qWn28CtgGCpE4H4jt8kcOdGVzqx1Pc2o2TKAWo8DjivciIK2YapK",
     "nickname": "fliss",
     "favouriteTracksIds": [],
-    "lastSeenAt": 1614640100,
-    "createdAt": 1614650800,
-    "updatedAt": 1614616954,
+    "lastSeenAt": 1614640100000,
+    "createdAt": 1614650800000,
+    "updatedAt": 1614616954000,
     "photoUrl": "https://i1.sndcdn.com/avatars-ToKLNo2PCAiMZDX9-dN1V8w-t200x200.jpg"
   },
   {
@@ -108,14 +108,14 @@
     },
     "email": {
       "address": "automhate@gmail.com",
-      "confirmedAt": 1614611252
+      "confirmedAt": 1614611252000
     },
     "password": "$2y$12$9qWn28CtgGCpE4H4jt8kcOdGVzqx1Pc2o2TKAWo8DjivciIK2YapK",
     "nickname": "Automhate",
     "favouriteTracksIds": [],
-    "lastSeenAt": 1614630100,
-    "createdAt": 1614640800,
-    "updatedAt": 1614626954,
+    "lastSeenAt": 1614630100000,
+    "createdAt": 1614640800000,
+    "updatedAt": 1614626954000,
     "photoUrl": "https://i1.sndcdn.com/avatars-LLCwfiLHJ5A9G2QV-oyb35Q-t500x500.jpg"
   },
   {
@@ -125,14 +125,14 @@
     },
     "email": {
       "address": "ookay@gmail.com",
-      "confirmedAt": 1614611252
+      "confirmedAt": 1614611252000
     },
     "password": "$2y$12$9qWn28CtgGCpE4H4jt8kcOdGVzqx1Pc2o2TKAWo8DjivciIK2YapK",
     "nickname": "Ookay",
     "favouriteTracksIds": [],
-    "lastSeenAt": 1614620100,
-    "createdAt": 1614630800,
-    "updatedAt": 1614621954,
+    "lastSeenAt": 1614620100000,
+    "createdAt": 1614630800000,
+    "updatedAt": 1614621954000,
     "photoUrl": "https://i1.sndcdn.com/avatars-SAow0ytRWQWLZpAx-l2PLIQ-t200x200.jpg"
   },
   {
@@ -142,14 +142,14 @@
     },
     "email": {
       "address": "wedamnz@gmail.com",
-      "confirmedAt": 1614611252
+      "confirmedAt": 1614611252000
     },
     "password": "$2y$12$9qWn28CtgGCpE4H4jt8kcOdGVzqx1Pc2o2TKAWo8DjivciIK2YapK",
     "nickname": "WeDamnz",
     "favouriteTracksIds": [],
-    "lastSeenAt": 1614610100,
-    "createdAt": 1614620800,
-    "updatedAt": 1614645954,
+    "lastSeenAt": 1614610100000,
+    "createdAt": 1614620800000,
+    "updatedAt": 1614645954000,
     "photoUrl": "https://i1.sndcdn.com/avatars-f1SdDgWXzXBeyez7-a7Di4w-t500x500.jpg"
   },
   {
@@ -159,14 +159,14 @@
     },
     "email": {
       "address": "pluko@gmail.com",
-      "confirmedAt": 1614693152
+      "confirmedAt": 1614693152000
     },
     "password": "$2y$12$9qWn28CtgGCpE4H4jt8kcOdGVzqx1Pc2o2TKAWo8DjivciIK2YapK",
     "nickname": "pluko",
     "favouriteTracksIds": [],
-    "lastSeenAt": 1614600100,
-    "createdAt": 1614600800,
-    "updatedAt": 1614605954,
+    "lastSeenAt": 1614600100000,
+    "createdAt": 1614600800000,
+    "updatedAt": 1614605954000,
     "photoUrl": "https://i1.sndcdn.com/avatars-POHg41uH7RkF7QKn-OYQIdg-t500x500.jpg"
   },
   {
@@ -176,14 +176,14 @@
     },
     "email": {
       "address": "pluko@gmail.com",
-      "confirmedAt": 1614693152
+      "confirmedAt": 1614693152000
     },
     "password": "$2y$12$9qWn28CtgGCpE4H4jt8kcOdGVzqx1Pc2o2TKAWo8DjivciIK2YapK",
     "nickname": "Imad Royal",
     "favouriteTracksIds": [],
-    "lastSeenAt": 1614450100,
-    "createdAt": 1614677800,
-    "updatedAt": 1614612952,
+    "lastSeenAt": 1614450100000,
+    "createdAt": 1614677800000,
+    "updatedAt": 1614612952000,
     "photoUrl": "https://i1.sndcdn.com/avatars-000332454035-ndz95d-t200x200.jpg"
   },
   {
@@ -193,14 +193,14 @@
     },
     "email": {
       "address": "cade@gmail.com",
-      "confirmedAt": 1614686352
+      "confirmedAt": 1614686352000
     },
     "password": "$2y$12$9qWn28CtgGCpE4H4jt8kcOdGVzqx1Pc2o2TKAWo8DjivciIK2YapK",
     "nickname": "CADE",
     "favouriteTracksIds": [],
-    "lastSeenAt": 1614423500,
-    "createdAt": 1614699900,
-    "updatedAt": 1614892252,
+    "lastSeenAt": 1614423500000,
+    "createdAt": 1614699900000,
+    "updatedAt": 1614892252000,
     "photoUrl": "https://i1.sndcdn.com/avatars-UKH8mDKGovwnjT9U-88m9hg-t200x200.jpg"
   },
   {
@@ -210,14 +210,14 @@
     },
     "email": {
       "address": "joe.hertz@gmail.com",
-      "confirmedAt": 1614680009
+      "confirmedAt": 1614680009000
     },
     "password": "$2y$12$9qWn28CtgGCpE4H4jt8kcOdGVzqx1Pc2o2TKAWo8DjivciIK2YapK",
     "nickname": "Joe Hertz",
     "favouriteTracksIds": [],
-    "lastSeenAt": 1614423500,
-    "createdAt": 1614699900,
-    "updatedAt": 1614892252,
+    "lastSeenAt": 1614423500000,
+    "createdAt": 1614699900000,
+    "updatedAt": 1614892252000,
     "photoUrl": "https://i1.sndcdn.com/avatars-cmR2itS7xWMuRaeH-MOrqYw-t200x200.jpg"
   },
   {
@@ -227,14 +227,14 @@
     },
     "email": {
       "address": "tim.atlas@gmail.com",
-      "confirmedAt": 1614680009
+      "confirmedAt": 1614680009000
     },
     "password": "$2y$12$9qWn28CtgGCpE4H4jt8kcOdGVzqx1Pc2o2TKAWo8DjivciIK2YapK",
     "nickname": "Tim Atlas",
     "favouriteTracksIds": [],
-    "lastSeenAt": 1614413880,
-    "createdAt": 1613689900,
-    "updatedAt": 1614892952,
+    "lastSeenAt": 1614413880000,
+    "createdAt": 1613689900000,
+    "updatedAt": 1614892952000,
     "photoUrl": "https://i1.sndcdn.com/avatars-000711679555-6nndby-t200x200.jpg"
   },
   {
@@ -244,14 +244,14 @@
     },
     "email": {
       "address": "ace.aura@gmail.com",
-      "confirmedAt": 1614667317
+      "confirmedAt": 1614667317000
     },
     "password": "$2y$12$9qWn28CtgGCpE4H4jt8kcOdGVzqx1Pc2o2TKAWo8DjivciIK2YapK",
     "nickname": "Ace Aura",
     "favouriteTracksIds": [],
-    "lastSeenAt": 1614446080,
-    "createdAt": 1613677700,
-    "updatedAt": 1614825652,
+    "lastSeenAt": 1614446080000,
+    "createdAt": 1613677700000,
+    "updatedAt": 1614825652000,
     "photoUrl": "https://i1.sndcdn.com/avatars-TvLSxHIHalTEN1wK-zFnyhg-t200x200.jpg"
   },
   {
@@ -265,9 +265,9 @@
     "password": "$2y$12$9qWn28CtgGCpE4H4jt8kcOdGVzqx1Pc2o2TKAWo8DjivciIK2YapK",
     "nickname": "ALIAS",
     "favouriteTracksIds": [],
-    "lastSeenAt": 1614446130,
-    "createdAt": 1613677910,
-    "updatedAt": 1614825333,
+    "lastSeenAt": 1614446130000,
+    "createdAt": 1613677910000,
+    "updatedAt": 1614825333000,
     "photoUrl": "https://i1.sndcdn.com/avatars-W9VaBdrD51eO8qxG-4WGo9Q-t500x500.jpg"
   },
   {
@@ -281,9 +281,9 @@
     "password": "$2y$12$9qWn28CtgGCpE4H4jt8kcOdGVzqx1Pc2o2TKAWo8DjivciIK2YapK",
     "nickname": "Moore Kismet",
     "favouriteTracksIds": [],
-    "lastSeenAt": 1614442230,
-    "createdAt": 1613674410,
-    "updatedAt": 1614829833,
+    "lastSeenAt": 1614442230000,
+    "createdAt": 1613674410000,
+    "updatedAt": 1614829833000,
     "photoUrl": "https://i1.sndcdn.com/avatars-hkfP1FkwQTa3eOuu-gLdmTQ-t200x200.jpg"
   },
   {
@@ -293,14 +293,14 @@
     },
     "email": {
       "address": "kings.elliot@gmail.com",
-      "confirmedAt": 1614677009
+      "confirmedAt": 1614677009000
     },
     "password": "$2y$12$9qWn28CtgGCpE4H4jt8kcOdGVzqx1Pc2o2TKAWo8DjivciIK2YapK",
     "nickname": "Kings Elliot",
     "favouriteTracksIds": [],
-    "lastSeenAt": 1614477230,
-    "createdAt": 1613672610,
-    "updatedAt": 1614845833,
+    "lastSeenAt": 1614477230000,
+    "createdAt": 1613672610000,
+    "updatedAt": 1614845833000,
     "photoUrl": "https://i1.sndcdn.com/avatars-1Uz08T97K1UKTcSt-Hsfr7A-t200x200.jpg"
   },
   {
@@ -310,14 +310,14 @@
     },
     "email": {
       "address": "kramder@gmail.com",
-      "confirmedAt": 1619327009
+      "confirmedAt": 1619327009000
     },
     "password": "$2y$12$9qWn28CtgGCpE4H4jt8kcOdGVzqx1Pc2o2TKAWo8DjivciIK2YapK",
     "nickname": "kramder",
     "favouriteTracksIds": [],
-    "lastSeenAt": 1614428230,
-    "createdAt": 1613122610,
-    "updatedAt": 1614567833,
+    "lastSeenAt": 1614428230000,
+    "createdAt": 1613122610000,
+    "updatedAt": 1614567833000,
     "photoUrl": "https://i1.sndcdn.com/avatars-XFuFentxHfZCQ9gb-BzpFGA-t200x200.jpg"
   },
   {
@@ -327,14 +327,14 @@
     },
     "email": {
       "address": "space.jump.salute@gmail.com",
-      "confirmedAt": 1619387111
+      "confirmedAt": 1619387111000
     },
     "password": "$2y$12$9qWn28CtgGCpE4H4jt8kcOdGVzqx1Pc2o2TKAWo8DjivciIK2YapK",
     "nickname": "Space Jump Salute",
     "favouriteTracksIds": [],
-    "lastSeenAt": 1614527960,
-    "createdAt": 1611772610,
-    "updatedAt": 1614366833,
+    "lastSeenAt": 1614527960000,
+    "createdAt": 1611772610000,
+    "updatedAt": 1614366833000,
     "photoUrl": "https://i1.sndcdn.com/avatars-exTfjJJezVUJOYlO-yiiY0g-t200x200.jpg"
   },
   {
@@ -342,69 +342,69 @@
     "connections": {},
     "email": {
       "address": "habiba@gmail.com",
-      "confirmedAt": 161999809
+      "confirmedAt": 161999809000
     },
     "password": "$2y$12$9qWn28CtgGCpE4H4jt8kcOdGVzqx1Pc2o2TKAWo8DjivciIK2YapK",
     "nickname": "Habiba",
     "favouriteTracksIds": [],
-    "lastSeenAt": 1614976456,
-    "createdAt": 1611000567,
-    "updatedAt": 1614781132
+    "lastSeenAt": 1614976456000,
+    "createdAt": 1611000567000,
+    "updatedAt": 1614781132000
   },
   {
     "_id": "603d44c864de59d00c7cba12",
     "connections": {},
     "email": {
       "address": "adrianna@gmail.com",
-      "confirmedAt": 1610123309
+      "confirmedAt": 1610123309000
     },
     "password": "$2y$12$9qWn28CtgGCpE4H4jt8kcOdGVzqx1Pc2o2TKAWo8DjivciIK2YapK",
     "nickname": "Adrianna",
     "favouriteTracksIds": [],
-    "lastSeenAt": 1614311456,
-    "createdAt": 1611299968,
-    "updatedAt": 1614666012
+    "lastSeenAt": 1614311456000,
+    "createdAt": 1611299968000,
+    "updatedAt": 1614666012000
   },
   {
     "_id": "603d44f3fd229e4001baaeb9",
     "connections": {},
     "email": {
       "address": "malik@gmail.com",
-      "confirmedAt": 1611087311
+      "confirmedAt": 1611087311000
     },
     "password": "$2y$12$9qWn28CtgGCpE4H4jt8kcOdGVzqx1Pc2o2TKAWo8DjivciIK2YapK",
     "nickname": "Malik",
     "favouriteTracksIds": [],
-    "lastSeenAt": 1614876456,
-    "createdAt": 1611298767,
-    "updatedAt": 1614123012
+    "lastSeenAt": 1614876456000,
+    "createdAt": 1611298767000,
+    "updatedAt": 1614123012000
   },
   {
     "_id": "603d44df6f03b12e789e22f9",
     "connections": {},
     "email": {
       "address": "andreww@gmail.com",
-      "confirmedAt": 1619999309
+      "confirmedAt": 1619999309000
     },
     "password": "$2y$12$9qWn28CtgGCpE4H4jt8kcOdGVzqx1Pc2o2TKAWo8DjivciIK2YapK",
     "nickname": "andreww",
     "favouriteTracksIds": [],
-    "lastSeenAt": 1614121111,
-    "createdAt": 1611232222,
-    "updatedAt": 1614733332
+    "lastSeenAt": 1614121111000,
+    "createdAt": 1611232222000,
+    "updatedAt": 1614733332000
   },
   {
     "_id": "603d450e1905c6c7fd2c888d",
     "connections": {},
     "email": {
       "address": "susssi@gmail.com",
-      "confirmedAt": 1612387329
+      "confirmedAt": 1612387329000
     },
     "password": "$2y$12$9qWn28CtgGCpE4H4jt8kcOdGVzqx1Pc2o2TKAWo8DjivciIK2YapK",
     "nickname": "susssi",
     "favouriteTracksIds": [],
-    "lastSeenAt": 1692923456,
-    "createdAt": 1619494567,
-    "updatedAt": 1610099012
+    "lastSeenAt": 1692923456000,
+    "createdAt": 1619494567000,
+    "updatedAt": 1610099012000
   }
 ]

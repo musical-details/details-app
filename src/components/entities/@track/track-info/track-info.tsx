@@ -5,8 +5,8 @@ import { connect, ConnectedComponent } from "react-redux";
 
 import "./track-info.scss";
 
-import { AppState } from "../../../../core/state/store";
-import * as tasks from "../../../../core/state/ducks/tasks";
+import { AppState } from "../../../../core/store/store";
+import * as tasks from "../../../../core/store/ducks/tasks";
 
 const mapStateToProps = (state: AppState): TrackInfoProps | any => ({
   trackId: state.viewedTrack.trackId,

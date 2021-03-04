@@ -2,7 +2,7 @@ import React, { Dispatch, RefObject } from "react";
 import CSS from "csstype";
 import "./timeline-moment-contextmenu.scss";
 import options from "./options.json";
-import { AppState } from "../../../../core/state/store";
+import { AppState } from "../../../../core/store/store";
 import { connect, ConnectedComponent } from "react-redux";
 
 const mapStateToProps = (

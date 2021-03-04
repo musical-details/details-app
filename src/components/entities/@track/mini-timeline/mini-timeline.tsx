@@ -1,11 +1,11 @@
 import React, { Dispatch } from "react";
 
-import { AppState } from "../../../../core/state/store";
+import { AppState } from "../../../../core/store/store";
 import { connect, ConnectedComponent } from "react-redux";
 import { Moment } from "../../../../core/shared/index";
 
-import viewedTrackSelectors from "../../../../core/state/ducks/viewed-track/viewed-track.selectors";
-import trackActions from "../../../../core/state/ducks/track/track.actions";
+import viewedTrackSelectors from "../../../../core/store/ducks/viewed-track/viewed-track.selectors";
+import trackActions from "../../../../core/store/ducks/track/track.actions";
 
 import Draggable, {
   DraggableEvent,

@@ -24,7 +24,6 @@ declare global {
     };
 
     export interface Connections {
-      _id: string;
       soundCloudId?: string;
       spotifyId?: string;
     }

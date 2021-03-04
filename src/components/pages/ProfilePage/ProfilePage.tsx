@@ -2,7 +2,7 @@ import React, { Dispatch, ComponentClass } from "react";
 
 import "./ProfilePage.scss";
 import { Redirect, withRouter } from "react-router";
-import { AppState } from "../../../core/state/store";
+import { AppState } from "../../../core/store/store";
 import { ConnectedComponent, connect } from "react-redux";
 import {
   IProfilePageDispatchProps,

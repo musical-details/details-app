@@ -7,15 +7,15 @@ import "./Timeline.scss";
 import TimelineMoment from "../timeline-moment/TimelineMoment";
 import TimelineTimers from "./timeline-timer";
 
-import { AppState } from "../../../../core/state/store";
-import { RatingEditorMode } from "../../../../core/state/ducks/rating-editor/rating-editor.state";
+import { AppState } from "../../../../core/store/store";
+import { RatingEditorMode } from "../../../../core/store/ducks/rating-editor/rating-editor.state";
 import {
   Moment,
   Seconds,
   MomentSection,
   Pixels,
 } from "../../../../core/shared";
-import * as tasks from "../../../../core/state/ducks/tasks";
+import * as tasks from "../../../../core/store/ducks/tasks";
 import TimelineMomentEditable from "../timeline-moment-editable/timeline-moment-editable";
 
 const mapStateToProps = (state: AppState): TimelineProps | any => ({
